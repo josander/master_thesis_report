@@ -1,0 +1,55 @@
+% vim:sw=4:ts=4:autoindent:tw=72
+\input{preamble}
+
+\begin{document}
+
+\pagestyle{empty}
+\input{pages/front_page}
+\newpage
+\input{pages/printing_place_page}
+\input{pages/title_page}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Front matter
+\setcounter{page}{1}
+\pagenumbering{roman}
+
+% abstract
+\input{pages/abstract}
+
+% toc
+\newpage
+\tableofcontents
+\newpage
+
+%\input{pages/wordexplanation}
+%\newpage
+%\input{pages/nomenclature}
+%\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Main matter
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\pagestyle{plain}
+
+\input{chapters/01_intro}
+
+\input{chapters/02_method}
+
+\input{chapters/03_exp_results}
+
+\input{chapters/04_timeplan}
+
+\newpage
+\printbibliography[heading=bibintoc]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bilaga
+\appendix
+\renewcommand{\appendixtocname}{Appendix}
+\addappheadtotoc
+\numberwithin{equation}{section}
+\input{chapters/appendix}
+
+\end{document}
+

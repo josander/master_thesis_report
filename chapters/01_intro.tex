@@ -1,0 +1,35 @@
+\chapter{Introduction}
+In this project we aim at discovering hidden information in a large set of data using a graph representation. This section gives a short background to graph theory before presenting the problem discussion. This leads to the purpose and the research questions of this project along with the limitations. 
+
+\section{Background}
+% What is the origin?
+Graph theory has its origin in 1736 when Euler addressed the problem of crossing each of the seven bridges once and only once in the town of Köningsberg \cite{fouss2016algorithms}. The problem was solved by studying the topology of the town, representing the banks as nodes and bridges as edges, leading to the conclusion that it is not possible to travel each bridge once and only once.
+
+% What is the position of graph theory today?
+Since Euler's discoveries, the interest for graph theory and network science has ever grown. Not least since the emergence of social networking sites such as Facebook, Twitter and LinkedIn which has clearly boosted graph theory \cite{fouss2016algorithms,barabasi2016network}. Today the claim that networks are everywhere have become routine \cite{brandes2013} and network science has a natural presence in many different areas, not least in physics, economics, biology and psychology.
+
+% Why is it interesting and what are the possibilities?
+Network science aims at analysing and extracting information from complex relational data, that from other perspectives would not have been easily performed. The network perspective allows us to address deep questions about complicated systems, including economic, biological or political systems \cite{brandes2013}. According to \citet{robinson2013}, the real world is interrelated and diversified: uniform and rule-bound in some parts but exceptional and irregular in others, making network science a relevant tool.
+
+For several decades, we have only explored a fraction of the potential in data, in many cases because of the available technologies forcing us to treat it as isolated islands of moderate significance \cite{robinson2013}. Graphs changes this completely and let us extract more information than was previously possible.
+
+\section{Problem Discussion}
+Recorded Future is a company that harvest data from the open web, the dark web and the deep web. They collect text fragments and perform natural language processing extracting the essence of each text fragment and then saves the information in a document database. This information is then used for predictive purposes such as predicting future cyber attacks.
+
+The data is saved in a document database because of its extensive size. However, dealing with such databases often limit further analysis related to relations between objects. Thus, in order to enable relational analysis related to graph theory, there might be of interest to transform the database into a graph database.
+
+As one might imagine, the size of their database is huge. Although documents are a good way of storing big amount of data, it is also limiting in the number of analysis that can be performed. Today, many of their analysis are related to studying the relation between entities one step away from each other. Thus, one might wonder what information might be hidden in this massive amount of data.
+
+Mining networks for relations can often lead to new insights \cite{hendrix2010}. However, problems associated to link analysis\footnote{Network science and link analysis relates to the same thing: analyzing and extracting relational information from complex data. Network science is the term originating from physics and is the term used across disciplines while link analysis has its origin in computer science. \cite{fouss2016algorithms}} are information overload, high search complexity and heavy reliance on domain knowledge \cite{hendrix2010,schroeder2007}. Another aspect is the presence of uncertainties, noise or perturbations \cite{hendrix2010}. These are all important aspects that have to be taken into consideration when dealing with network science, making it far from trivial to practice. 
+
+\section{Purpose and Research Questions}
+The purpose of this study is to investigate the possibility to transform a database into a relational based graph database in order to reveal new relations and draw more conclusions about the existing data. The purpose can be broken down into the following three research questions:
+\begin{enumerate}
+	\item Are there classes or specific types of relations that are of special significance for cyber threat analysis?
+    \item What kind of network analysis and statistics is important when performing cyber threat analysis?
+    \item What methodology and design is suitable for extracting hidden relations in a big database within reasonable execution time?
+\end{enumerate}
+
+\section{Delimitations}
+\citet{brandes2013} are sceptical about a Grand Unified Network Theory since in their view, every network representation is related to their domain and the abstraction of the phenomenon that is in interest. And so, every graph is highly dependent of what domain it represents and what types of questions one is trying to answer \cite{hendrix2010, schroeder2007}. It is therefore important to point out that this project is delimited to the data of Recorded Future and thus, the domain of cyber threat intelligence. 
+

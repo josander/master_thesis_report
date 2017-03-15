@@ -1,0 +1,23 @@
+% vim:sw=4:ts=4:autoindent:tw=72
+
+% använd detta kommando för att lägga till ett ord
+\newcommand{\wordexpl}[2]{%
+	\indent\textbf{#1}\hspace*{.2cm}#2\\
+}
+
+\chapter*{Word explanation}
+\addcontentsline{toc}{chapter}{Word explanation}
+
+% asterisk gör att vi fyller den vänstra kolumnen först
+\setlength\columnsep{25pt}
+\begin{multicols}{2}
+\noindent
+Nedan förklaras i vilken betydelse vissa ord används i rapporten. Orden kan ha en annan eller mer innefattande betydelse i andra sammanhang utanför detta arbete.
+    \vspace*{.8cm}
+
+	\wordexpl{Enhet}{
+	    Beståndsdel i en diskretiserad komponent. Kallas för pärlor då enheten ingår i komponenten polymer och för nanotuber då den ingår i komponenten lipidmembran.}
+	
+\end{multicols}
+
+\newpage

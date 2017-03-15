@@ -1,0 +1,35 @@
+% vim:sw=4:ts=4:autoindent:tw=72
+% Framsida
+% OBS skilj på titelsida och framsida! se
+% https://student.portal.chalmers.se/sv/chalmersstudier/kandidat-och-examensarbete/examensarbete/Sidor/utformning-rapporter-exjobb-kand.aspx
+
+% från
+% http://tex.stackexchange.com/questions/46280/how-to-create-a-background-image-on-title-page-with-latex
+\ThisLRCornerWallPaper{1}{front_page.pdf}
+\vspace*{3cm}
+\begin{comment}
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.95\textwidth]{network.png}
+\end{figure}
+%\vspace*{\fill}
+\begin{flushleft}
+        \noindent{%
+			% arbetstitel
+			{\Huge \thesistitle} \\[.1cm]
+			% undertitel
+
+        	{\large \whatthisis}\\
+        
+			\bigskip
+			\Large{%
+				Henrik Adolfsson\\
+				Josephine Cuellar Andersson\\
+			}
+
+		}
+\end{flushleft}
+\end{comment}
+
+\thispagestyle{empty}
+\newpage

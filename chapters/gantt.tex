@@ -1,0 +1,55 @@
+\begin{figure}[H]
+    \begin{center}
+
+    \begin{ganttchart}[y unit title=0.6cm, % Specifikationer
+        y unit chart=.75cm,
+        x unit=.5cm,
+        vgrid,hgrid, 
+        title label anchor/.style={below=-1.6ex},
+        title height=1,
+        bar/.style={fill=cyan!35},
+        bar height=0.4,
+        bar label font=\mdseries\small\color{black!100},
+        milestone/.append style={fill=gray,anchor=east,xshift=-1pt},
+        milestone height=0.4,
+        milestone label font=\itshape\small\color{black!100}
+        ]{1}{22}
+        % Rubriker
+        \gantttitle{Week}{22}\\
+        \gantttitle{3}{1} 
+        \gantttitle{4}{1} 
+        \gantttitle{5}{1} 
+        \gantttitle{6}{1} 
+        \gantttitle{7}{1} 
+        \gantttitle{8}{1} 
+        \gantttitle{9}{1} 
+        \gantttitle{10}{1} 
+        \gantttitle{11}{1} 
+        \gantttitle{12}{1}
+        \gantttitle{13}{1}
+        \gantttitle{14}{1}
+        \gantttitle{15}{1} 
+        \gantttitle{16}{1} 
+        \gantttitle{17}{1} 
+        \gantttitle{18}{1} 
+        \gantttitle{19}{1} 
+        \gantttitle{20}{1}
+        \gantttitle{21}{1}
+        \gantttitle{22}{1}
+        \gantttitle{23}{1}
+        \gantttitle{24}{1}\\
+        % Uppgifter och milstolpar
+        \ganttbar{Literature Study}{1}{10}\\
+        \ganttbar{Case Study}{2}{10}\\
+        \ganttbar{Perform Interviews}{3}{5}\\
+        \ganttbar{Development}{6}{14}\\
+        \ganttbar{Validation}{15}{16}\\
+        \ganttbar{Thesis Writing}{14}{21}\\
+        \ganttmilestone{Hand in}{21} \\
+        \ganttbar{Opposition}{19}{21}\\
+        \ganttmilestone{Final Presentation}{22}
+    \end{ganttchart}
+
+    \end{center}
+    \caption{\label{gantt}Diagram describing the time disposition. An iterative process regarding the development of the algorithm will be applied.}
+\end{figure}
