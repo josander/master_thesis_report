@@ -1,24 +1,32 @@
 \chapter{Introduction}
-In this project we aim at discovering hidden information in a large set of data using a graph representation. This section gives a short background to graph theory before presenting the problem discussion. This leads to the purpose and the research questions of this project along with the limitations. 
+This project deals with discovering hidden information in a large set of data using a graph representation. A short background to graph theory is given before the problem discussion is presented. Furthermore, this chapter deals with purpose and the research questions of this project along with the limitations. 
 
 \section{Background}
 % What is the origin?
-Graph theory has its origin in 1736 when Euler addressed the problem of crossing each of the seven bridges once and only once in the town of Köningsberg \cite{fouss2016algorithms}. The problem was solved by studying the topology of the town, representing the banks as nodes and bridges as edges, leading to the conclusion that it is not possible to travel each bridge once and only once.
+Graph theory has its origin in 1736 when Euler addressed the problem of crossing each of the seven bridges once and only once in the town of Köningsberg \cite{fouss2016algorithms}. The problem was solved by studying the topology of the town, representing the banks as nodes and bridges as edges, leading to the conclusion that it is not possible to travel each bridge and visiting each bank once.
 
 % What is the position of graph theory today?
-Since Euler's discoveries, the interest for graph theory and network science has ever grown. Not least since the emergence of social networking sites such as Facebook, Twitter and LinkedIn which has clearly boosted graph theory \cite{fouss2016algorithms,barabasi2016network}. Today the claim that networks are everywhere have become routine \cite{brandes2013} and network science has a natural presence in many different areas, not least in physics, economics, biology and psychology.
+Since Euler's discoveries, the interest for graph theory and network science has ever grown. Not least since the emergence of social networking sites such as Facebook, Twitter and LinkedIn which has clearly boosted graph theory \cite{fouss2016algorithms,barabasi2016network}. Today the claim that networks are everywhere have become routine \cite{brandes2013} and network science has a natural presence in many different areas, including physics, economics, biology and psychology.
 
 % Why is it interesting and what are the possibilities?
-Network science aims at analysing and extracting information from complex relational data, that from other perspectives would not have been easily performed. The network perspective allows us to address deep questions about complicated systems, including economic, biological or political systems \cite{brandes2013}. According to \citet{robinson2013}, the real world is interrelated and diversified: uniform and rule-bound in some parts but exceptional and irregular in others, making network science a relevant tool.
+Network science aims at analysing and extracting information from complex relational data, that from other perspectives would not have been easily performed. The network perspective allows us to address deep questions about complicated systems \cite{brandes2013}. According to \citet{robinson2013}, the real world is interrelated and diversified: uniform and rule-bound in some parts but exceptional and irregular in others, making network science a relevant tool.
 
 For several decades, we have only explored a fraction of the potential in data, in many cases because of the available technologies forcing us to treat it as isolated islands of moderate significance \cite{robinson2013}. Graphs changes this completely and let us extract more information than was previously possible.
 
+% Previous studies on this subject
+Graph data mining has shown to be successful in different applications. \citet{bankFraud} shows how frauds can be detected using a graph representations of data. Insurance frauds have been detected by identifying a pattern of relationships between different actors. This has also been performed in the context of bank frauds and e-commerce frauds with successful results. 
+
+Using the concept of node similarity, \citet{} were able to ... in a social network. Moreover, \citet{} used node similarity to ... in disparate networks, including an electronic grid, Internet and a protein-protein network.
+
+[RELATED WORK - Link prediction]
+
+
 \section{Problem Discussion}
-Recorded Future is a company that harvest data from the open web, the dark web and the deep web. They collect text fragments and perform natural language processing extracting the essence of each text fragment and then saves the information in a document database. This information is then used for predictive purposes such as predicting future cyber attacks.
+Recorded Future is a company that harvest data from the open web, the dark web and the deep web. They collect text fragments and perform natural language processing extracting the essence of each text fragment and then saves the information in a document database. This information is then used for predictive purposes such as forecasting future cyber attacks.
 
-The data is saved in a document database because of its extensive size. However, dealing with such databases often limit further analysis related to relations between objects. Thus, in order to enable relational analysis related to graph theory, there might be of interest to transform the database into a graph database.
+The data is saved in a document database because of its extensive size. However, dealing with such databases often limit further analysis related to relations between objects. In order to enable relational analysis related to graph theory, there is an interest to transform the database into a graph database.
 
-As one might imagine, the size of their database is huge. Although documents are a good way of storing big amount of data, it is also limiting in the number of analysis that can be performed. Today, many of their analysis are related to studying the relation between entities one step away from each other. Thus, one might wonder what information might be hidden in this massive amount of data.
+As one might imagine, the size of their database is huge. Although documents are a good way of storing big amount of data, it is also limiting in the number of analysis that can be performed. Today, many of their analyses are related to studying the relation between entities one step away from each other. Thus, one might wonder what information might be hidden in this massive amount of data.
 
 Mining networks for relations can often lead to new insights \cite{hendrix2010}. However, problems associated to link analysis\footnote{Network science and link analysis relates to the same thing: analyzing and extracting relational information from complex data. Network science is the term originating from physics and is the term used across disciplines while link analysis has its origin in computer science. \cite{fouss2016algorithms}} are information overload, high search complexity and heavy reliance on domain knowledge \cite{hendrix2010,schroeder2007}. Another aspect is the presence of uncertainties, noise or perturbations \cite{hendrix2010}. These are all important aspects that have to be taken into consideration when dealing with network science, making it far from trivial to practice. 
 

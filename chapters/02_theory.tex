@@ -1,0 +1,123 @@
+\chapter{Theoretical Framework}
+Mining data in a network is not a new subject. In fact, many different approaches have been suggested. It this section, we present some of them as the foundation for our project.
+
+\section{Definition of Graphs and Notations}
+A graph $G$ consists of nodes $N$ and edges $E$. 
+
+\section{Attack Graphs}
+Attack Graphs are graphs where vulnerabilities and exploits are represented, thus making it a tool to assess the security of enterprise networks \cite{barik2016}. The concept of attack graphs was introduced in 1998 
+
+\section{Similarities Between Nodes \label{sim}}
+Quantifying the similarities between vertexes in a network can be of great interest. In many situations it is useful to be able to determine what other nodes that are similar to a specific node. However, two nodes can be similar in many different ways. For instance, they may have the same amount of degrees, the same neighbour or both be a part of the same community. Thus, there are a numerous approaches to take when defining a similarity measures. Below we present a number of them. 
+
+\subsection{Structural equivalence}
+% How is structural equivalent defined?
+Two vertexes are said to be structurally equivalent if they share many neighbors \cite{leicht2006}. Taken into a social network perspective, it seems reasonable to think that two persons have something in common of they have many common friends. 
+
+Local similarity measures exploit the local structures of an undirected graph $G$ \cite{fouss2016algorithms}. Let $\Gamma_i$ be the neighborhood of node $i$ in a network. The common friends of node $i$ and $j$ is thus given by
+\begin{equation}
+\sigma_{common} = |\Gamma_i \cap \Gamma_j| = \sum_{k=1}^n a_{ik}a_{kj}
+\end{equation}
+where $|x|$ refers to the cardinality of the set $x$ such that $|\Gamma_x |$ gives the degree of node $x$. The expression above is the basics of the following similarity measures that will be presented. The expressions will be presented both from the notation of neighbours $\Gamma$ and also the adjacency matrix $\textbf{A}$.
+
+\textbf{Cosine coefficient.} In an undirected graph, the cosine coefficient is simply the normalization of the score of same neighbors between node $i$ and $j$ \cite{fouss2016algorithms}:
+\begin{equation}
+    \label{cosine}
+    \sigma_{cosine} = \frac{|\Gamma_i \cap \Gamma_j|}{\sqrt{|\Gamma_i||\Gamma_j|}} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\sqrt{a_{i \circ }a_{\circ j}}}
+\end{equation}
+$a_{i \circ }$ denotes the summation of row $i$ in the adjacency matrix while $a_{\circ j}$ denoted the column $j$ of the adjacency matrix.
+
+Generally speaking, the cosine coefficient between two node vectors $\textbf{v}_i$ and $\textbf{v}_j$ defined by $\textbf{v}_i^T\textbf{v}_i/(\|\textbf{v}_i\|\|\textbf{v}_j\|)$ is a measure of the linear relationship between the two node vectors. Thus, the the nodes are considered more similar the smaller angle between the node vectors in the node space.
+
+\textbf{Jaccard index.} The Jaccard index is computed as follows:
+\begin{equation}
+    \label{jaccard}
+    \sigma_{Jaccard} = \frac{|\Gamma_i \cap \Gamma_j|}{|\Gamma_i \cup \Gamma_j|} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }+a_{\circ j}-\sum_{k=1}^n a_{ik}a_{kj}}
+\end{equation}
+The denominator represents the number of neighbors belonging to at least one of the two nodes $i$ or $j$. Thus, the Jaccard index is the fraction of common neighbors in relation to the cardinality of the union of neighbors. 
+
+\textbf{Dice coefficient.} The Dice coefficient is defined accordingly:
+\begin{equation}
+    \label{dice}
+    \sigma_{Dice} = \frac{2 |\Gamma_i \cap \Gamma_j|}{|\Gamma_i|+|\Gamma_j|}= \frac{2\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }}
+\end{equation}
+Defined in words, the Dice coefficient is calculated as twice the number of common neighbors divided by the sum of the cardinalities of the two neighborhoods. 
+
+\textbf{Hub-promoted index.} The index promotes hubs in the network and is given by: 
+\begin{equation}
+    \label{prohub}
+    \sigma_{prohub} = \frac{|\Gamma_i \cap \Gamma_j|}{\min(|\Gamma_i|,|\Gamma_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\min(a_{i \circ },a_{\circ j})}
+\end{equation}
+Since the denominator is based on the lower degree only, the links adjacent to hubs are likely to be assigned high scores \citep{lu2011}. The measure is also called overlap similarity \citep{fouss2016algorithms} since a perfect score of 1 implies that the neighborhood of one of the nodes is a subset of the neighborhood of the other node.
+
+\textbf{Hub-depressed index.} The hub-depressed index depresses hubs in the network \citep{fouss2016algorithms}:
+\begin{equation}
+    \label{dehub}
+    \sigma_{dehub} = \frac{|\Gamma_i \cap \Gamma_j|}{\max(|\Gamma_i|,|\Gamma_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\max(a_{i \circ },a_{\circ j})}
+\end{equation}
+In contrast to the denominator in the hub-promoted index, this denominator takes the higher degree into consideration. Thus, links adjacent to hubs are likely to be assigned low scores. 
+
+A global similarity measure takes the topology of the whole graph into account. Comparing with the local indices, the global ones can give more accurate predictions \citep{lu2011}. However, the accuracy is partly given on the expense of scalability. Since the global indices takes the topology of the whole network into account, the measures can be very time-consuming and thus inappropriate for large-scale networks. 
+
+There is a tradeoff called quasi-local indices. As the name indicated, it is based on more information than the local indices but eliminates nodes too far away in the network. According to \citet{lu2011}, the result is less time consuming algorithms with higher accuracy than the local indices, since superfluous information, contributing with little improvement in accuracy, is ignored.
+
+\subsection{Regular equivalence}
+In some cases it is of interest to understand the similarity in position that nodes represent in a network.  It is then useful to study the regular equivalence between nodes. In the context of a social network of a company, two nodes representing managers over two different departments should according to regular equivalence give a high value of similarity. 
+
+In other words, two nodes are regularly equivalent if they are equally related to equivalent others. This implies an iterative or recursive nature since the similarity between the neighborhoods of the nodes has to be known before the similarity of the nodes themselves can be computed \cite{leicht2006}. One algorithm to determine the regular equivalence is REGE. 
+
+While REGE is applicable to quantitative data, CATREGE is used for categorical data. 
+
+
+\subsection{Automorphic equivalence}
+
+
+\section{Kernels on a Graph}
+
+Kernels can be used on graphs to capture the similarity between two nodes or between two disjoint subgraphs. The kernel takes all paths into consideration; both indirect and direct paths. They have the property of increasing the element when the number of paths connecting two nodes are many and the length of the paths decreases. 
+
+A kernel is a function that maps two objects to a real number to represent the similarity between the two objects. More precisely, it is a function $k(i,j):\Omega \times \Omega \rightarrow \mathbb{R}$, where the two objects $i,j\in \Omega$ are defined in some input space $\Omega$, that return a similarity measure \cite{fouss2016algorithms}. 
+
+A simple, classical similarity measure is obtained by taking the inner product of the node vectors $x_i$ ans $x_j$. A kernel function is symmetric and positive semidefinite. 
+
+\cite{gartner2008kernels}
+
+\citet{kondor2002diffusionkernels} has defined the exponential diffusion kernel as
+\begin{equation}
+    \textbf{K} \triangleq \sum_{t=0}^{\infty} \frac{\alpha^t \textbf{A}^t}{t!} = e^{\alpha \textbf{A}}
+\end{equation}
+where $t$ is the number of transitions away from a specific node, $\textbf{A}$ is the adjacency matrix and the elements $a_{ij}$ represent the direct paths between nodes $i$ and $j$. $\alpha \in (0,1)$ is a discounting factor, where a small value represents small importance of nodes far away, i.e. a high number of transitions away. Thus, the kernel favors shorter paths by giving them a heavier weight.
+
+\section{Centrality}
+By exploiting the structure of a graph or a subgraph, the \textit{centrality} of a node can be determined. 
+
+Centrality is a measure that is calculated on undirected graphs. Dealing with directed graphs, this similar measures are instead called \textit{prestige} or \textit{importance} measures. \cite{fouss2016algorithms}
+
+
+\subsection{Closeness Centrality}
+The closeness centrality measure indicates the proximity of a node $i$ to a node $j$ in an undirected graph $G$. The measure implies to what extent node $i$ is central to $G$, hence, how representative it is to the network. The node with the highest centrality score is the most central node.
+
+
+
+\subsection{Betweenness Centrality}
+
+
+
+
+\section{Prestige}
+Prestige or importance measures are very similar to the concept of centrality but differs in the sense that it is applied on directed graphs instead of undirected graphs. 
+
+
+\subsection{PageRank}
+The PageRank algorithm was developed in 1998 in order to rank web pages and is one of the algorithms Google currently uses in the Google search engine \cite{langville2004deeperinside,langville2012}. The PageRank score is based on the the number of times a node is cited by other nodes, taking the node's importance into account. 
+
+% Difference between PageRank and HITS. Refer to langville2004; HITS is more costly
+
+\section{ROC Curve or Prediction-Recall}
+
+% https://www.quora.com/What-is-the-difference-between-a-ROC-curve-and-a-precision-recall-curve-When-should-I-use-each
+
+\begin{comment}
+\subsection{Assortative mixing}
+Assortative mixing in networks are the tendency for a high connectivity between nodes that are similar in some way \cite{newman2003}. 
+\end{comment}
