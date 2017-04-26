@@ -40,7 +40,7 @@ The denominator represents the number of neighbors belonging to at least one of 
 \textbf{Dice coefficient.} The Dice coefficient is defined accordingly:
 \begin{equation}
     \label{dice}
-    \sigma_{Dice} = \frac{2 |\Gamma_i \cap \Gamma_j|}{|\Gamma_i|+|\Gamma_j|}= \frac{2\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }}
+    \sigma_{Dice} = \frac{2 |\Gamma_i \cap \Gamma_j|}{|\Gamma_i|+|\Gamma_j|}= \frac{2\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }+a_{\circ j}}
 \end{equation}
 Defined in words, the Dice coefficient is calculated as twice the number of common neighbors divided by the sum of the cardinalities of the two neighborhoods. 
 
@@ -61,6 +61,8 @@ In contrast to the denominator in the hub-promoted index, this denominator takes
 A global similarity measure takes the topology of the whole graph into account. Comparing with the local indices, the global ones can give more accurate predictions \citep{lu2011}. However, the accuracy is partly given on the expense of scalability. Since the global indices takes the topology of the whole network into account, the measures can be very time-consuming and thus inappropriate for large-scale networks. 
 
 There is a tradeoff called quasi-local indices. As the name indicated, it is based on more information than the local indices but eliminates nodes too far away in the network. According to \citet{lu2011}, the result is less time consuming algorithms with higher accuracy than the local indices, since superfluous information, contributing with little improvement in accuracy, is ignored.
+
+
 
 \subsection{Regular equivalence}
 In some cases it is of interest to understand the similarity in position that nodes represent in a network.  It is then useful to study the regular equivalence between nodes. In the context of a social network of a company, two nodes representing managers over two different departments should according to regular equivalence give a high value of similarity. 
@@ -87,7 +89,7 @@ A simple, classical similarity measure is obtained by taking the inner product o
 \begin{equation}
     \textbf{K} \triangleq \sum_{t=0}^{\infty} \frac{\alpha^t \textbf{A}^t}{t!} = e^{\alpha \textbf{A}}
 \end{equation}
-where $t$ is the number of transitions away from a specific node, $\textbf{A}$ is the adjacency matrix and the elements $a_{ij}$ represent the direct paths between nodes $i$ and $j$. $\alpha \in (0,1)$ is a discounting factor, where a small value represents small importance of nodes far away, i.e. a high number of transitions away. Thus, the kernel favors shorter paths by giving them a heavier weight.
+where $t$ is the number of transitions away from a specific node, $\textbf{A}$ is the adjacency matrix and the elements $a_{ij}$ represent the direct paths between nodes $i$ and $j$. $\alpha \in (0,1)$ is a discounting factor, where a small value represents small importance of nodes far away, e.g. a high number of transitions away. Thus, the kernel favors shorter paths by giving them a heavier weight.
 
 \section{Centrality}
 By exploiting the structure of a graph or a subgraph, the \textit{centrality} of a node can be determined. 
