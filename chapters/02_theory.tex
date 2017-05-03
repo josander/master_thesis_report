@@ -1,5 +1,4 @@
 \chapter{Theoretical Framework}
-test
 Mining data in a network is not a new subject. In fact, many different approaches have been suggested. It this section, we present some of them as the foundation for our project.
 
 \section{Definition of Graphs and Notations}
@@ -17,6 +16,7 @@ Two vertexes are said to be structurally equivalent if they share many neighbors
 
 Local similarity measures exploit the local structures of an undirected graph $G$ \cite{fouss2016algorithms}. Let $\Gamma_i$ be the neighborhood of node $i$ in a network. The common friends of node $i$ and $j$ is thus given by
 \begin{equation}
+\label{common}
 \sigma_{common} = |\Gamma_i \cap \Gamma_j| = \sum_{k=1}^n a_{ik}a_{kj}
 \end{equation}
 where $|x|$ refers to the cardinality of the set $x$ such that $|\Gamma_x |$ gives the degree of node $x$. The expression above is the basics of the following similarity measures that will be presented. The expressions will be presented both from the notation of neighbours $\Gamma$ and also the adjacency matrix $\textbf{A}$.
@@ -58,23 +58,52 @@ Since the denominator is based on the lower degree only, the links adjacent to h
 \end{equation}
 In contrast to the denominator in the hub-promoted index, this denominator takes the higher degree into consideration. Thus, links adjacent to hubs are likely to be assigned low scores. 
 
-A global similarity measure takes the topology of the whole graph into account. Comparing with the local indices, the global ones can give more accurate predictions \citep{lu2011}. However, the accuracy is partly given on the expense of scalability. Since the global indices takes the topology of the whole network into account, the measures can be very time-consuming and thus inappropriate for large-scale networks. 
+\begin{comment}
+\textbf{Adamic index.} 
+\begin{equation}
+    \label{adamic}
+    \sigma_{Adamic} = \frac{|\Gamma_i \cap \Gamma_j|}{\log(|\Gamma_i|,|\Gamma_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\max(a_{i \circ },a_{\circ j})}
+\end{equation}
+\end{comment}
+
+A global similarity measure takes the topology of the whole graph into account. Comparing with the local indices, the global ones can give more accurate predictions \citep{lu2011}.
+
+\textbf{Katz Index.} One global index is the Katz index, defined below \citep{fouss2016algorithms}.
+\begin{equation}
+    \textbf{K}_{Katz}=\sum_{t=1}^{\infty} \alpha^t \textbf{A}^t = (\textbf{I}-\alpha \textbf{A})^{-1}-\textbf{I}
+\end{equation}
+The parameter $\alpha \in [0,1]$ defines an attenuate factor to discount the importance of common neighbors far away. 
+
+The accuracy of a global index is given on the expense of scalability. Since the global indices takes the topology of the whole network into account, the measures can be very time-consuming and thus inappropriate for large-scale networks. 
 
 There is a tradeoff called quasi-local indices. As the name indicated, it is based on more information than the local indices but eliminates nodes too far away in the network. According to \citet{lu2011}, the result is less time consuming algorithms with higher accuracy than the local indices, since superfluous information, contributing with little improvement in accuracy, is ignored.
+
+\textbf{Local Path Index} The Local Path (LP) Index is a quasi-local similarity index which provides a good tradeoff between the accuracy and computational complexity \citep{lu2011}. It is defined as 
+\begin{equation}
+    \label{lp}
+    \sigma_{LP} = \textbf{A}^2+\alpha \textbf{A}^3
+\end{equation}
+where $\textbf{A}$ denotes the adjacency matrix of the graph. Taking the square of the adjacency matrix gives the number of paths there is between node $i$ and node $j$ with length 2. Moreover, $\textbf{A}^3$ given the number of paths between two nodes with length 3. 
+
+$\alpha$ is a discounting factor which relates to the importance of having the same neighbour two steps away. Thus, a high value of 1 indicates high importance, making a common neighbor two steps away as important as having a common nearest neighbor. Setting $\alpha$ to 0 degenerates the expression to only account for the nearest neighbors, thus making the Local Path Index equal $\sigma_{common}$, see equation \eqref{common}.
 
 
 
 \subsection{Regular equivalence}
 In some cases it is of interest to understand the similarity in position that nodes represent in a network.  It is then useful to study the regular equivalence between nodes. In the context of a social network of a company, two nodes representing managers over two different departments should according to regular equivalence give a high value of similarity. 
 
-In other words, two nodes are regularly equivalent if they are equally related to equivalent others. This implies an iterative or recursive nature since the similarity between the neighborhoods of the nodes has to be known before the similarity of the nodes themselves can be computed \cite{leicht2006}. One algorithm to determine the regular equivalence is REGE. 
+In other words, two nodes are regularly equivalent if they are equally related to equivalent others. This implies an iterative or recursive nature since the similarity between the neighborhoods of the nodes has to be known before the similarity of the nodes themselves can be computed \cite{leicht2006}. 
+
+One way of retrieving an exact solution of the regular equivalence is the 
+One algorithm to determine the regular equivalence is REGE. 
 
 While REGE is applicable to quantitative data, CATREGE is used for categorical data. 
 
 
-\subsection{Automorphic equivalence}
+\section{Detecting common sub-graphs}
 
 
+\begin{comment}
 \section{Kernels on a Graph}
 
 Kernels can be used on graphs to capture the similarity between two nodes or between two disjoint subgraphs. The kernel takes all paths into consideration; both indirect and direct paths. They have the property of increasing the element when the number of paths connecting two nodes are many and the length of the paths decreases. 
@@ -90,6 +119,7 @@ A simple, classical similarity measure is obtained by taking the inner product o
     \textbf{K} \triangleq \sum_{t=0}^{\infty} \frac{\alpha^t \textbf{A}^t}{t!} = e^{\alpha \textbf{A}}
 \end{equation}
 where $t$ is the number of transitions away from a specific node, $\textbf{A}$ is the adjacency matrix and the elements $a_{ij}$ represent the direct paths between nodes $i$ and $j$. $\alpha \in (0,1)$ is a discounting factor, where a small value represents small importance of nodes far away, e.g. a high number of transitions away. Thus, the kernel favors shorter paths by giving them a heavier weight.
+\end{comment}
 
 \section{Centrality}
 By exploiting the structure of a graph or a subgraph, the \textit{centrality} of a node can be determined. 
@@ -116,11 +146,14 @@ The PageRank algorithm was developed in 1998 in order to rank web pages and is o
 
 % Difference between PageRank and HITS. Refer to langville2004; HITS is more costly
 
-\section{ROC Curve or Prediction-Recall}
+\section{Prediction and Recall}
+To evaluate the performance of a binary classifier, the concepts of precision and recall are useful. Precision measures the retrieved instances that are relevant while recall measures how many of the relevant instances that are retrieved.
+
+The measurements are given calculated from the number of True Positives (TP), False Positives (FP) and False Negative (FN). Prediction and recall are calculated by 
+\begin{align}
+\text{Precision}&=\frac{TP}{TP+FP}\\
+\text{Recall}&=\frac{TP}{TP+FN}
+\end{align}
+To be exhaustive in the notation, there is also the case of True Negative (TN) although it is never used in the computation.
 
 % https://www.quora.com/What-is-the-difference-between-a-ROC-curve-and-a-precision-recall-curve-When-should-I-use-each
-
-\begin{comment}
-\subsection{Assortative mixing}
-Assortative mixing in networks are the tendency for a high connectivity between nodes that are similar in some way \cite{newman2003}. 
-\end{comment}
