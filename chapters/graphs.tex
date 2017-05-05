@@ -1,0 +1,52 @@
+\newcommand{\graph}{\textbf{G}}
+\newcommand{\vertices}{\textbf{V}}
+\newcommand{\edges}{\textbf{E}}
+\newcommand{\weights}{\textbf{W}}
+\newcommand{\adjmat}{\textbf{A}}
+
+A graph $\graph=(\vertices,\edges)$ is defined as a set of vertices $\vertices$ of nodes and a set of edges $\edges$ connecting the vertices. A graph $\graph$ can be either undirected or directed, meaning that the edges in the graph has a direction or not. If there are multiple edges between a pair of vertices, the graph $\graph$ is denoted multigraph.
+
+Examples of graphs are the internet, where each physical end device such as servers, computer and mobile phones are represented as vertices and the cables (or radio waves) connecting them are represented by edges. Another example is a social network with people as vertices and relationships between the individuals are the edges.
+
+To each edge $e\in\edges$ there can be an assigned weight $w$. The weight can represent the strength of a relationship or a distance between vertices. Then the graph becomes $\graph=(\vertices,\edges,\weights)$
+
+\subsection{The Adjacency Matrix}
+Graphs can be represented in more than one way mathematically. One convenient way that allows for simple analysis is to represent a graph by its adjacency matrix $\adjmat$. Every Vertices $v\in\vertices$ is given an index $i \in [0,..,V]$ where $V = |\vertices|$. The element $a_{i,j}$ in $\adjmat$ is 1 if the graph $\graph$ contains an edge from vertices $i$ to vertices $j$ if the graph is undirected $a_{i,j}=a_{j,i}\, \forall i,j$\cite{adj_matrix}. If the graph is weighted then $a_{i,j} = w_{i,j}$. Furthermore, if the graph is a multigraph, the adjacency matrix becomes 3 dimensional, where each layer in the third dimension represents a different kind of relation between vertices.
+
+\subsection{Graph metrics}
+In this section we will introduce some common definitions of attributes of graphs, but global (attributes on the graph itself) and local (attributes of nodes or edges).
+
+The order of the graph is defined as the number of vertices $V=|\vertices|$, and the size is defined as the number of edges $E=|\edges|$. The distance $d(u,v)$ between to vertices $u\in\vertices$ and $v\in\vertices$ is the smallest number of edges needed to connect $u,v$. The eccentricity $\epsilon(v)$ of a vertex is the greatest distance to any other vertex in the graph. The diameter of the graph $\graph$ is the greatest distance between any pair of node\cite{graph_theory}, $$d = \max_{v \in V}\epsilon(v)$$
+
+A global measurement for how well the vertices in the graph is connected and how sparse the adjacency matrix is, can be measured be the density of the graph. For undirected graphs it is defined as\cite{density}
+$$D =  \frac{2|E|}{|V|\,(|V|-1)}.$$
+For directed graphs it is
+$$D = \frac{|E|}{|V|\,(|V|-1)}.$$
+
+\subsection{The Bipartite Graph}
+A special kind of graph is the bipartite graph where the vertices can be divided into two disjoint sets and where every edge has one end in each of the two disjoint sets. This kind of graph is common in social networks. An example is where one of the sets is a buyer class and the other set is a product class. Such graph may stem from a web shop or a movie streaming service. Since the bipartite graph is a special case of the general graph \graph the same metrics and methods can be used, but in many cases they can be simplified. The adjacency matrix of the bipartite graph can be simplified since edges within any of the two sets are by the definition forbidden. Furthermore, since the direction of the edge is given implicitly by the natural structure of the graph, for example a product does not buy a buyer but the other way around the bipartite graph can be considered undirected. This lets us define the adjacency matrix of a bipartite graph by letting the rows represent one of the two sets and the columns the other set. By this construction all information about the graph is contained in the adjacency matrix. This means that the size of the adjacency matrix is only 1/4 of the adjacency matrix of the general graph. The relationship between the bipartite adjacency matrix $\textbf{W}$ and the adjacency matrix $\adjmat$ is
+$$
+\textbf{A} = \left[
+\begin{matrix}
+  \textbf{O}_x & \textbf{W} \\
+  \textbf{W}^T & \textbf{O}_y
+\end{matrix}
+\right]
+$$
+Where $\textbf{0}_x$ and $\textbf{0}_y$ only contain zeros due to the definition of the bipartite graph that all edges has one endpoint in each of the two sets. To to the undirect nature of the bipartite graph, the bottom left part of $\adjmat$ equals the transpose of the upper right part which we take as the adjacency graph for the bipartite graph.
+
+Note that since the sizes of the two disjoint are the same in general, $\textbf{W}$ is not square in the general case and not symmetric unlike $\adjmat$ in the general case of undirected graphs.
+
+By using $\textbf{W}$ we can define the density D for the bipartite graph simply as 
+$$\text{D} = \frac{\sum_{i,j}e_{i,j}}{|\textbf{W}|}
+$$
+where $i,j$ run over all rows and columns in $\textbf{W}$ and
+$$e_{i,j} =
+    \left\{
+        \begin{matrix}
+            1\quad \text{if $w_{i,j}\, >\, 0$} \\
+            0\quad \text{otherwise}
+        \end{matrix}
+    \right. ,
+$$
+in other words, the number of edges in the graph divided by the number of possible so that D = 0 if there are no edges and D = 1 if all possible edges exists in the graph. We will return to the bipartite graph in the next chapter.
