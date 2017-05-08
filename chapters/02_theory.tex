@@ -7,9 +7,6 @@ Mining data in a network is not a new subject. In fact, many different approache
 \section{Link Prediction in Bipartite Graphs}
 \input{chapters/bipartite_link_prediction}
 
-\section{Attack Graphs}
-Attack Graphs are graphs where vulnerabilities and exploits are represented, thus making it a tool to assess the security of enterprise networks \cite{barik2016}. The concept of attack graphs was introduced in 1998 
-
 \section{Similarities Between Nodes \label{sim}}
 Quantifying the similarities between vertexes in a network can be of great interest. In many situations it is useful to be able to determine what other nodes that are similar to a specific node. However, two nodes can be similar in many different ways. For instance, they may have the same amount of degrees, the same neighbour or both be a part of the same community. Thus, there are a numerous approaches to take when defining a similarity measures. Below we present a number of them. 
 
@@ -90,40 +87,6 @@ where $\textbf{A}$ denotes the adjacency matrix of the graph. Taking the square 
 
 $\alpha$ is a discounting factor which relates to the importance of having the same neighbour two steps away. Thus, a high value of 1 indicates high importance, making a common neighbor two steps away as important as having a common nearest neighbor. Setting $\alpha$ to 0 degenerates the expression to only account for the nearest neighbors, thus making the Local Path Index equal $\sigma_{common}$, see equation \eqref{common}.
 
-
-
-\subsection{Regular equivalence}
-In some cases it is of interest to understand the similarity in position that nodes represent in a network.  It is then useful to study the regular equivalence between nodes. In the context of a social network of a company, two nodes representing managers over two different departments should according to regular equivalence give a high value of similarity. 
-
-In other words, two nodes are regularly equivalent if they are equally related to equivalent others. This implies an iterative or recursive nature since the similarity between the neighborhoods of the nodes has to be known before the similarity of the nodes themselves can be computed \cite{leicht2006}. 
-
-One way of retrieving an exact solution of the regular equivalence is the 
-One algorithm to determine the regular equivalence is REGE. 
-
-While REGE is applicable to quantitative data, CATREGE is used for categorical data. 
-
-
-\section{Detecting common sub-graphs}
-
-
-\begin{comment}
-\section{Kernels on a Graph}
-
-Kernels can be used on graphs to capture the similarity between two nodes or between two disjoint subgraphs. The kernel takes all paths into consideration; both indirect and direct paths. They have the property of increasing the element when the number of paths connecting two nodes are many and the length of the paths decreases. 
-
-A kernel is a function that maps two objects to a real number to represent the similarity between the two objects. More precisely, it is a function $k(i,j):\Omega \times \Omega \rightarrow \mathbb{R}$, where the two objects $i,j\in \Omega$ are defined in some input space $\Omega$, that return a similarity measure \cite{fouss2016algorithms}. 
-
-A simple, classical similarity measure is obtained by taking the inner product of the node vectors $x_i$ ans $x_j$. A kernel function is symmetric and positive semidefinite. 
-
-\cite{gartner2008kernels}
-
-\citet{kondor2002diffusionkernels} has defined the exponential diffusion kernel as
-\begin{equation}
-    \textbf{K} \triangleq \sum_{t=0}^{\infty} \frac{\alpha^t \textbf{A}^t}{t!} = e^{\alpha \textbf{A}}
-\end{equation}
-where $t$ is the number of transitions away from a specific node, $\textbf{A}$ is the adjacency matrix and the elements $a_{ij}$ represent the direct paths between nodes $i$ and $j$. $\alpha \in (0,1)$ is a discounting factor, where a small value represents small importance of nodes far away, e.g. a high number of transitions away. Thus, the kernel favors shorter paths by giving them a heavier weight.
-\end{comment}
-
 \section{Centrality}
 By exploiting the structure of a graph or a subgraph, the \textit{centrality} of a node can be determined. 
 
@@ -150,13 +113,56 @@ The PageRank algorithm was developed in 1998 in order to rank web pages and is o
 % Difference between PageRank and HITS. Refer to langville2004; HITS is more costly
 
 \section{Prediction and Recall}
-To evaluate the performance of a binary classifier, the concepts of precision and recall are useful. Precision measures the retrieved instances that are relevant while recall measures how many of the relevant instances that are retrieved.
+To evaluate the performance of a binary classifier, the concepts of precision and recall are useful. Precision measures the retrieved instances that are relevant while recall measures how many of the relevant instances that are retrieved. Another way of putting it is to say that precision is a measure of confidence while recall gives the sensitivity \citep{powers2011}.
 
-The measurements are given calculated from the number of True Positives (TP), False Positives (FP) and False Negative (FN). Prediction and recall are calculated by 
+The measurements are given calculated from the number of True Positives (TP), False Positives (FP) and False Negative (FN). Prediction and recall are calculated by \citep{powers2011}
 \begin{align}
 \text{Precision}&=\frac{TP}{TP+FP}\\
 \text{Recall}&=\frac{TP}{TP+FN}
 \end{align}
 To be exhaustive in the notation, there is also the case of True Negative (TN) although it is never used in the computation.
 
-% https://www.quora.com/What-is-the-difference-between-a-ROC-curve-and-a-precision-recall-curve-When-should-I-use-each
+To evaluate binary classifiers, the Area Under Curve (AUC) can be calculated. AUC$\in[0,1]$ where a high value reflects a good classifier. The AUC is simply calculated as the integral of the prediction-recall curve.
+
+Furthermore, there is the F$_1$ score reflecting the classifiers accuracy. The F$_1$ score is calculated as the harmonic mean of precision and recall \citep{powers2011}
+\begin{equation}
+    \text{F}_1 = 2\frac{\text{Precision}\cdot \text{Recall}}{\text{Precision}+\text{Recall}}
+\end{equation}
+
+%%%%% OLD STUFF %%%%
+\begin{comment}
+\section{Attack Graphs}
+Attack Graphs are graphs where vulnerabilities and exploits are represented, thus making it a tool to assess the security of enterprise networks \cite{barik2016}. The concept of attack graphs was introduced in 1998 
+
+\subsection{Regular equivalence}
+In some cases it is of interest to understand the similarity in position that nodes represent in a network.  It is then useful to study the regular equivalence between nodes. In the context of a social network of a company, two nodes representing managers over two different departments should according to regular equivalence give a high value of similarity. 
+
+In other words, two nodes are regularly equivalent if they are equally related to equivalent others. This implies an iterative or recursive nature since the similarity between the neighborhoods of the nodes has to be known before the similarity of the nodes themselves can be computed \cite{leicht2006}. 
+
+One way of retrieving an exact solution of the regular equivalence is the 
+One algorithm to determine the regular equivalence is REGE. 
+
+While REGE is applicable to quantitative data, CATREGE is used for categorical data. 
+
+
+\section{Detecting common sub-graphs}
+
+\end{comment}
+
+\begin{comment}
+\section{Kernels on a Graph}
+
+Kernels can be used on graphs to capture the similarity between two nodes or between two disjoint subgraphs. The kernel takes all paths into consideration; both indirect and direct paths. They have the property of increasing the element when the number of paths connecting two nodes are many and the length of the paths decreases. 
+
+A kernel is a function that maps two objects to a real number to represent the similarity between the two objects. More precisely, it is a function $k(i,j):\Omega \times \Omega \rightarrow \mathbb{R}$, where the two objects $i,j\in \Omega$ are defined in some input space $\Omega$, that return a similarity measure \cite{fouss2016algorithms}. 
+
+A simple, classical similarity measure is obtained by taking the inner product of the node vectors $x_i$ ans $x_j$. A kernel function is symmetric and positive semidefinite. 
+
+\cite{gartner2008kernels}
+
+\citet{kondor2002diffusionkernels} has defined the exponential diffusion kernel as
+\begin{equation}
+    \textbf{K} \triangleq \sum_{t=0}^{\infty} \frac{\alpha^t \textbf{A}^t}{t!} = e^{\alpha \textbf{A}}
+\end{equation}
+where $t$ is the number of transitions away from a specific node, $\textbf{A}$ is the adjacency matrix and the elements $a_{ij}$ represent the direct paths between nodes $i$ and $j$. $\alpha \in (0,1)$ is a discounting factor, where a small value represents small importance of nodes far away, e.g. a high number of transitions away. Thus, the kernel favors shorter paths by giving them a heavier weight.
+\end{comment}

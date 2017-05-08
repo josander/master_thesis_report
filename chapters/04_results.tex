@@ -1,5 +1,5 @@
 \chapter{Results}
-In this chapter our 
+In this chapter our results are presented. Starting off with a description f the graph database, we then move on to the three different cases. 
 
 \section{Graph Database}
 % Power of graph databases
@@ -9,30 +9,52 @@ Furthermore, there is the aspect of flexibility. Graphs are naturally additive \
 
 Thus, according to the motivation above, we expect to use Neo4j, which is a cloud based graph database supporting some basic analysis through their query language Cypher.
 
-\section{Gh0st RAT}
-% In discussion - what similarity measure was the most appropriate to use in our case?
+\section{Gh0st RAT Controllers}
+The result for the RAT controller case is given in table \ref{aucIndex}. The table shows the AUC values for the different local indices (as rows) and different numbers of reference nodes, that the similarity is based on. Since cross validation is performed, 20 trials has been performed. We find small variance in the results.
 
-\begin{figure}[h!]
+\begin{table}[h!]
     \centering
-    \includegraphics[width=0.4\textwidth]{precisionRecallRAT.eps}
-    \caption{Caption}
-    \label{fig:my_label}
-\end{figure}
+    \begin{tabular}{|c|c|c|c|c|c|} % OBS, fixa detta. Endast baserat på 10 trials!
+        \hline
+        Index   & 1 & 2 & 3 & 4 & 5 \\ \hline
+        Dice    & 0.7840 & 0.9388 & 0.9787 & 0.9882 & 0.9878 \\
+        Jaccard & 0.7840 & 0.9388 & 0.9787 & 0.9948 & 0.9950 \\
+        Cosine  & 0.7840 & 0.9388 & 0.9787 & 0.9882 & 0.9854 \\
+        ProHub  & 0.7840 & 0.9388 & 0.9787 & 0.9900 & 0.9962 \\
+        DeHub   & 0.7840 & 0.9388 & 0.9787 & 0.9948 & 0.9950 \\
+        Local Path   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\
+        Katz   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\ \hline
+    \end{tabular}
+    \caption{AUC for different number of reference nodes. The AUC is calculated from the precision-recall curve.}
+    \label{aucIndex}
+\end{table}
 
-\begin{figure}[h!]
+
+
+We find that the best result is found for a parameter setting of ... With all the described indices and the mentioned parameters, all RAT controllers were identified properly, with a precision of 100\% and a recall of 100\%.
+    
+The second data set was much more sparse of RAT controllers. Of 10.091 nodes, only 32 were identified as RAT controllers. Performing the exact same analysis on this data set as the previous one gave us the result shown in table \ref{aucIndex2}.
+
+\begin{table}[h!]
     \centering
-    \includegraphics[width=0.4\textwidth]{recallThresholdRAT.eps}
-    \caption{Caption}
-    \label{fig:my_label}
-\end{figure}
+    \begin{tabular}{|c|c|c|c|c|c|} % OBS, fixa detta. Endast baserat på 10 trials!
+    \hline
+        Index   & 1 & 2 & 3 & 4 & 5 \\ \hline
+        Dice    & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\
+        Jaccard & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758\\
+        Cosine  & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9729 \\
+        ProHub  & 0.9932 &  0.9903  & 0.9855 & 0.9623 & 0.9581 \\
+        DeHub   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\
+        Local Path   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\
+        Katz   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\ \hline
+    \end{tabular}
+    \caption{AUC for different number of reference nodes. The AUC is calculated from the precision-recall curve.}
+    \label{aucIndex2}
+\end{table}
 
 \section{Classification of malicious IP addresses}
 
-\section{Redundancies}
-
 \section{Target and Attackers}
-
-
 
 
 
