@@ -94,23 +94,53 @@ Centrality is a measure that is calculated on undirected graphs. Dealing with di
 
 
 \subsection{Closeness Centrality}
-The closeness centrality measure indicates the proximity of a node $i$ to a node $j$ in an undirected graph $G$. The measure implies to what extent node $i$ is central to $G$, hence, how representative it is to the network. The node with the highest centrality score is the most central node.
+The closeness centrality measure indicates the proximity of a node $i$ to a node $j$ in an undirected graph $G$. The measure implies to what extent node $i$ is central to $G$, hence, how representative it is to the network \citep{fouss2016algorithms}. The node with the highest centrality score is the most central node.
 
-
+According to \citet{fouss2016algorithms}, the most popular choice for quantifying the closeness centrality is
+\begin{equation}
+    cc_i=\frac{1}{\sum_{j=1}^{n} \Delta_{ij}}
+\end{equation}
+where $\Delta_{ij}$ denotes the shortest-path distance between the nodes $i$ and $j$, and $n$ is the number of nodes in the graph. The most central node is the one closest to all the rest of the nodes. For the case with an unweighted, undirected graph, the highest closeness centrality is found for a node adjacent to all the rest. The closeness centrality is then given by $\frac{1}{n-1}$.
 
 \subsection{Betweenness Centrality}
+Betweenness centrality can be used to quantify to what extent a node is an important intermediary \citep{fouss2016algorithms}. Nodes with high betweenness are very important since many of the other nodes communicates through them \citep{Kajdanowicz2013}. 
 
-
-
+The best-known walkbased centrality measure is the Freeman's betweenness centrality \citep{fouss2016algorithms}. It is also known as the shortest-path betweenness centrality and is computed by taking the shortest paths $p_{ik}^*$ going through an intermediate node $j$, where $i\neq j \neq k\neq i$ for all the node pairs $i$ and $k$. The shortest path between node $i$ and $k$ as $p_{ik}^*$ is then a subset of all the shortest paths denoted as $P_{ik}^*$ connecting node $i$ and $k$. Thus, the number of shortest paths between the two nodes are given by $|P_{ik}^*|$. Moreover, we denote the total number of shortest paths between node $i$ and $k$ going through node $j$ as $\eta(j \in P_{ik}^*)$. In accordance with the notation used in \citep{fouss2016algorithms} we can now formulate the shortest-path betweenness centrality as follows
+\begin{equation}
+    \text{bet}_j=\sum_{i=1, i\neq j}^{n} \sum_{k=1, k \neq i,j}^{n} \frac{\eta(j \in P_{ik}^*)}{|P_{ik}^*|}
+\end{equation}
+A more intuitively way of putting it is that the betweenness centrality measures how many times node $j$ is on the shortest path between two nodes in the graph. Hence, it gives an indication of important the node is for the communication of a network. 
 
 \section{Prestige}
 Prestige or importance measures are very similar to the concept of centrality but differs in the sense that it is applied on directed graphs instead of undirected graphs. 
 
-
 \subsection{PageRank}
-The PageRank algorithm was developed in 1998 in order to rank web pages and is one of the algorithms Google currently uses in the Google search engine \cite{langville2004deeperinside,langville2012}. The PageRank score is based on the the number of times a node is cited by other nodes, taking the node's importance into account. 
+The PageRank algorithm was developed in 1998 in order to rank web pages and is one of the algorithms Google currently uses in the Google search engine \cite{langville2004deeperinside,langville2012}. The PageRank score is based on the the number of times a node is cited by other nodes, taking the node's importance into account. The PageRank algorithm assigns a prestige score to every node in the network. According to \citet{fouss2016algorithms}, the prestige score can in its most basic form be calulcated as 
+\begin{equation}
+    x_j=\sum_{i=1}^{n} \frac{a_{ij}x_i}{a_{i\circ}}
+\end{equation}
+where $x_i$ is the prestige score associated with a node $i$ and $a_{ij}$ is an element in the non-symmetric adjacency matrix $\textbf{A}$, and $a_{i\circ}$ denotes the outdegree of node $i$. 
+
+As a result, a node $j$ receives a high PageRank score if it is related to many other nodes, if the nodes adjacent to $j$ have high prestige scores themselves and the neighbors to node $j$ have a small outdegree. 
 
 % Difference between PageRank and HITS. Refer to langville2004; HITS is more costly
+
+\section{Support Vector Machine}
+Support Vector Machines (SVM) is a set of supervised learning methods originally developed for binary classification \citet{Hsu2002}. However, much research have been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-agains-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} concludes that one of the more suitable methods for practical use is the one-agains-one.
+
+In this section, we will only briefly describe the theory behind SVM. For a more rigorous description, we refer to \citet{Kecman2005} or \citet{Cortes1995}.
+
+Given training vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$, and a target vector $y \in \{-1,1\}^n$, the SVM solves the following problem \citep{Hsu10apractical}
+\begin{align}
+    \nonumber
+    \min_{\bm{w},b,\bm{\xi}}\text{~~}&\frac{1}{2}\bm{w}^T\bm{w}+C\sum_{i=1}^{n} \xi_i \\ 
+    \text{subject to~~}&y_i(\bm{w}^T\phi(\bm{x}_i)+1)\geq 1-\xi_i\\ 
+    &\xi_i\geq 0 \nonumber
+\end{align}
+where $\phi(\bm{x}_i)$ is a mapping of $\bm{x}_i$ to a higher dimension and $C>0$ is the penalty parameter for the error term. Solving this problem will find you a hyperplane to set the boundary decision line in the high dimensional space $\phi$.
+
+\subsection{Scaling}
+\citet{Hsu10apractical} addresses the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominates other attributes, all features should be scaled. As a result, another advantage arises since scaling the values avoids any numerical difficulties. \citet{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].
 
 \section{Prediction and Recall}
 To evaluate the performance of a binary classifier, the concepts of precision and recall are useful. Precision measures the retrieved instances that are relevant while recall measures how many of the relevant instances that are retrieved. Another way of putting it is to say that precision is a measure of confidence while recall gives the sensitivity \citep{powers2011}.
@@ -129,6 +159,16 @@ Furthermore, there is the F$_1$ score reflecting the classifiers accuracy. The F
     \text{F}_1 = 2\frac{\text{Precision}\cdot \text{Recall}}{\text{Precision}+\text{Recall}}
 \end{equation}
 
+\section{Cross-validation}
+Cross-validation (CV) is a validation technique to assess how a statistical method would perform on an independent data set. Thus, CV evaluates the generalization of the model without the need for the three data sets; training, validation and test.
+
+CV is based on two data sets, one training set and one test set for the final evaluation of the predicative model. Thus, CV is useful in the case of limited data. 
+
+One of the basic approaches is called the k-fold CV. The data set is divided randomly into $k$ equally sized bins. The model is trained using the $k-1$ fold of data while the last one is used for testing. This procedure is then repeated many times over and the final performance is given as the average. \citet{Krstajic2014} have evaluated the k-fold CV (in their article referring to it as the V-fold CV) with 10 folds and 50 repetitions. 
+
+
+
+
 %%%%% OLD STUFF %%%%
 \begin{comment}
 \section{Attack Graphs}
@@ -144,12 +184,6 @@ One algorithm to determine the regular equivalence is REGE.
 
 While REGE is applicable to quantitative data, CATREGE is used for categorical data. 
 
-
-\section{Detecting common sub-graphs}
-
-\end{comment}
-
-\begin{comment}
 \section{Kernels on a Graph}
 
 Kernels can be used on graphs to capture the similarity between two nodes or between two disjoint subgraphs. The kernel takes all paths into consideration; both indirect and direct paths. They have the property of increasing the element when the number of paths connecting two nodes are many and the length of the paths decreases. 
