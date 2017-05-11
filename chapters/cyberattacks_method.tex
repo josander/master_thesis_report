@@ -1,0 +1,28 @@
+Recorded Future's database contain entities that represents an event called cyberattack. The cyberattack entity is based on information found on the open internet as well as the dark/deep web. The entity may contain information such as the time when the attack is believed to have taken place, the author of the source of information, possible attackers and target as well as vulnerabilities and methods used to mention a few.
+
+The whole set of cyberattack events is quite large. To predict future cyber attacks by the method of link prediction bipartite graphs described in \ref{sec:plp} we used only a subset of the cyber attack entities containing only the entities with a mention of an attacker and a target. The size of the subset containing all such references was 1435073. The number of cyber attacks that was indexed as taken place last month was 36297 which indicates how fast the subset we are using for analysis is growing.
+
+The cyber attacks in the data set was represented in bipartite graph with the two adjacent sets being attackers and targets. It is worth mentioning that there are several cases where an entity appears as an attacker in one cyber attack and later as a target in another cyber attack. This goes against the definition of the bipartite graph. The solution was to create two different vertices representing in one case an attacker and in the other a target for such entities. The number of references for each attacker-target pair was used as the weight of the edge between the attacker and the target of the attack in the graph.
+
+The running time of the PLP-algorithm by \citet{plp}, described in section \ref{sec:plp} is O(m) with m being the size of the smallest of the two adjacent sets of nodes in the bipartite graph. The subset we used is containing XX unique attackers and YY unique targets. And hence the running time will be O(a) where a is the number of attackers.
+
+Even if PLP is quite efficient the running time could be reduced even further if link prediction could be made with good accuracy using only the most recent cyber attacks. Therefore we we investigated how the number of prediction and the precision was affected by different of length of time periods used for prediction. We were also interested in finding out what can could be said about when a predicted attack will take place and therefore we also varied the length of the time period used for testing the predictions.
+
+To get good statistical values we repeated each experiment 10 times by randomly picking a start date for the prediction data set. We then computed the average values together with the standard deviations.
+
+To evaluate how well PLP was able to predict future cyber attacks we primarily used two values. 
+\paragraph{Precision}
+We wanted to find out how often the predictive index was higher for attacks that existed in the test set than for predictive indexes for attacks that was not in the test set. We therefore measured the precision as
+$$
+  \frac{A+0.5C}{n},
+$$
+where A is the number of times where the existing attacks had a higher index, C is the number of times the index was the same and $n$ is the number of comparisons. We see that if the existing attacks has a higher index in all comparisons the precision is 1, if all compared index is equal the precision is 0.5 and if the index was higher for all non-existing attacks the precision is 0.
+
+\paragraph{Prediction Rate}
+Since PLP only gives a predictive index for the candidate node pairs it is reasonable to evaluate how many of the attacks in the test set that was given an index in the prediction. We computed the prediction rate simply as
+$$
+  \frac{p}{m},
+$$
+where $p$ is the number of attacks in the test set that was given an index by PLP and $m$ is the number of attacks with unique pairs of attackers and targets.
+
+The algorithm is naturally limited by that it is not able to predict attacks where the attack-target pair exist in a attack already in the prediction set. The algorithm is not able to predict attacks involving attackers or targets not in existence in the prediction set. Based on this it is interesting to see how many of the attacks in the test set are attacks that consist of a attacker-target pair not already in the prediction set but with each of the attacker and target individually in the prediction set.
