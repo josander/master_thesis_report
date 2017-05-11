@@ -6,6 +6,8 @@ Based on the results, we find that the simple local indices perform very well on
 
 It may be surprising that the classifier based on local similarity generates such good results. Two reasons are the density as well as the connectivity of the graph. The local similarity measures are based solely on the nearest neighbors implying that all of the RAT controllers must share one common neighbor with a known RAT controller from the start, i.e. a reference node. However, in the case where one (unclassified) RAT controller was positioned in the periphery of the network, away from the reference nodes, that would not have been properly classified. Hence, this particular method is highly dependent of the connectivity as well as a good distribution of the reference nodes in the graph. 
 
+% Local performed better than quasi-local and global!
+
 \section{Malicious IP addresses}
 
 \section{Attacker-Target}
@@ -13,11 +15,7 @@ It may be surprising that the classifier based on local similarity generates suc
 \section{Future Work}
 This report has only covered a small part of interesting methods based on graph theory that might be of interest to apply to the cyber threat intelligence domain. Thus, we now present some interesting ideas that was stumbled upon without having the resources to try them out. 
 
-Regular equivalence for node classification. This report has covered a lot of structural equivalence. However, there is another similarity called regular equivalence that takes the position of the node into consideration. Thus, two nodes are regularly equivalent if they are equally related to equivalent others. This implies an iterative or recursive nature since the similarity between the neighborhoods of the nodes has to be known before the similarity of the nodes themselves can be computed \cite{leicht2006}. 
-
-One algorithm to determine the regular equivalence of nodes is REGE. While REGE is applicable to quantitative data, CATREGE is used for categorical data. 
-
-Feature based similarity for node classification. 
+Regular equivalence for node classification. This report has covered a lot of structural equivalence. However, there is another similarity called regular equivalence that takes the position of the node into consideration. Thus, two nodes are regularly equivalent if they are equally related to equivalent others. This implies an iterative or recursive nature since the similarity between the neighborhoods of the nodes has to be known before the similarity of the nodes themselves can be computed \cite{leicht2006}. One algorithm to determine the regular equivalence of nodes is REGE. While REGE is applicable to quantitative data, CATREGE is used for categorical data. 
 
 Feature based similarity for link prediction. To classify nodes in a network, features can be taken into account. The features may be structure specific, such as the node degree, the betweenness centrality or page rank. However, there are also more node specific features, such as age, name or number of children. Based on the features, a classifier can be trained. Example of classifiers based on supervised learning are Support Vector Machine (SVM), Naive Bayes or decision trees.
 

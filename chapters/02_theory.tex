@@ -126,9 +126,7 @@ As a result, a node $j$ receives a high PageRank score if it is related to many 
 % Difference between PageRank and HITS. Refer to langville2004; HITS is more costly
 
 \section{Support Vector Machine}
-Support Vector Machines (SVM) is a set of supervised learning methods originally developed for binary classification \citet{Hsu2002}. However, much research have been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-agains-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} concludes that one of the more suitable methods for practical use is the one-agains-one.
-
-In this section, we will only briefly describe the theory behind SVM. For a more rigorous description, we refer to \citet{Kecman2005} or \citet{Cortes1995}.
+Support Vector Machines (SVM) is a set of supervised learning methods originally developed for binary classification \citet{Hsu2002}. In this section, we will only briefly describe the theory behind SVM. For a more rigorous description, we refer to \citet{Kecman2005} or \citet{Cortes1995}.
 
 Given training vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$, and a target vector $y \in \{-1,1\}^n$, the SVM solves the following problem \citep{Hsu10apractical}
 \begin{align}
@@ -139,8 +137,16 @@ Given training vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$, and a targe
 \end{align}
 where $\phi(\bm{x}_i)$ is a mapping of $\bm{x}_i$ to a higher dimension and $C>0$ is the penalty parameter for the error term. Solving this problem will find you a hyperplane to set the boundary decision line in the high dimensional space $\phi$.
 
-\subsection{Scaling}
+% No overfitting due to the regularization parameter C
+
+\subsection{One-against-one}
+Much research have been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-agains-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} concludes that one of the more suitable methods for practical use is the one-agains-one.
+
+One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ SMVs.
+
+\subsection{Scaling \label{scale}}
 \citet{Hsu10apractical} addresses the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominates other attributes, all features should be scaled. As a result, another advantage arises since scaling the values avoids any numerical difficulties. \citet{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].
+
 
 \section{Prediction and Recall}
 To evaluate the performance of a binary classifier, the concepts of precision and recall are useful. Precision measures the retrieved instances that are relevant while recall measures how many of the relevant instances that are retrieved. Another way of putting it is to say that precision is a measure of confidence while recall gives the sensitivity \citep{powers2011}.

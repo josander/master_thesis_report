@@ -50,7 +50,7 @@ Algorithms for analysis has been chosen to be as simple as possible yet give a s
 
 
 \section{Introduction to the cases}
-Below we present the four cases which has been studied. They were chosen to give a representative view of the questions one might want to address using a graph representation. Also, the cases have been chosen to show the width of uses that a graph representation could cover.
+Below we present the four cases which has been studied. They were chosen to give a representative view of the questions one might want to address using a graph representation. Also, the cases have been chosen to show the width of use cases that a graph representation could cover.
 
 \subsection{Gh0st RAT Controllers}
 Gh0st RAT (Remote Access Terminal) is a trojan horse used to hack and take control of computers in real-time. The malware has been used to hack some of the most sensitive computers in the world.
@@ -72,14 +72,51 @@ The aim of this case is to classify IP addresses. This has been performed by app
 
 The aim is partly to classify all the nodes given a small fraction of known nodes. Partly the aim is to identify false negatives, namely IP addresses that are falsely annotated as \textit{Non-ghost}s.
 
-The similarity was calculated for all nodes, given a small portion (1-5) of known Gh0st RAT controllers, further refered to as reference nodes. Thus, the similarities for one node, in relation to the others, were simply taken as the sum. To classify the node, a threshold was then applied. 
+The similarity was calculated for all nodes, given a small portion (1-5) of known Gh0st RAT controllers, further referred to as reference nodes. Thus, the similarities for one node, in relation to the others, were simply taken as the sum. To classify the node, a threshold was then applied. 
 
 Once the classification was performed, for different values of the threshold, the classifier based on different similarity measures was evaluated, based on the AUC of the precision recall curve and the F$_1$ score.
 
 \subsection{Classification of malicious IP addresses}
-- RF’s database
-What IP addresses without a high risk score are likely to be malicious?
-From Threat list: What IP addresses are added one week later? What similarities are there between the old and the new addresses? 
+
+[Henrik: Explain data set]
+
+Recorded Future classifies all the IP addresses into 5 different classes
+\begin{enumerate}
+    \item None
+    \item Unusual
+    \item Suspicious
+    \item Malicious
+    \item Very Malicious
+\end{enumerate}
+To classify the IP addresses, a risk score is determined based upon 40 rules. The risk scores are then translated into the above mentioned classes. Our aim has been to study whether a graph approach might be enough to reconstruct their rule based classification. Removing any of their enriched data, we have simply used data found in the original reference. Thus, as a consequence, the following bold question is asked \textit{Is there a way of reconstructing Recorded Future's rule based classifier using a graph representation?}
+
+To classify the nodes, we have implemented a feature based node classifier. Using features based on topological information, predictions about their criticality was performed.
+
+% Feature extraction
+The term feature extraction refers to methods used for constructing variables from the structure of the graph. The following features were used
+\begin{itemize}
+    \item PageRank
+    \item Degree
+    \item Total number of hits
+    \item Number of unique malwares related to the nearest neighbors
+    \item Number of unique cyber vulnerabilities related to the nearest neighbors
+    \item Number of unique attack vectors related to the nearest neighbors
+\end{itemize}
+
+% Scaling of features
+As mentioned in \secref{scale}, it is preferable to rescale the feature vectors. This was performed for each and every feature, in the range $[0,100]$, keeping the interrelation between elements in the feature vector. 
+
+% Choice of classifier
+Five different classifiers were briefly evaluated by studyig the accuracy of prediction for only two variables at a time. The different classifiers were Random Forest, Quadratic Discriminant Analysis, Logistic Regression, Nearest Neighbors and SVM using a radial basis kernel. Predicting almost equally good, the SVM was slightly better than Nerest Neighbors. Hence the SVM was chosen. The fact that it was easily extended to a multi-class classifier was also an advantage. In addition, many researchers have used SVM for feature classification (SOURCEs!). 
+
+After choosing the SVM classifier with radial basis function, the parameters $C$ and $\gamma$ had to properly be chosen. In order to do so, a grid search was performed. Various pairs of $C$ and $\gamma$ was tried and evaluated based on cross-validational accuracy. In accordance with the recommendation of \citet{Hsu10apractical}, we ues an exponentionally growing sequence of  the parameters such that $C\in\{10^{-3},10^{-2},10^{-1},...,10^{3}\}$ and $\gamma\in\{10^{-4},10^{-3},10^{-2},...,10^{1}\}$.
+
+% Evaluation
+The evaluation of the classifier was based on 
+
+% Cross-validation including split into training and test set
+After implementing the classifier, it needed to be validated. As SVM does not imply any big risk of overfitting, a k-fold cross-validation was applied. We used 10 folds and 100 repetitions, in order to get a good statistical foundation. 
+
 
 \subsection{Target and Attackers}
 Which threat actors have similar profile? 
