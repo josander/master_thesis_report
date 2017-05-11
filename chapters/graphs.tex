@@ -23,7 +23,7 @@ $$D =  \frac{2|E|}{|V|\,(|V|-1)}.$$
 For directed graphs it is
 $$D = \frac{|E|}{|V|\,(|V|-1)}.$$
 
-\subsection{The Bipartite Graph}
+\subsection{The Bipartite Graph}\label{subsec:bigraph}
 A special kind of graph is the bipartite graph where the vertices can be divided into two disjoint sets and where every edge has one end in each of the two disjoint sets. This kind of graph is common in social networks. An example is where one of the sets is a buyer class and the other set is a product class. Such graph may stem from a web shop or a movie streaming service. Since the bipartite graph is a special case of the general graph \graph the same metrics and methods can be used, but in many cases they can be simplified. The adjacency matrix of the bipartite graph can be simplified since edges within any of the two sets are by the definition forbidden. Furthermore, since the direction of the edge is given implicitly by the natural structure of the graph, for example a product does not buy a buyer but the other way around the bipartite graph can be considered undirected. This lets us define the adjacency matrix of a bipartite graph by letting the rows represent one of the two sets and the columns the other set. By this construction all information about the graph is contained in the adjacency matrix. This means that the size of the adjacency matrix is only 1/4 of the adjacency matrix of the general graph. The relationship between the bipartite adjacency matrix $\textbf{W}$ and the adjacency matrix $\adjmat$ is
 $$
 \textbf{A} = \left[

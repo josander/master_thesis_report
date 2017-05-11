@@ -1,3 +1,60 @@
 The recent years growth of large social networks such as those from large consumer sites as Amazon and social sites as Facebook and LinkedIn have yielded an increasing interest in network analysis. A network graph might only disclose a part of a large picture or might by changing with time, therefore it is useful to develop methods for link prediction.
 
 The aim of link prediction analysis is to predict future edges in a temporal graph or discover hidden links in a graph by considering the topological structure of the graph. Many recent approaches that aims at predicting edges in social networks are similarity based where a vertex pair index is used to indicate the similarity of the two nodes. The index value is used to make predictions about the likelihood of future links. There are many different attributes that can be used to indicate similarity. The similarity index can either by global, local or quasi-local. The methods that are local only consider the information about the closest neighborhood. Example of methods that are local are Common Neighbors, Jaccard index, Hub Promoted and Resource Allocation\cite{linkpredict}. The global methods use topological information about the whole graph and include Katz, and Matrix Forest Index\cite{linkpredict}. The quasi-local methods does not require as information about the whole graph but requires more than the local ones. Another type of similarity method is random walk methods including SimRank, Cos+ and Average Commute Time \cite{linkpredict}. There has also been a lot of work where Machine Learning strategies have been used for link prediction methods \cite{mlpredict1,mlpredict2,mlpredict3,mlpredict4,mlpredict5,mlpredict6,mlpredict7}.
+
+\subsection{Projection-based link prediction}
+In this chapter we will present a very recently developed algorithm by \citet{plp} for link prediction in a bipartite graphs. The algorithm utilizes a concept the authors call candidate node pair (CNP) which lets the algorithm disregard a large part of the network which reduces the running time to O(m) where m is the size of the smallest of the two adjacent sets of the bipartite graph.
+
+\paragraph{Projected Graph}
+A bipartite graph $\textbf{G} = (\textbf{U},\textbf{V},\textbf{E})$ can be projected onto a unipartite graph $\textbf{G}_u = (\textbf{U},\textbf{E}_u)$ where all vertices belong to $\textbf{U}$ and two vertices $A,B\in\textbf{G}_u$ are connected by and edge $e\in\textbf{E}_u$ if both have at least one common neighbor in $\textbf{V}$. We call this the U-projected graph. In a similar fashion $\textbf{G}_v = (\textbf{V},\textbf{E}_v)$ is the V-projection graph.
+
+\paragraph{Candidate Node Pairs}
+A candidate node pair CNP by U-projection is a pair of nodes (B,l) with $B\in\textbf{U}$ and $l\in\textbf{V}$ such that $(B,l)\notin\textbf{E}$ and $\textbf{G}_u=\textbf{G}'_u$ where $\textbf{G}'_u$ is the U-projection of $\textbf{G}'=(\textbf{U},\textbf{V},\textbf{E}\cup\{(B,l)\})$.
+
+In other words, a CNP by U-projection is a pair of vertices that we can add a new edge between in the bipartite graph $\textbf{G}$ without changing the U-projection.
+
+It can be shown\cite{plp} by the theorem of CNP symmetry that  a node pair (B,l) is CNP by V-projection if and only if a (B,l) is a CNP by U-projection. This is important since it lets us do the computations on the smallest of the two sets $\textbf{U}$ and $\textbf{V}$ only.
+
+It can also be shown\cite{plp} that a node pair (B,l) is only a CNP if and only if 
+$$
+\textbf{N}_u(B)\cap\textbf{N}(l) \neq \varnothing\text{ and } B\notin \textbf{N}(l).
+$$
+Namely there must be at least one vertex $C\in\textbf{U}$ with $(C,x)\in\textbf{E}$ and also $(C,B)\in\textbf{E}_u$, otherwise the U-projection of $\textbf{G}'\neq\textbf{G}$. By the theorem of CNP symmetry the same is true for $\textbf{N}_v(l)\cap\textbf{N}(l)$.
+
+\paragraph{Patterns Covered by a CNP}
+A pair of vertices {A,B} in $\textbf{U}$ is called a pattern in $\textbf{G}$ if there exist a vertex $l\in\textbf{V}$ such that $(A,x),(B,x)\in\textbf{E}$. With (B,l) a CNP in $\textbf{G}$ and  $C\in\textbf{N}_u(B)\cap\textbf{N}(l)$ we call $\{B,C\}$ in $\textbf{G}$ a pattern covered by the CNP (B,l).
+
+A CNP can cover more than one pattern. The more patterns a CNP cover the greater the likelihood is that the CNP becomes an edge in the future because a pattern covered by a CNP indicates that a similar edge already exist. As an example, consider the case in \figref{fig:cnp} were $\textbf{G}$ represents an attack graph with $\textbf{U}$ being the set of all attackers and $\textbf{V}$ the set of all targets. Consider the CNP ($U_2$,$V_3$) where $U_2$ attacks target $V_3$. The patterns covered by ($U_2$,$V_3$) $\{U_2,V_1\},\{U_2,V_4\}$ all already exist which indicates that the probability of $U_2$ attacking $V_2$ is high.
+
+On the other hand, if find a pair of vertices $(B,l)$ that is not a CNP then $C\in\textbf{N}_u(B)\cap\textbf{N}(l) = \varnothing$ and hence we can not find any pattern for the pair $(B,l)$ which means that the future existence of the edge $(B,l)$ is unlikely. This is key for the running time being O(m) since we only have to compute a predictive index for the pair of vertices that are CNP.
+
+\paragraph{The Connectivity of a CNP}
+By the definition of Patterns Covered by a CNP the number of patterns covered by a CNP (B,l) is $|\textbf{N}_u(B)\cap\textbf{N}(l)|$, with $|\cdot|$ being the set size. As shown by the example above, this is a good measurement for the likelihood of the link $(B,l)$ being in existence in the future, we therefore take it as the value of connectivity of the CNP $(B,l)$.
+
+\begin{figure}[!ht]
+\centering
+Placeholder for figure
+\vspace{5cm}
+\caption{\label{fig:cnp} The bipartite graph $\textbf{G}=(\textbf{U},\textbf{V},\textbf{E})$ of attackers $U_i\in\textbf{U}$ and targets $V_j\in\textbf{V}$.}
+\end{figure}
+
+\paragraph{Pattern Weights}
+When using the numbers of patterns covered by a CNP as the likelihood of future edges, some useful topological information about the bipartite graph $\textbf{G}$ is lost. This is solved by adding weights to the corresponding edges in the U-projection. The weight of $(A,B)\in\textbf{E}_u$, $w_u(A,B)$ is computed using three different topological features:
+\begin{enumerate}
+\item The numbers of common neighbors of nodes $A$ and $B$, $|\textbf{N}(A)\cap\textbf{N}(B)|$.
+\item The degree of the common neighbors of $A$ and $B$.
+\item The degree of $A$ and $B$.
+\end{enumerate}
+A pattern {A,B} in $\textbf{G}$ is represented by a edge (A,B) in $\textbf{G}_u$ which tells us that $A$ and $B$ have a common neighbor in $\textbf{G}$, however since the topological information about how many such common neighbors $A$ and $B$ have is lost in the projection, we want the weight $w_u(A,B)$ to contain that information. If a common neighbor $x\in\textbf{V}$ of $A$ and $B$ have a large degree it makes the path between $A$ and $B$ through $x$ less unique and therefore less significant and therefore the weight should be reduced. The same reasoning goes for the degree of $A$ and $B$ itself and we end up with the weight of pattern $\{A,B\}$ (and the weight of edge $(A,B)\in\textbf{E}_e$):
+$$
+    w(A,B) = \frac{2}{D(A)+D(B)} \sum_{x\in\textbf{N}(A)\cap\textbf{N}(B)} \frac{1}{D(x)}
+$$
+
+\paragraph{Connectivity of CNP}
+With the topological information preserved in the edge weights of the U-projected graph we are ready for the definition of the predictive index, called the connectivity, of a candidate node pair
+$$
+ c(B,l) = \sum_{C\in\textbf{N}_u(B) \cap \textbf{N}(l) } w(B,C)
+$$
+The connectivity is the summation of weights of corresponding patterns covered by (B,l). We know that the more patterns with large weights a CNP covers the greater likelihood of a future edge (B,l) and therefore the connectivity is used as the index for link prediction.
+
+The description of the algorithm can be found in \ref{ap:plp} and the complexity analysis done by the authors in \cite{plp}.
