@@ -11,15 +11,15 @@ Even if PLP is quite efficient the running time could be reduced even further if
 To get good statistical values we repeated each experiment 10 times by randomly picking a start date for the prediction data set. We then computed the average values together with the standard deviations.
 
 To evaluate how well PLP was able to predict future cyber attacks we primarily used two values. 
-\paragraph{Precision}
-We wanted to find out how often the predictive index was higher for attacks that existed in the test set than for predictive indexes for attacks that was not in the test set. We therefore measured the precision as
+\paragraph{AUC}\label{plp:auc}
+We wanted to find out how often the predictive index was higher for attacks that existed in the test set than for predictive indexes for attacks that was not in the test set. We therefore measured the AUC as
 $$
-  \frac{A+0.5C}{n},
+  AUC = \frac{A+0.5C}{n},
 $$
 where A is the number of times where the existing attacks had a higher index, C is the number of times the index was the same and $n$ is the number of comparisons. We see that if the existing attacks has a higher index in all comparisons the precision is 1, if all compared index is equal the precision is 0.5 and if the index was higher for all non-existing attacks the precision is 0.
 
-\paragraph{Prediction Rate}
-Since PLP only gives a predictive index for the candidate node pairs it is reasonable to evaluate how many of the attacks in the test set that was given an index in the prediction. We computed the prediction rate simply as
+\paragraph{Prediction Rate}\label{plp:predict_rate}
+Since PLP only gives a predictive index for the candidate node pairs it is reasonable to evaluate how many of the attacks in the test set that was given prediction index. We computed the prediction rate simply as
 $$
   \frac{p}{m},
 $$

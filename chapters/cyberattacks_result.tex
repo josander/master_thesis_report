@@ -1,0 +1,20 @@
+The results of predicting future cyber attacks using PLP on the data set described in section \ref{cyberattacks} is shown in \figref{fig:plp_results} for different length of the period used for prediction and for different lengths of the period used for testing.
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+        Prediction Months & Test Months & AUC            & Prediction Rate  \\ \hline
+        24                & 24          & 0.941(0.0038)  & 0.251(0.0085)    \\
+        24                & 18          & 0.943(0.0039)  & 0.252(0.0073)    \\
+        24                & 12          & 0.948(0.0039)  & 0.255(0.013)     \\
+        24                & 6           & 0.954(0.0073)  & 0.243(0.024)     \\
+        24                & 3           & 0.951(0.0060)  & 0.233(0.016)     \\
+        24                & 2           & 0.953(0.015)   & 0.220(0.011)     \\
+        24                & 1           & 0.953(0.026)   & 0.213(0.027)     \\ \hline
+    \end{tabular}
+    \caption{\label{fig:plp_results} Results for the PLP algorithm used on the cyber attack bipartite graph. AUC and prediction rate for different lengths (in months) of the time period used for prediction as well as the length used for the time period for testing. AUC was calculated according to the description in section \ref{plp:auc} and prediction rate according to \ref{plp:predict_rate}.}
+\end{table}
+
+We find that the highest prediction rate is given when the prediction time period and test period is the longest but is almost as good for prediction lengths of 6 months and test periods of 1 months. The AUC is consistent but deviates more when the length of the test period is reduced.
+
+The maximum possible prediction rate varied between 60\%-70\%.
