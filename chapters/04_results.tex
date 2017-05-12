@@ -15,7 +15,7 @@ The result for the RAT controller case is given in table \ref{aucIndex}. The tab
 
 \begin{table}[h!]
     \centering
-    \caption{AUC for different number of reference nodes. The AUC is calculated from the precision-recall curve.}
+    \caption{AUC for different number of reference nodes. The AUC is calculated from the precision-recall curve. The F$_1$ score represents the highest accuracy for in each run.}
     \begin{tabular}{|c||c|c||c|c||c|c||c|c||c|c|}
       \hline
       \multirow{2}{*}{~} 
@@ -25,11 +25,13 @@ The result for the RAT controller case is given in table \ref{aucIndex}. The tab
             & \multicolumn{2}{c||}{4}
             & \multicolumn{2}{|c|}{5} \\             \cline{2-11}
       ~     &AUC&F$_1$&AUC&F$_1$&AUC&F$_1$&AUC&F$_1$&AUC&F$_1$ \\ \hline
-    Dice    &0.8995 & 0.893 & 0.9363 &0.944 &0.9554&0.965 & 0.9627 &0.976&0.9658 & 0.982 \\
-    Jaccard &0.8978 & 0.893 & 0.9367 &0.944 &0.9552&0.965 & 0.9616 &0.976&0.9654 & 0.982 \\
-    Cosine  &0.8943 & 0.893 & 0.9337 &0.944 &0.9518&0.965 & 0.9591 &0.976&0.9621 & 0.982 \\
-    ProHub  &0.8850 & 0.893 & 0.9244 &0.944 &0.9435&0.965 & 0.9478 &0.976&0.9434 & 0.982 \\
-    DeHub   &0.8987 & 0.893 & 0.9378 &0.944 &0.9563&0.965 & 0.9631 &0.976&0.9664 & 0.982 \\ \hline
+    Dice    &0.8995 & 0.89 & 0.9363 &0.94 &0.9554&0.97 & 0.9627 &0.98&0.9658 & 0.98 \\
+    Jaccard &0.8978 & 0.89 & 0.9367 &0.94 &0.9552&0.97 & 0.9616 &0.98&0.9654 & 0.98 \\
+    Cosine  &0.8943 & 0.89 & 0.9337 &0.94 &0.9518&0.97 & 0.9591 &0.98&0.9621 & 0.98 \\
+    ProHub  &0.8850 & 0.89 & 0.9244 &0.94 &0.9435&0.97 & 0.9478 &0.98&0.9434 & 0.98 \\
+    DeHub   &0.8987 & 0.89 & 0.9378 &0.94 &0.9563&0.97 & 0.9631 &0.98&0.9664 & 0.98 \\
+    LP      & 0.7930 & 0.78 & 0.9283 & 0.96 & 0.9279 & 0.96 & 0.9426 & 0.98 & 0.9206 & 0.98 \\ 
+    Katz    & 0.1888 & 0.29 & 0.1960 & 0.28 & 0.1949 & 0.26 & 0.1759 & 0.28 & 0.1850 & 0.27 \\ \hline
     \end{tabular}
     \label{aucIndex}
 \end{table}
@@ -44,19 +46,28 @@ The second data set was much more sparse of RAT controllers. Of 10091 nodes, onl
 \begin{table}[h!]
     \centering
     \caption{AUC for different number of reference nodes. The AUC is calculated from the precision-recall curve.}
-    \begin{tabular}{|c|c|c|c|c|c|} % OBS, fixa detta. Endast baserat på 10 trials!
-    \hline
-        Index   & 1 & 2 & 3 & 4 & 5 \\ \hline
-        Dice    & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\
-        Jaccard & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758\\
-        Cosine  & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9729 \\
-        ProHub  & 0.9932 &  0.9903  & 0.9855 & 0.9623 & 0.9581 \\
-        DeHub   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\
-        Local Path   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\
-        Katz   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\ \hline
+    \begin{tabular}{|c||c|c||c|c||c|c||c|c||c|c|}
+      \hline
+      \multirow{2}{*}{~} 
+            & \multicolumn{2}{c||}{1}
+            & \multicolumn{2}{c||}{2}
+            & \multicolumn{2}{c||}{3}
+            & \multicolumn{2}{c||}{4}
+            & \multicolumn{2}{|c|}{5} \\             \cline{2-11}
+      ~     &AUC&F$_1$&AUC&F$_1$&AUC&F$_1$&AUC&F$_1$&AUC&F$_1$ \\ \hline
+    Dice    & 0.9696 & 0.98 & 0.9680 & 1.00 & 0.9531 & 1.00 & 0.9375 & 1.00 & 0.9219 & 1.00 \\
+    Jaccard & 0.9696 & 0.98 & 0.9680 & 1.00 & 0.9531 & 1.00 & 0.9375 & 1.00 & 0.9219 & 1.00 \\
+    Cosine  & 0.9696 & 0.98 & 0.9680 & 1.00 & 0.9531 & 1.00 & 0.9375 & 1.00 & 0.9219 & 1.00 \\
+    ProHub  & 0.9696 & 0.98 & 0.9680 & 1.00 & 0.9531 & 1.00 & 0.9375 & 1.00 & 0.9297 & 1.00 \\
+    DeHub   & 0.9696 & 0.98 & 0.9680 & 1.00 & 0.9531 & 1.00 & 0.9375 & 1.00 & 0.9219 & 1.00 \\ 
+    LP      & 0.7930 & 0.78 & 0.9283 & 0.96 & 0.9279 & 0.96 & 0.9426 & 0.98 & 0.9206 & 0.98 \\ 
+    Katz    & 0.1888 & 0.29 & 0.1960 & 0.28 & 0.1949 & 0.26 & 0.1759 & 0.28 & 0.1850 & 0.27 \\ \hline
     \end{tabular}
     \label{aucIndex2}
 \end{table}
+
+
+
 
 \section{Classification of malicious IP addresses}
 
