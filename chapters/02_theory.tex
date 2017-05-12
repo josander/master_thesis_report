@@ -21,7 +21,7 @@ Local similarity measures exploit the local structures of an undirected graph $G
 \end{equation}
 where $|x|$ refers to the cardinality of the set $x$ such that $|\Gamma_x |$ gives the degree of node $x$. The expression above is the basics of the following similarity measures that will be presented. The expressions will be presented both from the notation of neighbours $\Gamma$ and also the adjacency matrix $\textbf{A}$.
 
-\textbf{Cosine coefficient.} In an undirected graph, the cosine coefficient is simply the normalization of the score of same neighbors between node $i$ and $j$ \cite{fouss2016algorithms}:
+\textbf{Cosine coefficient.} In an undirected graph, the cosine coefficient is simply the normalization of the score of same neighbors between node $i$ and $j$ \cite{fouss2016algorithms}
 \begin{equation}
     \label{cosine}
     \sigma_{cosine} = \frac{|\Gamma_i \cap \Gamma_j|}{\sqrt{|\Gamma_i||\Gamma_j|}} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\sqrt{a_{i \circ }a_{\circ j}}}
@@ -30,28 +30,28 @@ $a_{i \circ }$ denotes the summation of row $i$ in the adjacency matrix while $a
 
 Generally speaking, the cosine coefficient between two node vectors $\textbf{v}_i$ and $\textbf{v}_j$ defined by $\textbf{v}_i^T\textbf{v}_i/(\|\textbf{v}_i\|\|\textbf{v}_j\|)$ is a measure of the linear relationship between the two node vectors. Thus, the the nodes are considered more similar the smaller angle between the node vectors in the node space.
 
-\textbf{Jaccard index.} The Jaccard index is computed as follows:
+\textbf{Jaccard index.} The Jaccard index is computed as follows
 \begin{equation}
     \label{jaccard}
     \sigma_{Jaccard} = \frac{|\Gamma_i \cap \Gamma_j|}{|\Gamma_i \cup \Gamma_j|} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }+a_{\circ j}-\sum_{k=1}^n a_{ik}a_{kj}}
 \end{equation}
 The denominator represents the number of neighbors belonging to at least one of the two nodes $i$ or $j$. Thus, the Jaccard index is the fraction of common neighbors in relation to the cardinality of the union of neighbors. 
 
-\textbf{Dice coefficient.} The Dice coefficient is defined accordingly:
+\textbf{Dice coefficient.} The Dice coefficient is defined accordingly
 \begin{equation}
     \label{dice}
     \sigma_{Dice} = \frac{2 |\Gamma_i \cap \Gamma_j|}{|\Gamma_i|+|\Gamma_j|}= \frac{2\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }+a_{\circ j}}
 \end{equation}
 Defined in words, the Dice coefficient is calculated as twice the number of common neighbors divided by the sum of the cardinalities of the two neighborhoods. 
 
-\textbf{Hub-promoted index.} The index promotes hubs in the network and is given by: 
+\textbf{Hub-promoted index.} The index promotes hubs in the network and is given by
 \begin{equation}
     \label{prohub}
     \sigma_{prohub} = \frac{|\Gamma_i \cap \Gamma_j|}{\min(|\Gamma_i|,|\Gamma_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\min(a_{i \circ },a_{\circ j})}
 \end{equation}
 Since the denominator is based on the lower degree only, the links adjacent to hubs are likely to be assigned high scores \citep{lu2011}. The measure is also called overlap similarity \citep{fouss2016algorithms} since a perfect score of 1 implies that the neighborhood of one of the nodes is a subset of the neighborhood of the other node.
 
-\textbf{Hub-depressed index.} The hub-depressed index depresses hubs in the network \citep{fouss2016algorithms}:
+\textbf{Hub-depressed index.} The hub-depressed index depresses hubs in the network \citep{fouss2016algorithms}
 \begin{equation}
     \label{dehub}
     \sigma_{dehub} = \frac{|\Gamma_i \cap \Gamma_j|}{\max(|\Gamma_i|,|\Gamma_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\max(a_{i \circ },a_{\circ j})}
@@ -126,37 +126,33 @@ As a result, a node $j$ receives a high PageRank score if it is related to many 
 % Difference between PageRank and HITS. Refer to langville2004; HITS is more costly
 
 \section{Support Vector Machine}
-[Not finished. This section will be completed in time.]
-
 Support Vector Machines (SVM) is a set of supervised learning methods originally developed for binary classification \citep{Hsu2002}. SVMs work well in practice and have been applied to various fields, such as face identification, text categorization and bioinformatics \citep{campbell2011}. In this section, we will only briefly describe the theory behind SVM. For a more rigorous description, we refer to \citep{Kecman2005,Cortes1995,campbell2011}.
 
-SVM, being a set of machine learning algorithms, are dependent on training data. Based on the training data, the SVM maps the input vectors to a high dimensional feature space, where a decision surface is constructed. A graphical representation of a simple hyperplane can be found in figure \ref{svm}. The function $\phi(\cdot)$ defines the mapping from input space to feature space and the hyperplane is found to maximize the distance from the labeled points on each side. One property of the SVM is that it minimized the empirical classification error as well as maximized the geometrical space between the samples and the constructed hyperplane \citep{Cortes1995}.
+Let us consider some training data, composed by the input vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$ and and $n$ denotes the number of classified samples. Every input vector is related to a target $y_i \in \{-1,1\}$. The training data can be viewed as labelled data in an input space. The learning task is then about finding a directed hyperplane that maximizes the distance from the two classes of labeled datapoints. A graphical representation of a hyperplane can be found in figure \ref{svm}. 
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.75\textwidth]{svm.png}
-    \caption{The feature space of a binary data set. The line illustrates the optimal hyperplane, dividing the two classes.}
+    \caption{The feature space of a binary data set. The black line illustrates the optimal hyperplane, dividing the two classes. Two \textit{hard} boundaries are represented as the blue and red lines. The optimal hyperplane is found when the distance between the three lines are maximized.}
     \label{svm}
 \end{figure}
 
-Let us consider the input vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$, and a target vector $y \in \{-1,1\}^n$. $n$ denotes the number of classified samples. The optimal hyperplane is then given by
+The optimal hyperplane is given by \citep{campbell2011}
 \begin{equation}
     \bm{w}\cdot\bm{x}+b=0
 \end{equation}
-where $\bm{w}$ is are the weights, perpendicular to the hyperplane, and $b$ denotes the bias or offset which displaces the hyperplane from the origin.
+where $\bm{w}$ is are the weights, perpendicular to the hyperplane, and $b$ denotes the bias or offset which displaces the hyperplane from the origin. This is found by maximizing the margins between the closest samples and the hyperplane. This can be defined as to minimizing $$\frac{1}{2}||\bm{w}||_2^2$$
 
-\begin{comment}
-Thus, the SVM will find the hyperplane which maximizes the margin by solving the following problem \citep{Hsu10apractical}
+In the example given in figure \ref{svm}, we presented a simple task where the two classes are linearly separable. In reality, it may be much more complicated and clusters could be highly intermeshed \citep{campbell2011}. Thus we now introduce the function $\phi(\cdot)$, which defines the mapping from input space to feature space with higher dimensionality. Moreover, many real life datasets contains noise and outliers, leading to poor generalisation. A way of handling this is to introduce a slack variable $\xi_i$, which imposes a relaxation of the hard boundaries. The boundary then becomes a soft margin where in addition to maximizing the margin, we want to minimize the sum of errors $\sum \xi_i$. Applying the method of Lagrange multipliers, \citet{campbell2011} concludes SVM to the following problem
 \begin{align}
     \nonumber
-    \min_{\bm{w},b,\bm{\xi}}\text{~~}&\frac{1}{2}\bm{w}^T\bm{w}+C\sum_{i=1}^{n} \xi_i \\ 
-    \text{subject to~~}&y_i(\bm{w}^T\phi(\bm{x}_i)+1)\geq 1-\xi_i\\ 
+    \min_{\bm{w},b,\bm{\xi}}\text{~~}&\frac{1}{2}\bm{w} \cdot \bm{w}+C\sum_{i=1}^{n} \xi_i \\ 
+    \text{subject to~~}&y_i(\bm{w}\cdot \phi(\bm{x}_i)+1)\geq 1-\xi_i\\ 
     &\xi_i\geq 0 \nonumber
 \end{align}
-where $\phi(\bm{x}_i)$ is a mapping of $\bm{x}_i$ to a higher dimension and $C>0$ is the penalty parameter for the error term. Solving this problem will find you a hyperplane to set the boundary decision line in the high dimensional space $\phi$.
-\end{comment}
+where $C>0$ is the penalty parameter for the error term. Solving this problem will find you a hyperplane to set the boundary decision line in the high dimensional space $\phi$.
 
-As previously mentioned, $\phi$ maps the input space to the feature space with higher dimensionality. Furthermore, the kernel is given by $K(x_i,x_j)=\phi(x_i)^T\phi(x_j)$. Three common kernels are the linear kernel the polynomial kernel and the Radial Basis Function (RBF) kernel, presented in the same order below
+A central concept in SVM is the kernel. The kernel function relates to the mapping function $\phi$ and is given by $K(x_i,x_j)=\phi(x_i)\cdot \phi(x_j)$. Three common kernels are the linear kernel, the polynomial kernel and the Radial Basis Function (RBF) kernel presented in the same order below
 \begin{align}
 K(x_i,x_j)&=x_i^Tx_j\\ \nonumber
 K(x_i,x_j)&=(\gamma x_i^T x_j + r)^d \text{~~~~~}\gamma>0\\
@@ -164,15 +160,13 @@ K(x_i,x_j)&=exp(-\gamma ||x_i-x_j||^2) \text{~~~~~}\gamma>0 \nonumber
 \end{align}
 The kernel and its parameters ($\gamma$, $r$ and $d$) are highly dependent on the task itself and has to be properly chosen. Although it may be very costly, one way of choosing parameters is to perform grid search in combination with cross-validation \citep{Hsu10apractical}.
 
-% No overfitting due to the regularization parameter C
+To conclude, the SVM maps the input vectors to a high dimensional feature space, where a decision surface is constructed. One property of the SVM is that it minimized the empirical classification error as well as maximized the geometrical space between the samples and the constructed hyperplane \citep{Cortes1995}.
 
 \subsection{One-against-one}
-Much research have been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-agains-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} concludes that one of the more suitable methods for practical use is the one-agains-one.
-
-One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs.
+Much research have been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-agains-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} concludes that one of the more suitable methods for practical use is the one-agains-one. One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs which are trained on data from only two classes.
 
 \subsection{Scaling \label{scale}}
-\citet{Hsu10apractical} addresses the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominates other attributes, all features should be scaled. As a result, another advantage arises since scaling the values can avoid numerical difficulties. \author{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].
+\citet{Hsu10apractical} addresses the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominates other attributes, all features should be scaled. As a result, another advantage arises since scaling the values can avoid numerical difficulties. \citet{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].
 
 \section{Prediction and Recall}
 To evaluate the performance of a binary classifier, the concepts of precision and recall are useful. Precision measures the retrieved instances that are relevant while recall measures how many of the relevant instances that are retrieved. Another way of putting it is to say that precision is a measure of confidence while recall gives the sensitivity \citep{powers2011}.

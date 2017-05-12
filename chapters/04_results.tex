@@ -7,16 +7,17 @@ We are dealing with connected data, where choosing a graph database have two adv
 
 Furthermore, there is the aspect of flexibility. Graphs are naturally additive \cite{robinson2013} such that new sub-graphs can be added containing more nodes and edges and new relations can be introduced as the understanding of the dataset grows. This have a positive implication for the analysts that does not have to model the domain in exhaustive detail from the start but can add information as time progress. 
 
-Thus, according to the motivation above, we expect to use Neo4j, which is a cloud based graph database supporting some basic analysis through their query language Cypher.
+Thus, according to the motivation above, we have created a grapg database in Neo4j, a cloud based graph database supporting some basic analysis through their query language Cypher.
 
 \section{Gh0st RAT Controllers}
+In this section, we present the AUC values and the maximal measured F$_1$ score for the different indices and different numbers of reference nodes that the similarity is based on. We first present the results for the first dataset and then move on the the second dataset. Since cross validation is performed, 20 trials has been carried out.
 
-The result for the RAT controller case is given in table \ref{aucIndex}. The table shows the AUC values and the F$_1$ score for the different indices (as rows) and different numbers of reference nodes, that the similarity is based on. Since cross validation is performed, 20 trials has been performed. We find small variance in the results.
+\textbf{The first dataset.} The result for the first dataset in the RAT controller case is given in table \ref{aucIndex}. We find small variance in the results for the local indices. The quasi-local Local Path index and the global Katz index perform wore than the local ones. 
 
 \begin{table}[h!]
     \centering
-    \caption{AUC for different number of reference nodes. The AUC is calculated from the precision-recall curve. The F$_1$ score represents the highest accuracy for in each run.}
-    \begin{tabular}{|c||c|c||c|c||c|c||c|c||c|c|}
+    \caption{AUC and F$_1$ score for different number of reference nodes. The AUC is calculated from the precision-recall curve. The F$_1$ score represents the average accuracy between the 20 runs.}
+    \begin{tabular}{|c||c|c||c|c||c|c||c|c||c|c||}
       \hline
       \multirow{2}{*}{~} 
             & \multicolumn{2}{c||}{1}
@@ -37,18 +38,18 @@ The result for the RAT controller case is given in table \ref{aucIndex}. The tab
 \end{table}
 
 
-With all the described indices and the mentioned parameters, all RAT controllers were identified properly, with a precision of 100\% and a recall of 100\%.
+With all the described indices and the mentioned parameters, all RAT controllers were identified properly, with a precision of 100 \% and a recall of 100 \%.
 
-Futhermore, there were three IP addresses that were constantly 
+Futhermore, there were three IP addresses that were constantly classified as RAT controllers, while they in fact were annotated as \textit{Non-ghost}s. In XX \% of the times, 
 
 % In how many of the cases did we classify the three IP addresses as RAT controllers?
     
-The second data set was much more sparse of RAT controllers. Of 10091 nodes, only 32 were identified as RAT controllers. Performing the exact same analysis on this data set as the previous one gave us the result shown in table \ref{aucIndex2}.
+\textbf{The second dataset.} The second data set was much more sparse of RAT controllers. Of 10091 nodes, only 32 were identified as RAT controllers. Performing the exact same analysis on this data set as the previous one gave us the result shown in table \ref{aucIndex2}.
 
 \begin{table}[h!]
     \centering
-    \caption{AUC for different number of reference nodes. The AUC is calculated from the precision-recall curve.}
-    \begin{tabular}{|c||c|c||c|c||c|c||c|c||c|c|}
+    \caption{AUC and F$_1$ score for different number of reference nodes. The AUC is calculated from the precision-recall curve. The F$_1$ score represents the average accuracy between the 20 runs.}
+    \begin{tabular}{|c||c|c||c|c||c|c||c|c||c|c||}
       \hline
       \multirow{2}{*}{~} 
             & \multicolumn{2}{c||}{1}
@@ -70,22 +71,20 @@ The second data set was much more sparse of RAT controllers. Of 10091 nodes, onl
 
 
 
-
+\FloatBarrier
 \section{Classification of malicious IP addresses}
 
-The best accuracy was found for the parameters $C=100$ and $\gamma=1$. These values were then used throughout the classification. 
-
-The results are presented in table \ref{IpRes}. The table presents the average over 100 trials and the standard deviation with a confidential level of 95 \%. The SVM classifier, based on all 6 input features, performed prediction with an accuracy of 50 \%. Futhermore, ... of the predicted classes were higher than Recorded Future's while ... \% were lower. 
+When including all the six features, the best accuracy was found for the parameters $C=100$ and $\gamma=1$. The results for the SVM, using six features, are presented in table \ref{IpRes}. The table presents the average over 100 trials and the standard deviation with a confidential level of 95 \%. The SVM classifier, based on all 6 input features, performed prediction with an accuracy of 50 \%. Futhermore, ... of the predicted classes were higher than Recorded Future's while ... \% were lower. 
 
 \begin{table}[h!]
     \centering
     \caption{Results from the SVM classifier using six features. The table shows the fraction of correct predictions (accuracy), the fraction of higher predictions and the fraction of lower predictions in relation to Recorded Future's actual classification.}
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{|c|c|}
     \hline
-        ~   & Mean & Std  \\ \hline
-        Correct predictions & 0.9952 &  0.9903 \\
-        Higher predictions  & 0.9952 &  0.9903\\
-        Lower predictions   & 0.9952 &  0.9903\\ \hline
+        \multicolumn{2}{|c|}{SVM with 6 features}\\ \hline
+        Correct predictions & 0.200227 $\pm$0.002237 \\
+        Higher predictions  & 0.699423 $\pm$0.002294\\
+        Lower predictions   & 0.100350 $\pm$0.001660\\ \hline
     \end{tabular}
     \label{IpRes}
 \end{table}
@@ -95,12 +94,12 @@ The results from including only the two topological features are presented in ta
 \begin{table}[h!]
     \centering
     \caption{Results from the SVM classifier using two features. The table shows the fraction of correct predictions (accuracy), the fraction of higher predictions and the fraction of lower predictions in relation to Recorded Future's actual classification.}
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{|c|c|}
     \hline
-        ~   & Mean & Std  \\ \hline
-        Correct predictions & 0.9952 &  0.9903 \\
-        Higher predictions  & 0.9952 &  0.9903\\
-        Lower predictions   & 0.9952 &  0.9903\\ \hline
+        \multicolumn{2}{|c|}{SVM with 2 features}\\ \hline
+        Correct predictions & 0.200227 $\pm$0.002237 \\
+        Higher predictions  & 0.699423 $\pm$0.002294\\
+        Lower predictions   & 0.100350 $\pm$0.001660\\ \hline
     \end{tabular}
     \label{IpRes2Feat}
 \end{table}
@@ -110,30 +109,31 @@ The results from including only four features are presented in table \ref{IpRes4
 \begin{table}[h!]
     \centering
     \caption{Results from the SVM classifier using four features. The table shows the fraction of correct predictions (accuracy), the fraction of higher predictions and the fraction of lower predictions in relation to Recorded Future's actual classification.}
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{|c|c|}
     \hline
-        ~   & Mean & Std  \\ \hline
-        Correct predictions & 0.9952 &  0.9903 \\
-        Higher predictions  & 0.9952 &  0.9903\\
-        Lower predictions   & 0.9952 &  0.9903\\ \hline
+        \multicolumn{2}{|c|}{SVM with 4 features}\\ \hline
+        Correct predictions & 0.200227 $\pm$0.002237 \\
+        Higher predictions  & 0.699423 $\pm$0.002294\\
+        Lower predictions   & 0.100350 $\pm$0.001660\\ \hline
     \end{tabular}
     \label{IpRes4Feat}
 \end{table}
 
-For a pseudorandom classifier, the results can be found in table \ref{randClass}.
+For a pseudorandom classifier, the results can be found in table \ref{randClass}. We have found an accuracy of 20 \%, which was to be expected. However, 70 \% of the predictions gave a higher risk classification and 10 \% gave a lower risk classification.
 
 \begin{table}[h!]
     \centering
-    \caption{Results from the a pseudorandom classifier. The table shows the fraction of correct predictions (accuracy), the fraction of higher predictions and the fraction of lower predictions in relation to Recorded Future's actual classification.}
-    \begin{tabular}{|c|c|c|}
+    \caption{Results from the a random classifier, based on a uniform distribution. The table shows the fraction of correct predictions (accuracy), the fraction of higher predictions and the fraction of lower predictions in relation to Recorded Future's actual classification.}
+    \begin{tabular}{|c|c|}
     \hline
-        ~   & Mean & Std  \\ \hline
-        Correct predictions & 0.9952 &  0.9903 \\
-        Higher predictions  & 0.9952 &  0.9903\\
-        Lower predictions   & 0.9952 &  0.9903\\ \hline
+        \multicolumn{2}{|c|}{Random classifier}\\ \hline
+        Correct predictions & 0.200227 $\pm$0.002237 \\
+        Higher predictions  & 0.699423 $\pm$0.002294\\
+        Lower predictions   & 0.100350 $\pm$0.001660\\ \hline
     \end{tabular}
     \label{randClass}
 \end{table}
 
+\FloatBarrier
 \section{Prediction of Future Cyber Attacks}
 \input{chapters/cyberattacks_result}
