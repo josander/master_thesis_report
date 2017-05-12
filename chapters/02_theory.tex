@@ -126,6 +126,8 @@ As a result, a node $j$ receives a high PageRank score if it is related to many 
 % Difference between PageRank and HITS. Refer to langville2004; HITS is more costly
 
 \section{Support Vector Machine}
+[Not finished. This section will be completed in time.]
+
 Support Vector Machines (SVM) is a set of supervised learning methods originally developed for binary classification \citep{Hsu2002}. SVMs work well in practice and have been applied to various fields, such as face identification, text categorization and bioinformatics \citep{campbell2011}. In this section, we will only briefly describe the theory behind SVM. For a more rigorous description, we refer to \citep{Kecman2005,Cortes1995,campbell2011}.
 
 SVM, being a set of machine learning algorithms, are dependent on training data. Based on the training data, the SVM maps the input vectors to a high dimensional feature space, where a decision surface is constructed. A graphical representation of a simple hyperplane can be found in figure \ref{svm}. The function $\phi(\cdot)$ defines the mapping from input space to feature space and the hyperplane is found to maximize the distance from the labeled points on each side. One property of the SVM is that it minimized the empirical classification error as well as maximized the geometrical space between the samples and the constructed hyperplane \citep{Cortes1995}.
@@ -167,7 +169,7 @@ The kernel and its parameters ($\gamma$, $r$ and $d$) are highly dependent on th
 \subsection{One-against-one}
 Much research have been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-agains-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} concludes that one of the more suitable methods for practical use is the one-agains-one.
 
-One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SMVs.
+One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs.
 
 \subsection{Scaling \label{scale}}
 \citet{Hsu10apractical} addresses the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominates other attributes, all features should be scaled. As a result, another advantage arises since scaling the values can avoid numerical difficulties. \author{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].

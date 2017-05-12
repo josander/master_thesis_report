@@ -68,9 +68,11 @@ We have two similar data sets. The first set is based on 21831 NetFlow records c
 
 The second data set consists of 103202 NetFlow records collected during December 2016 to Mars 2017. This data set includes 10091 IP addresses but is far more sparse with \textit{Ghost}s, containing only 32 identified RAT controllers. 
 
-The aim of this case is to classify IP addresses. This has been performed by applying similarity measures to the network. The applied similarity measures are the Dice coefficient, the Jaccard index, the cosine coefficient, the hub-promoting index and the hub-depressing index. This are all measures of structural equivalence and reflect the similarity based on the local structure. Noticeable is the fact that the similarity measures were calculated on an undirected graph due to the nature of the measures. 
+The aim of this case is to classify IP addresses. This has been performed by applying similarity measures to the network. The applied similarity measures are the Dice coefficient, the Jaccard index, the cosine coefficient, the hub-promoting index and the hub-depressing index. This are all measures of structural equivalence and reflect the similarity based on the local structure. It should be noted that the similarity measures were calculated on an undirected graph due to the nature of the measures. 
 
-The aim is partly to classify all the nodes given a small fraction of known nodes. Partly the aim is to identify false negatives, namely IP addresses that are falsely annotated as \textit{Non-ghost}s.
+Furthermore, the Local Path index and the Katz index were tested. Instead of just studying the information of the nearest neighbors, they also account for more information. However, the two involves the parameter $\alpha$ that should be properly chosen. To chose it, a fraction of the dataset (20 \%) was used to chose the best value of the parameter. 
+
+The aim of this case study was partly to classify all the nodes given a small fraction of known nodes. Partly the aim is to identify false negatives, namely IP addresses that are falsely annotated as \textit{Non-ghost}s. Moreover, this study involves a comparison between the sever different measures of structural equivalence. 
 
 The similarity was calculated for all nodes, given a small portion (1-5) of known Gh0st RAT controllers, further referred to as reference nodes. Thus, the similarities for one node, in relation to the others, were simply taken as the sum. To classify the node, a threshold was then applied. 
 
@@ -80,7 +82,8 @@ Once the classification was performed, for different values of the threshold, th
 
 [Henrik: Explain data set]
 
-Recorded Future classifies all the IP addresses into 5 different classes
+Recorded Future classifies the IP addresses based on roughly 40 rules.
+There are 5 different classes
 \begin{enumerate}
     \item None
     \item Unusual
@@ -88,35 +91,46 @@ Recorded Future classifies all the IP addresses into 5 different classes
     \item Malicious
     \item Very Malicious
 \end{enumerate}
-To classify the IP addresses, a risk score is determined based upon 40 rules. The risk scores are then translated into the above mentioned classes. Our aim has been to study whether a graph approach might be enough to reconstruct their rule based classification. Removing any of their enriched data, we have simply used data found in the original reference. Thus, as a consequence, the following bold question is asked \textit{Is there a way of reconstructing Recorded Future's rule based classifier using a graph representation?}
+
+The histogram of the classifications of the dataset is shown in \figref{hist}. We find the data to have an exponential distribution function, being extremely skewed to the left. Class 1 includes 60 \% of the data, class 2 33 \%, class 3 4 \%, class 4 2.5 \% and class 5 0.5 \%. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{histData.eps}
+    \caption{Histogram of the data classifications.}
+    \label{hist}
+\end{figure}
+
+This case treats the study whether a graph approach with far less information might be enough to reconstruct their rule based classification. Removing any of their enriched data, we have simply used data found in the original reference. Thus, as a consequence, the following bold question is asked \textit{Is there a way of reconstructing Recorded Future's rule based classifier using a graph representation?} 
 
 To classify the nodes, we have implemented a feature based node classifier. Using features based on topological information, predictions about their criticality was performed.
 
 % Feature extraction
-The term feature extraction refers to methods used for constructing variables from the structure of the graph. The following features were used
+The term feature extraction refers to methods used for constructing node variables from the structure of the graph. These features were then used a input parameters for the classifier. Thus, the performance is highly dependent on the choice of features. In our case, the following features were used
 \begin{itemize}
-    \item PageRank
-    \item Degree
-    \item Total number of hits
-    \item Number of unique malwares related to the nearest neighbors
-    \item Number of unique cyber vulnerabilities related to the nearest neighbors
-    \item Number of unique attack vectors related to the nearest neighbors
+    \item PageRank based on the topology of IP addresses.
+    \item Degree based on an undirected graph including only the IP addresses.
+    \item Total number of hits of one IP address in Recorded Future's data base.
+    \item Number of unique malwares related to the nearest neighbors.
+    \item Number of unique cyber vulnerabilities related to the nearest neighbors.
+    \item Number of unique attack vectors related to the nearest neighbors.
 \end{itemize}
+
+The features can be divided into two categories. The first including the PageRank and degree, only including the topology of the IP addresses. The second category including more information from Recorded Future's database, such as number of hits, co-occurrences with malwares and so on. To study the impact of the different categories of features, classifications were performed including all of the features, only the topology features and finally the features including information regarding the number of hits, malwares, cyber vulnerabilities and attack vectors.
 
 % Scaling of features
 As mentioned in \secref{scale}, it is preferable to rescale the feature vectors. This was performed for each and every feature, in the range $[0,100]$, keeping the interrelation between elements in the feature vector. 
 
 % Choice of classifier
-Five different classifiers were briefly evaluated by studyig the accuracy of prediction for only two variables at a time. The different classifiers were Random Forest, Quadratic Discriminant Analysis, Logistic Regression, Nearest Neighbors and SVM using a radial basis kernel. Predicting almost equally good, the SVM was slightly better than Nerest Neighbors. Hence the SVM was chosen. The fact that it was easily extended to a multi-class classifier was also an advantage. In addition, many researchers have used SVM for feature classification (SOURCEs!). 
+Five different classifiers were briefly evaluated by studying the accuracy of prediction for only two variables at a time. Only two variables were chosen in order The different classifiers were Random Forest, Quadratic Discriminant Analysis, Logistic Regression, Nearest Neighbors and SVM using a radial basis kernel. Predicting almost equally good, the SVM was slightly better than Nearest Neighbors. Hence the SVM was chosen. The fact that it was easily extended to a multi-class classifier was also an advantage. In addition, many researchers have used SVM for feature classification and found good results \citep{campbell2011}. 
 
-After choosing the SVM classifier with radial basis function, the parameters $C$ and $\gamma$ had to properly be chosen. In order to do so, a grid search was performed. Various pairs of $C$ and $\gamma$ was tried and evaluated based on cross-validational accuracy. In accordance with the recommendation of \citet{Hsu10apractical}, we ues an exponentionally growing sequence of  the parameters such that $C\in\{10^{-3},10^{-2},10^{-1},...,10^{3}\}$ and $\gamma\in\{10^{-4},10^{-3},10^{-2},...,10^{1}\}$.
-
-% Evaluation
-The evaluation of the classifier was based on 
+After choosing the SVM classifier with radial basis function, the parameters $C$ and $\gamma$ had to properly be chosen. In order to do so, a grid search was performed. Various pairs of $C$ and $\gamma$ was tried and evaluated based on cross-validational accuracy. In accordance with the recommendation of \citet{Hsu10apractical}, an exponentionally growing sequence of parameters were studied such that $C\in\{10^{-3},10^{-2},10^{-1},...,10^{3}\}$ and $\gamma\in\{10^{-4},10^{-3},10^{-2},...,10^{1}\}$. The evaluation of the classifier was based on the accuracy, referring the the fraction of correct predictions. The set of parameters were chosen by maximizing the accuracy while making sure the predictions included all five classes.
+Since three different sub-cases were studies, each with different features, the grid search was performed for each case. 
 
 % Cross-validation including split into training and test set
-After implementing the classifier, it needed to be validated. As SVM does not imply any big risk of overfitting, a k-fold cross-validation was applied. We used 10 folds and 100 repetitions, in order to get a good statistical foundation. 
+After implementing the classifier, it needed to be validated. As SVM does not imply any big risk of overfitting, because of the regularization parameter $C$, a k-fold cross-validation was applied. We used 10 folds and 50 repetitions, in order to get a good statistical foundation.
 
+Because of the skewness of the dataset, it is hard to determine whether the classifier performs better than random. Thus a pseudorandom classifier, based on a uniform distribution, was implemented in order to compare the two. 
 
 \subsection{Cyber Attacks}
 \input{chapters/cyberattacks_method}

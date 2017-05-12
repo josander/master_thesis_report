@@ -10,33 +10,40 @@ Furthermore, there is the aspect of flexibility. Graphs are naturally additive \
 Thus, according to the motivation above, we expect to use Neo4j, which is a cloud based graph database supporting some basic analysis through their query language Cypher.
 
 \section{Gh0st RAT Controllers}
+
 The result for the RAT controller case is given in table \ref{aucIndex}. The table shows the AUC values for the different local indices (as rows) and different numbers of reference nodes, that the similarity is based on. Since cross validation is performed, 20 trials has been performed. We find small variance in the results.
 
 \begin{table}[h!]
     \centering
-    \begin{tabular}{|c|c|c|c|c|c|} % OBS, fixa detta. Endast baserat på 10 trials!
-        \hline
-        Index   & 1 & 2 & 3 & 4 & 5 \\ \hline
-        Dice    & 0.7840 & 0.9388 & 0.9787 & 0.9882 & 0.9878 \\
-        Jaccard & 0.7840 & 0.9388 & 0.9787 & 0.9948 & 0.9950 \\
-        Cosine  & 0.7840 & 0.9388 & 0.9787 & 0.9882 & 0.9854 \\
-        ProHub  & 0.7840 & 0.9388 & 0.9787 & 0.9900 & 0.9962 \\
-        DeHub   & 0.7840 & 0.9388 & 0.9787 & 0.9948 & 0.9950 \\
-        Local Path   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\
-        Katz   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\ \hline
-    \end{tabular}
     \caption{AUC for different number of reference nodes. The AUC is calculated from the precision-recall curve.}
+    \begin{tabular}{|c||c|c||c|c||c|c||c|c||c|c|}
+      \hline
+      \multirow{2}{*}{~} 
+            & \multicolumn{2}{c||}{1}
+            & \multicolumn{2}{c||}{2}
+            & \multicolumn{2}{c||}{3}
+            & \multicolumn{2}{c||}{4}
+            & \multicolumn{2}{|c|}{5} \\             \cline{2-11}
+      ~     &AUC&F$_1$&AUC&F$_1$&AUC&F$_1$&AUC&F$_1$&AUC&F$_1$ \\ \hline
+    Dice    &0.8995 & 0.893 & 0.9363 &0.944 &0.9554&0.965 & 0.9627 &0.976&0.9658 & 0.982 \\
+    Jaccard &0.8978 & 0.893 & 0.9367 &0.944 &0.9552&0.965 & 0.9616 &0.976&0.9654 & 0.982 \\
+    Cosine  &0.8943 & 0.893 & 0.9337 &0.944 &0.9518&0.965 & 0.9591 &0.976&0.9621 & 0.982 \\
+    ProHub  &0.8850 & 0.893 & 0.9244 &0.944 &0.9435&0.965 & 0.9478 &0.976&0.9434 & 0.982 \\
+    DeHub   &0.8987 & 0.893 & 0.9378 &0.944 &0.9563&0.965 & 0.9631 &0.976&0.9664 & 0.982 \\ \hline
+    \end{tabular}
     \label{aucIndex}
 \end{table}
 
 
-
 We find that the best result is found for a parameter setting of ... With all the described indices and the mentioned parameters, all RAT controllers were identified properly, with a precision of 100\% and a recall of 100\%.
+
+% In how many of the cases did we classify the three IP addresses as RAT controllers?
     
-The second data set was much more sparse of RAT controllers. Of 10.091 nodes, only 32 were identified as RAT controllers. Performing the exact same analysis on this data set as the previous one gave us the result shown in table \ref{aucIndex2}.
+The second data set was much more sparse of RAT controllers. Of 10091 nodes, only 32 were identified as RAT controllers. Performing the exact same analysis on this data set as the previous one gave us the result shown in table \ref{aucIndex2}.
 
 \begin{table}[h!]
     \centering
+    \caption{AUC for different number of reference nodes. The AUC is calculated from the precision-recall curve.}
     \begin{tabular}{|c|c|c|c|c|c|} % OBS, fixa detta. Endast baserat på 10 trials!
     \hline
         Index   & 1 & 2 & 3 & 4 & 5 \\ \hline
@@ -48,20 +55,73 @@ The second data set was much more sparse of RAT controllers. Of 10.091 nodes, on
         Local Path   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\
         Katz   & 0.9952 &  0.9903  & 0.9865 & 0.9816 & 0.9758 \\ \hline
     \end{tabular}
-    \caption{AUC for different number of reference nodes. The AUC is calculated from the precision-recall curve.}
     \label{aucIndex2}
 \end{table}
 
 \section{Classification of malicious IP addresses}
 
+The best accuracy was found for the parameters $C=100$ and $\gamma=1$. These values were then used throughout the classification. 
+
+The results are presented in table \ref{IpRes}. The table presents the average over 100 trials and the standard deviation with a confidential level of 95 \%. The SVM classifier, based on all 6 input features, performed prediction with an accuracy of 50 \%. Futhermore, ... of the predicted classes were higher than Recorded Future's while ... \% were lower. 
+
+\begin{table}[h!]
+    \centering
+    \caption{Results from the SVM classifier using six features. The table shows the fraction of correct predictions (accuracy), the fraction of higher predictions and the fraction of lower predictions in relation to Recorded Future's actual classification.}
+    \begin{tabular}{|c|c|c|}
+    \hline
+        ~   & Mean & Std  \\ \hline
+        Correct predictions & 0.9952 &  0.9903 \\
+        Higher predictions  & 0.9952 &  0.9903\\
+        Lower predictions   & 0.9952 &  0.9903\\ \hline
+    \end{tabular}
+    \label{IpRes}
+\end{table}
+
+The results from including only the two topological features are presented in table \ref{IpRes2Feat}. The features were PageRank and degree of the node. The table presents the average over 100 trials and the standard deviation with a confidential level of 95 \%. The SVM classifier performed prediction with an accuracy of 50 \%. Futhermore, ... of the predicted classes were higher than Recorded Future's while ... \% were lower. 
+
+\begin{table}[h!]
+    \centering
+    \caption{Results from the SVM classifier using two features. The table shows the fraction of correct predictions (accuracy), the fraction of higher predictions and the fraction of lower predictions in relation to Recorded Future's actual classification.}
+    \begin{tabular}{|c|c|c|}
+    \hline
+        ~   & Mean & Std  \\ \hline
+        Correct predictions & 0.9952 &  0.9903 \\
+        Higher predictions  & 0.9952 &  0.9903\\
+        Lower predictions   & 0.9952 &  0.9903\\ \hline
+    \end{tabular}
+    \label{IpRes2Feat}
+\end{table}
+
+The results from including only four features are presented in table \ref{IpRes4Feat}. The features included information about the number of hits and the neighbours co-occurrence with malwares, cyber vulnerabilities and attack vectors. The table presents the average over 100 trials and the standard deviation with a confidential level of 95 \%. The SVM classifier performed prediction with an accuracy of 50 \%. Futhermore, ... of the predicted classes were higher than Recorded Future's while ... \% were lower. 
+
+\begin{table}[h!]
+    \centering
+    \caption{Results from the SVM classifier using four features. The table shows the fraction of correct predictions (accuracy), the fraction of higher predictions and the fraction of lower predictions in relation to Recorded Future's actual classification.}
+    \begin{tabular}{|c|c|c|}
+    \hline
+        ~   & Mean & Std  \\ \hline
+        Correct predictions & 0.9952 &  0.9903 \\
+        Higher predictions  & 0.9952 &  0.9903\\
+        Lower predictions   & 0.9952 &  0.9903\\ \hline
+    \end{tabular}
+    \label{IpRes4Feat}
+\end{table}
+
+For a pseudorandom classifier, the results can be found in table \ref{randClass}.
+
+\begin{table}[h!]
+    \centering
+    \caption{Results from the a pseudorandom classifier. The table shows the fraction of correct predictions (accuracy), the fraction of higher predictions and the fraction of lower predictions in relation to Recorded Future's actual classification.}
+    \begin{tabular}{|c|c|c|}
+    \hline
+        ~   & Mean & Std  \\ \hline
+        Correct predictions & 0.9952 &  0.9903 \\
+        Higher predictions  & 0.9952 &  0.9903\\
+        Lower predictions   & 0.9952 &  0.9903\\ \hline
+    \end{tabular}
+    \label{randClass}
+\end{table}
+
 \section{Target and Attackers}
 
 
-
-\begin{comment}
-\section{Multidimensional graph}
-We expect a data representation where we have a multipartitioned graph, meaning there is a number of different nodes representing different kinds of entities with multiple edges, representing different relations, in between the nodes. Hence, we will then obtain a multidimensional network. 
-
-\section{Analysis}
-As far as the analysis goes, we expect to perform clustering to identify communities and link analysis to find different paths between two nodes. The latter can easily be queried in Neo4j and is expected to contribute a great deal solving the different questions. We also expect to use of some statistical tools such as average node degree, degree distribution and network diameter.
-\end{comment}
