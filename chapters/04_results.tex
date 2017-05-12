@@ -11,7 +11,7 @@ Thus, according to the motivation above, we expect to use Neo4j, which is a clou
 
 \section{Gh0st RAT Controllers}
 
-The result for the RAT controller case is given in table \ref{aucIndex}. The table shows the AUC values for the different local indices (as rows) and different numbers of reference nodes, that the similarity is based on. Since cross validation is performed, 20 trials has been performed. We find small variance in the results.
+The result for the RAT controller case is given in table \ref{aucIndex}. The table shows the AUC values and the F$_1$ score for the different indices (as rows) and different numbers of reference nodes, that the similarity is based on. Since cross validation is performed, 20 trials has been performed. We find small variance in the results.
 
 \begin{table}[h!]
     \centering
@@ -37,7 +37,9 @@ The result for the RAT controller case is given in table \ref{aucIndex}. The tab
 \end{table}
 
 
-We find that the best result is found for a parameter setting of ... With all the described indices and the mentioned parameters, all RAT controllers were identified properly, with a precision of 100\% and a recall of 100\%.
+With all the described indices and the mentioned parameters, all RAT controllers were identified properly, with a precision of 100\% and a recall of 100\%.
+
+Futhermore, there were three IP addresses that were constantly 
 
 % In how many of the cases did we classify the three IP addresses as RAT controllers?
     
@@ -138,11 +140,3 @@ For a pseudorandom classifier, the results can be found in table \ref{randClass}
 
 \section{Prediction of Future Cyber Attacks}
 \input{chapters/cyberattacks_result}
-
-\section{Analysis}
-As far as the analysis goes, we expect to perform clustering to identify communities and link analysis to find different paths between two nodes. The latter can easily be queried in Neo4j and is expected to contribute a great deal solving the different questions. We also expect to use of some statistical tools such as average node degree, degree distribution and network diameter.
-\end{comment}
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
