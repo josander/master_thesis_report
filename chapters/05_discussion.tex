@@ -3,23 +3,31 @@ In this chapter, a discussion is held about the graph representation as well as 
 
 \section{Gh0st RAT Controllers}
 % In discussion - what similarity measure was the most appropriate to use in our case?
-Based on the results, we find that the simple local indices perform very well on the two data sets. The F$_1$ score seem to increase with the number of reference nodes which seems reasonable. 
+Based on the results, the simple local indices perform very well on both of the two data sets. The F$_1$ score seem to increase with the number of reference nodes which seems reasonable since the the change of a high recall is correlated with having reference nodes well distributed in the network. The change of getting a good distribution gets higher the more reference nodes. 
 
-It may be surprising that the classifier based on local similarity generates such good results. Two reasons are the density as well as the connectivity of the graph. The local similarity measures are based solely on the nearest neighbors implying that all of the RAT controllers must share one common neighbor with a known RAT controller from the start, i.e. a reference node. However, in the case where one (unclassified) RAT controller was positioned in the periphery of the network, away from the reference nodes, that would not have been properly classified. Hence, this particular method is highly dependent of the connectivity as well as a good distribution of the reference nodes in the graph. 
+It may be surprising that the classifier based on local similarity generates such good results. However, it has to do with the graph itself, and how it is modelled. One reason for the good results is the the density of the graph. The local similarity measures are based solely on the nearest neighbors implying that all of the RAT controllers must share one common neighbor with one of the known RAT controller from the start in order to be found. If one (unclassified) RAT controller is positioned in the periphery of the network, far away from the reference nodes, that will never be properly classified. Hence, using local similarity measures for classification is highly dependent of the density of the graph and/or a good distribution of the reference nodes in the graph. 
 
-% Local performed better than quasi-local and global!
+The high density of the graph can also explain the fact why the Local Path index and the Katz index does not perform as well as the local index. Including more neighbors to account for the similarity makes the method sensitive to finding the best threshold. If the threshold is badly chosen, it will either result in bad precision or bad recall resulting in a poor accuracy.
 
-In XX \% of all the cases, three IP addresses annotated as \textit{Non-ghost}s were classified as \textit{Ghost}. There is reason to believe those IP addresses are falsely annotated and are in fact RAT controllers. (How can we prove it or make this claim stronger?)
+% Falsely annotated IP addresses
+In the first dataset, three IP addresses annotated as \textit{Non-ghost}s were classified as \textit{Ghost} in the majority of the cases. There is reason to believe those IP addresses are falsely annotated and are in fact RAT controllers. [How can we prove it or make this claim stronger?]
+
+To conclude, we find that the local indices perform very well in this particular case of classifying IP addresses based on a graph modelled from NetFlow data. They are robust in the sense that they are not sensitive to the choice of threshold, which can be set to zero and still output good performance. The five different local indices that were tried does not vary much in performance and thus any of them can be recommended to be used. This method could be used both for binary classification of unknown IP addresses where only a few are known to belong to a certain class. Furthermore, it can be used to identify falsely annotated IP addresses. 
 
 \section{Malicious IP addresses}
+All of the three SVM models perform far better classification than a random classifier. The model with 4 features performs better than the one using only 2 nodes, however, the best one is the combination, when all 6 features are used. 
 
-% Skewed dataset
-As previously mentioned, the dataset was extremely skewed. Thus a random classifier was implemented. 
+The SVM classifier seems to have a bias towards the lower risk classes, for all of the three SVMs. This may very well have to do with the dataset being extremely skewed. 
 
 % A lot of noise in the dataset
-One reason for the low result may very well have to do with the noise in the dataset. It is hard to quantify the amount of noise present in the data, however it is only reasonable to believe it has a major impact on the results.
+One reason for the low result may very well have to do with the noise in the dataset. In this context, noise is referred to as IP addresses that by Recorded Future's rule based system would have been classified with a high risk class however, have an exception. One such example is Google's DNS server, which have been set to a risk class of 1 since it is not regarded to be a malicious source. 
 
-The idea was to include two more features, namely the betweenness centrality and the closeness centrality. The calculations were started in using Cypher in Neo4j. However, the large amount of data resulted in a very long runtime, and thus the calculations were ended after about 24 hours. Thus, the betweenness and closeness centrality might have contributed to better predictions but were excluded from the model since the calculations took too much time in relation to the time resources at hand. 
+It is hard to quantify the amount of noise present in the data, however it is only reasonable to believe it has an impact on the results. We can thus derive some of the poor classifications to noise. 
+
+Although an accuracy of 75 \% can be argued to be rather good, it is not by far good enough to replace the current system of Recorded Future. However, with some modifications, including more features, we believe the performance can be increased. Even though it may be hard to reach an accuracy > 95 \%, this kind of methods could serve as an learning tool, which could lead to many important insights for Recorded Future. Not only could it tell them a lot about their classification system today, but also drive insights towards what kind of features or information that are the most important when classifying IP addresses.
+
+% How can the classifier be improved?
+It should be mentioned that the aim was to include two more features, namely the betweenness centrality and the closeness centrality. The calculations of the centrality measures were started in Cypher in Neo4j, however, the large amount of data resulted in a very long runtime, and thus the conclusion that the network was too big for these measures was drawn. The betweenness and closeness centrality might have contributed to better predictions but were excluded from our model.
 
 \section{Prediction of Future Cyber Attacks}
 \input{chapters/cyberattacks_discussion.tex}

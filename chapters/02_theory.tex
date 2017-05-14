@@ -141,29 +141,29 @@ The optimal hyperplane is given by \citep{campbell2011}
 \begin{equation}
     \bm{w}\cdot\bm{x}+b=0
 \end{equation}
-where $\bm{w}$ is are the weights, perpendicular to the hyperplane, and $b$ denotes the bias or offset which displaces the hyperplane from the origin. This is found by maximizing the margins between the closest samples and the hyperplane. This can be defined as to minimizing $$\frac{1}{2}||\bm{w}||_2^2$$
+where $\bm{w}$ is are the weights, perpendicular to the hyperplane, and $b$ denotes the bias or offset which displaces the hyperplane from the origin. This is found by maximizing the margins between the closest samples and the hyperplane, which according to \citet{campbell2011} can be defined as to minimizing $$\frac{1}{2}||\bm{w}||_2^2=\frac{1}{2}\bm{w}\cdot\bm{w}$$
 
 In the example given in figure \ref{svm}, we presented a simple task where the two classes are linearly separable. In reality, it may be much more complicated and clusters could be highly intermeshed \citep{campbell2011}. Thus we now introduce the function $\phi(\cdot)$, which defines the mapping from input space to feature space with higher dimensionality. Moreover, many real life datasets contains noise and outliers, leading to poor generalisation. A way of handling this is to introduce a slack variable $\xi_i$, which imposes a relaxation of the hard boundaries. The boundary then becomes a soft margin where in addition to maximizing the margin, we want to minimize the sum of errors $\sum \xi_i$. Applying the method of Lagrange multipliers, \citet{campbell2011} concludes SVM to the following problem
 \begin{align}
     \nonumber
     \min_{\bm{w},b,\bm{\xi}}\text{~~}&\frac{1}{2}\bm{w} \cdot \bm{w}+C\sum_{i=1}^{n} \xi_i \\ 
-    \text{subject to~~}&y_i(\bm{w}\cdot \phi(\bm{x}_i)+1)\geq 1-\xi_i\\ 
+    \text{subject to~~}&y_i(\bm{w}\cdot \phi(\bm{x}_i)+b)\geq 1-\xi_i\\ 
     &\xi_i\geq 0 \nonumber
 \end{align}
-where $C>0$ is the penalty parameter for the error term. Solving this problem will find you a hyperplane to set the boundary decision line in the high dimensional space $\phi$.
+where $C>0$ is the penalty parameter for the error term. Solving this problem will find you a hyperplane to set the decision boundary in the high dimensional space $\phi$.
 
 A central concept in SVM is the kernel. The kernel function relates to the mapping function $\phi$ and is given by $K(x_i,x_j)=\phi(x_i)\cdot \phi(x_j)$. Three common kernels are the linear kernel, the polynomial kernel and the Radial Basis Function (RBF) kernel presented in the same order below
 \begin{align}
-K(x_i,x_j)&=x_i^Tx_j\\ \nonumber
-K(x_i,x_j)&=(\gamma x_i^T x_j + r)^d \text{~~~~~}\gamma>0\\
-K(x_i,x_j)&=exp(-\gamma ||x_i-x_j||^2) \text{~~~~~}\gamma>0 \nonumber
+K(\bm{x}_i,\bm{x}_j)&=\bm{x}_i \cdot \bm{x}_j & \nonumber \\ 
+K(\bm{x}_i,\bm{x}_j)&=(\gamma \bm{x}_i \cdot \bm{x}_j + r)^d \text{~~~~~}&\gamma>0\\
+K(\bm{x}_i,\bm{x}_j)&=exp(-\gamma ||\bm{x}_i-\bm{x}_j||^2) \text{~~~~~}&\gamma>0 \nonumber
 \end{align}
 The kernel and its parameters ($\gamma$, $r$ and $d$) are highly dependent on the task itself and has to be properly chosen. Although it may be very costly, one way of choosing parameters is to perform grid search in combination with cross-validation \citep{Hsu10apractical}.
 
-To conclude, the SVM maps the input vectors to a high dimensional feature space, where a decision surface is constructed. One property of the SVM is that it minimized the empirical classification error as well as maximized the geometrical space between the samples and the constructed hyperplane \citep{Cortes1995}.
+To conclude, the SVM maps the input vectors to a high dimensional feature space, where a decision surface is constructed. One property of the SVM is that it minimized the empirical classification error as well as maximizes the geometrical space between the samples and the constructed hyperplane \citep{Cortes1995}.
 
 \subsection{One-against-one}
-Much research have been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-agains-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} concludes that one of the more suitable methods for practical use is the one-agains-one. One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs which are trained on data from only two classes.
+Much research have been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-agains-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} concludes that one of the more suitable methods for practical use is the one-agains-one. One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs, each trained on data from only two classes.
 
 \subsection{Scaling \label{scale}}
 \citet{Hsu10apractical} addresses the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominates other attributes, all features should be scaled. As a result, another advantage arises since scaling the values can avoid numerical difficulties. \citet{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].
