@@ -1,35 +1,24 @@
 \chapter{Method}
-Given the aim of this project, we now present the methodology. We then present the three cases that are of attention in this project.
-
+Given the aim of this project, we now present the methodology. We then present three selected cases that are of attention in this project.
 
 \section{Research Methodology}
-The aim of this project is to develop a method of analysis that identifies hidden relations in a document database. To perform this, an inductive research design has been taken. Starting off by studying a few specific cases, the expectation is to find some pattern leading to a broader generalization. From there, tentative hypothesis will be formulated which later will be tested and hopefully conveyed into a final conclusion.
+The aim of this project was to develop a method of analysis that identifies hidden relations in a document database. To perform this, an inductive research design was used. We started off by studying a few specific cases, the expectation was to find some pattern leading to a broader generalization. From there, tentative hypothesis was formulated which was later tested and conveyed into a final conclusion.
 
 \section{Research Design}
 % To identify relevant cases, interviews will be held
-Taking the inductive approach, the first thing to do is to identify important and representative cases. Thus, the research starts with interviewing analysts at Recorded Future with the result being a list of questions related to their data that are hard to answer based on the existing database and software. This will give us information about what kind of relations that are interesting to look at from a security analyst perspective.
+Taking the inductive approach, the first thing we did was to identify important and representative cases. Thus, the research started with interviewing analysts at Recorded Future with the result being a list of questions related to their data that are hard to answer based on the existing database structure and software. This gave us information about what kind of relations that was interesting to look at from a security analyst perspective.
 
 \section{Validation} 
-The final step of the study concerns validation. The developed method must be validated to tell whether it is performing well or not. The validation will be performed on a sample of chosen cases, for which the answer is known. The answer could be figured out by for instance perform extensive analysis in multiple steps with the existing database and software.
+The final step of the study concerned validation. The developed methods must had to be validated in order to be able to evaluate its performance. The validation was performed on a sample of chosen cases, for which the answer was known.
 
 \section{Introduction to the Data Set \label{dataset}}
 The data of Recorded Future is comprised of entities, e.g. a country, a person or a company. They are in turn often a component in an ontology, such as Stockholm being part of Sweden. Another central concept is references, often connecting two entities. References are a report or text fragment related to a specific event. Furthermore, there is metadata that can be different sorts of data related to entities and events, such as a time interval or type of entity or event.
 
 The data is fetched by queries using Recorded Future's API. The output is a file in JSON format. As previously mentioned, the database contains a lot of information. Thus, it is essential that only a subset of the data is fetched. This leads to the issue of querying the right information and only the right information. To be able to answer a question, we want to have all the necessary information at hand without dealing with too much information. This is based on two reasons; querying information takes time and the more data the more complexity arises.
 
-One difficulty with the data is that some parts are implicit. Since Recorded Future are dealing with natural language processing there are cases when all the information about an event is not available. For instance, if someone on the Internet is writing about a cyber attack they might mention an attacker and malware without specifying the target, hence creating implicit data. 
+One difficulty with the data is that some parts are implicit. Since Recorded Future are dealing with natural language processing there are cases when all the information about an event is not available. For instance, if someone on the Internet is writing about a cyber attack they might mention an attacker and malware without specifying the target, hence creating implicit data.
 
 Another important aspect is that the data does not reflect the real world but what users on Internet find interesting to report. Hence, on one hand there might be some information missing, while there on the other hand may be much data on one single event due to various reasons. An example of the latter case is if Donald Trump's personal computer would be hacked by a hacker representing Anonymous. Due to the popularity of both Trump and Anonymous, it is likely that many people writes about this all over the Internet resulting in many references about this specific happening. Thus, the question arises whether there have been multiple attacks or only one. Studying the time of the reports may reveal a lot of information enabling to answer the previous question however there might be cases where there is periodic interest to report about a certain happening. The latter is far more ambiguous.
-
-\section{Extracting Relations From a Document Database}
-% Motivate the need to use a graph database
-To reduce the time spent on extracting the right kind of data, a graph database has been created
-
-% Introduction to Neo4j
-Neo4j is a graph database management system that has a query language Cypher and let the user interact with 
-
-% How is the extraction and import to Neo4j performed?
-In many cases, document databases has a nested structure. Thus, it is necessary to flatten out the data
 
 \section{Graph Representation}
 Data modeling with graphs are highly domain dependent and highly dependent on what type of question one is trying to answer. Thus, according to \citet{robinson2013}, the following approach should be taken:
@@ -40,6 +29,11 @@ Data modeling with graphs are highly domain dependent and highly dependent on wh
     \item Translate the entities and relationships into Cypher path expressions.
     \item Express the questions we want to ask of our domain as graph patterns using path expressions similar to the ones we used to model the domain. 
 \end{itemize}
+
+\section{Extracting Relations From a Document Database}
+% Motivate the need to use a graph database
+In a relational database or a document database the extraction of relations are very joint-intensive and hence the performance deteriorates fast when the data set gets larger\cite{robinson2013}. In order to perform analysis using the structure of a graph we needed to find a solution where the limits of querying deep relations in a document database would not render the analysis through graphs unusable due to an excessive running time.
+
 
 \section{Revealing Hidden Relations}
 
