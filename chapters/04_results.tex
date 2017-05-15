@@ -1,13 +1,10 @@
 \chapter{Results}
-In this chapter our results are presented. Starting off with a description f the graph database, we then move on to the three different cases. 
+In this chapter our results are presented. Starting of with how we solved the challenge of extracting relations from a document databse, we move on to the three different validation cases.
 
-\section{Graph Database}
-% Power of graph databases
-We are dealing with connected data, where choosing a graph database have two advantages according to \citet{robinson2013}: performance and flexibility. In a relational database, the join-intensive query performance deteriorates as the dataset gets larger while, with a graph database the performance remains relatively constant. This is due to the fact that a query is only localized to a fraction of the graph making the run time proportional to the size of the sub-graph related to the query rather than the overall graph containing all available data.
+\section{Extracting data from docuement database}
+We decided to extract data once from the RF database and store it in a graph database where relations are accessed in constant look up time. Due to the above reasoning we opted to use Neo4j Graph Database, which supports some basic analysis through their query language Cypher.
 
-Furthermore, there is the aspect of flexibility. Graphs are naturally additive \cite{robinson2013} such that new sub-graphs can be added containing more nodes and edges and new relations can be introduced as the understanding of the dataset grows. This have a positive implication for the analysts that does not have to model the domain in exhaustive detail from the start but can add information as time progress.
-
-Due to the above reasoning we opted to use Neo4j, which is a graph database supporting some basic analysis through their query language Cypher.
+In order to get the data from RF's databse and store it in Neo4j we developed a software that builds upon the existing RF API. The software lets a user specify nodes and relations, through JSON query, from a RF API query response. An example query can be seen in \secref{ap:query}.
 
 \section{Gh0st RAT Controllers}
 In this section, we present the AUC values and the maximal measured F$_1$ score for the different indices and different numbers of reference nodes that the similarity is based on. We first present the results for the first dataset and then move on the the second dataset. Since cross validation is performed, 20 trials has been carried out. However, we first motivate out choice of parameters for the Local Path index and Katz index.

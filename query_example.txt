@@ -1,0 +1,187 @@
+{
+    "nodes": [
+        {
+            "label": "IpAddress",
+            "key": "attributes.entities",
+            "properties":
+                [
+                    "id", "name", "type", "owner","hits",
+                    "...stats.metrics.*",
+                    "...stats.stats.criticalityLabel",
+                    "...stats.stats.mediaTypes.*",
+                    "...stats.stats.topics.*"
+            ]
+        },{
+            "label": "IpAddress",
+            "key": "stats.entity_lists.RelatedIpAddress",
+            "properties": ["id", "name", "type", "hits"]
+        },{
+            "label": "Malware",
+            "key": "stats.entity_lists.RelatedMalware",
+            "properties": ["id", "name", "type", "hits"]
+        },{
+            "label": "MalwareCategory",
+            "key": "stats.entity_lists.RelatedMalwareCategory",
+            "properties": ["id", "name", "type", "hits"]
+        },{
+            "label": "CyberVulnerability",
+            "key": "stats.entity_lists.RelatedCyberVulnerability",
+            "properties": ["id", "name", "type", "hits"]
+        },{
+            "label": "Hash",
+            "key": "stats.entity_lists.RelatedHash",
+            "properties": ["id", "name", "type", "hits"]
+        },{
+            "label": "EmailAddress",
+            "key": "stats.entity_lists.RelatedEmailAddress",
+            "properties": ["id", "name", "type", "hits"]
+        },{
+            "label": "InternetDomainName",
+            "key": "stats.entity_lists.RelatedInternetDomainName",
+            "properties": ["id", "name", "type", "hits"]
+        },{
+            "label": "AttackVector",
+            "key": "stats.entity_lists.RelatedAttackVector",
+            "properties": ["id", "name", "type", "hits"]
+        },{
+            "label": "Product",
+            "key": "stats.entity_lists.RelatedProduct",
+            "properties": ["id", "name", "type", "hits"]
+        }
+    ],
+    "relations": [
+        {
+            "label": "RELATED_TO",
+            "from":
+                {"label": "IpAddress",
+                 "key": "attributes.entities"},
+            "to":
+                {"label": "IpAddress",
+                 "key": "stats.entity_lists.RelatedIpAddress"},
+            "properties": [
+                {
+                    "name": "instances",
+                    "key": "stats.entity_lists.RelatedIpAddress.count"
+                }
+            ]
+        },{
+            "label": "RELATED_TO",
+            "from": {"label": "IpAddress", "key": "attributes.entities"},
+            "to":
+                {"label": "MalwareCategory",
+                 "key": "stats.entity_lists.RelatedMalwareCategory"},
+            "properties": [
+                {
+                    "name": "instances",
+                    "key": "stats.entity_lists.RelatedMalwareCategory.count"
+                }
+            ]
+        },{
+            "label": "RELATED_TO",
+            "from": {"label": "IpAddress", "key": "attributes.entities"},
+            "to":
+                {"label": "CyberVulnerability",
+                 "key": "stats.entity_lists.RelatedCyberVulnerability"},
+            "properties": [
+                {
+                    "name": "instances",
+                    "key": "stats.entity_lists.RelatedCyberVulnerability.count"
+                }
+            ]
+        },{
+            "label": "RELATED_TO",
+            "from": {"label": "IpAddress", "key": "attributes.entities"},
+            "to":
+                {"label": "Hash",
+                 "key": "stats.entity_lists.RelatedHash"},
+            "properties": [
+                {
+                    "name": "instances",
+                    "key": "stats.entity_lists.RelatedHash.count"
+                }
+            ]
+        },{
+            "label": "RELATED_TO",
+            "from": {"label": "IpAddress", "key": "attributes.entities"},
+            "to":
+                {"label": "EmailAddress",
+                 "key": "stats.entity_lists.RelatedEmailAddress"},
+            "properties": [
+                {
+                    "name": "instances",
+                    "key": "stats.entity_lists.RelatedEmailAddress.count"
+                }
+            ]
+        },{
+            "label": "RELATED_TO",
+            "from": {"label": "IpAddress", "key": "attributes.entities"},
+            "to":
+                {"label": "IpAddress",
+                 "key": "stats.entity_lists.RelatedIpAddress"},
+            "properties": [
+                {
+                    "name": "instances",
+                    "key": "stats.entity_lists.RelatedIpAddress.count"
+                }
+            ]
+        },{
+            "label": "RELATED_TO",
+            "from": {"label": "IpAddress", "key": "attributes.entities"},
+            "to":
+                {"label": "InternetDomainName",
+                 "key": "stats.entity_lists.RelatedInternetDomainName"},
+            "properties": [
+                {
+                    "name": "instances",
+                    "key": "stats.entity_lists.RelatedInternetDomainName.count"
+                }
+            ]
+        },{
+            "label": "RELATED_TO",
+            "from": {"label": "IpAddress", "key": "attributes.entities"},
+            "to":
+                {"label": "Malware",
+                 "key": "stats.entity_lists.RelatedMalware"},
+            "properties": [
+                {
+                    "name": "instances",
+                    "key": "stats.entity_lists.RelatedMalware.count"
+                }
+            ]
+        },{
+            "label": "RELATED_TO",
+            "from": {"label": "IpAddress", "key": "attributes.entities"},
+            "to":
+                {"label": "AttackVector",
+                 "key": "stats.entity_lists.RelatedAttackVector"},
+            "properties": [
+                {
+                    "name": "instances",
+                    "key": "stats.entity_lists.RelatedAttackVector.count"
+                }
+            ]
+        },{
+            "label": "RELATED_TO",
+            "from": {"label": "IpAddress", "key": "attributes.entities"},
+            "to":
+                {"label": "Product",
+                 "key": "stats.entity_lists.RelatedProduct"},
+            "properties": [
+                {
+                    "name": "instances",
+                    "key": "stats.entity_lists.RelatedProduct.count"
+                }
+            ]
+        }
+    ],
+    "rfapi-query":
+        {
+            "cluster": {
+                "data_group": "IpAddress",
+                "limit": 1
+            },
+            "output": {
+                "inline_entities": true
+            }
+        }
+}

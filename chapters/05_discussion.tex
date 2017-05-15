@@ -1,6 +1,13 @@
 \chapter{Discussion}
 In this chapter, a discussion is held about the graph representation as well as the three studied cases. The chapter is concluded with a brief discussion about future work.
 
+\section{Extracting data from docuement database}
+% Power of graph databases
+We are dealing with connected data, where choosing a graph database have two advantages according to \citet{robinson2013}: performance and flexibility. In a relational database, the join-intensive query performance deteriorates as the dataset gets larger while, with a graph database the performance remains relatively constant. This is due to the fact that a query is only localized to a fraction of the graph making the run time proportional to the size of the sub-graph related to the query rather than the overall graph containing all available data.
+
+Furthermore, there is the aspect of flexibility. Graphs are naturally additive \cite{robinson2013} such that new sub-graphs can be added containing more nodes and edges and new relations can be introduced as the understanding of the dataset grows. This have a positive implication for the analysts that does not have to model the domain in exhaustive detail from the start but can add information as time progress.
+
+
 \section{Gh0st RAT Controllers}
 % In discussion - what similarity measure was the most appropriate to use in our case?
 Based on the results, the simple local indices perform very well on both of the two data sets. The F$_1$ score seem to increase with the number of reference nodes which seems reasonable since the the change of a high recall is correlated with having reference nodes well distributed in the network. The change of getting a good distribution gets higher the more reference nodes. 
