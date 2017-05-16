@@ -21,7 +21,7 @@ In the first dataset, three IP addresses annotated as \textit{Non-ghost}s were c
 
 To conclude, we find that the local indices perform very well in this particular case of classifying IP addresses based on a graph modelled from NetFlow data. They are robust in the sense that they are not sensitive to the choice of threshold, which can be set to zero and still output good performance. The five different local indices that were tried does not vary much in performance and thus any of them can be recommended to be used. This method could be used both for binary classification of unknown IP addresses where only a few are known to belong to a certain class. Furthermore, it can be used to identify falsely annotated IP addresses. 
 
-\section{Malicious IP addresses}
+\section{Classification of malicious IP addresses}
 All of the three SVM models perform far better classification than a random classifier. The model with 4 features performs better than the one using only 2 nodes, however, the best one is the combination, when all 6 features are used. 
 
 The SVM classifier seems to have a bias towards the lower risk classes, for all of the three SVMs. This may very well have to do with the dataset being extremely skewed. We see that all of the three SVMs perform far less higher classifications than the random classifier and more lower classifications than the random classifier.
