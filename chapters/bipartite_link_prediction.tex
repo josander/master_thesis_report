@@ -1,4 +1,4 @@
-The recent years growth of large social networks such as those from large consumer sites as Amazon and social sites as Facebook and LinkedIn have yielded an increasing interest in network analysis. A network graph might only disclose a part of a large picture or might by changing with time, therefore it is useful to develop methods for link prediction.
+The recent years growth of large social networks such as those from large consumer sites as Amazon and social sites as Facebook and LinkedIn have yielded an increasing interest in network analysis. But a network graph might only disclose a part of a large picture or might change over time, therefore it is useful to develop methods for link prediction.
 
 The aim of link prediction analysis is to predict future edges in a temporal graph or discover hidden links in a graph by considering the topological structure of the graph. Many recent approaches that aims at predicting edges in social networks are similarity based where a vertex pair index is used to indicate the similarity of the two nodes. The index value is used to make predictions about the likelihood of future links. There are many different attributes that can be used to indicate similarity. The similarity index can either by global, local or quasi-local. The methods that are local only consider the information about the closest neighborhood. Example of methods that are local are Common Neighbors, Jaccard index, Hub Promoted and Resource Allocation\cite{linkpredict}. The global methods use topological information about the whole graph and include Katz, and Matrix Forest Index\cite{linkpredict}. The quasi-local methods does not require as information about the whole graph but requires more than the local ones. Another type of similarity method is random walk methods including SimRank, Cos+ and Average Commute Time \cite{linkpredict}. There has also been a lot of work where Machine Learning strategies have been used for link prediction methods \cite{mlpredict1,mlpredict2,mlpredict3,mlpredict4,mlpredict5,mlpredict6,mlpredict7}.
 
@@ -15,21 +15,21 @@ In other words, a CNP by U-projection is a pair of vertices that we can add a ne
 
 It can be shown\cite{plp} by the theorem of CNP symmetry that  a node pair (B,l) is CNP by V-projection if and only if a (B,l) is a CNP by U-projection. This is important since it lets us do the computations on the smallest of the two sets $\textbf{U}$ and $\textbf{V}$ only.
 
-It can also be shown\cite{plp} that a node pair (B,l) is only a CNP if and only if 
+It can also be shown\cite{plp} that a node pair (B,l) is a CNP if and only if 
 $$
 \textbf{N}_u(B)\cap\textbf{N}(l) \neq \varnothing\text{ and } B\notin \textbf{N}(l).
 $$
-Namely there must be at least one vertex $C\in\textbf{U}$ with $(C,x)\in\textbf{E}$ and also $(C,B)\in\textbf{E}_u$, otherwise the U-projection of $\textbf{G}'\neq\textbf{G}$. By the theorem of CNP symmetry the same is true for $\textbf{N}_v(l)\cap\textbf{N}(l)$.
+Namely there must be at least one vertex $C\in\textbf{U}$ with $(C,x)\in\textbf{E}$ and also $(C,B)\in\textbf{E}_u$, otherwise the U-projection of $\textbf{G}'\neq\textbf{G}$. By the theorem of CNP symmetry the same is true for $\textbf{N}_v(l)\cap\textbf{N}(B)$.
 
 \paragraph{Patterns Covered by a CNP}
-A pair of vertices {A,B} in $\textbf{U}$ is called a pattern in $\textbf{G}$ if there exist a vertex $l\in\textbf{V}$ such that $(A,x),(B,x)\in\textbf{E}$. With (B,l) a CNP in $\textbf{G}$ and  $C\in\textbf{N}_u(B)\cap\textbf{N}(l)$ we call $\{B,C\}$ in $\textbf{G}$ a pattern covered by the CNP (B,l).
+A pair of vertices {A,B} in $\textbf{U}$ is called a pattern in $\textbf{G}$ if there exist a vertex $l\in\textbf{V}$ such that $(A,l),(B,l)\in\textbf{E}$. With (B,l) a CNP in $\textbf{G}$ and  $C\in\textbf{N}_u(B)\cap\textbf{N}(l)$ we call $\{B,C\}$ in $\textbf{G}$ a pattern covered by the CNP (B,l).
 
-A CNP can cover more than one pattern. The more patterns a CNP cover the greater the likelihood is that the CNP becomes an edge in the future because a pattern covered by a CNP indicates that a similar edge already exist. As an example, consider the case in \figref{fig:cnp} were $\textbf{G}$ represents an attack graph with $\textbf{U}$ being the set of all attackers and $\textbf{V}$ the set of all targets. Consider the CNP ($U_2$,$V_3$) where $U_2$ attacks target $V_3$. The patterns covered by ($U_2$,$V_3$) $\{U_2,V_1\},\{U_2,V_4\}$ all already exist which indicates that the probability of $U_2$ attacking $V_2$ is high.
+A CNP can cover more than one pattern. The more patterns a CNP cover the greater the likelihood is that the CNP becomes an edge in the future because a pattern covered by a CNP indicates that a similar edge already exist. As an example, consider the case in \figref{fig:cnp} were $\textbf{G}$ represents an attack graph with $\textbf{U}$ being the set of all attackers and $\textbf{V}$ the set of all targets. Consider the CNP ($U_2$,$V_3$) where $U_2$ attacks target $V_3$. The patterns $\{U_2,V_1\},\{U_2,V_4\}$ covered by ($U_2$,$V_3$), all already exist which indicates that the probability of $U_2$ attacking $V_2$ is high.
 
-On the other hand, if find a pair of vertices $(B,l)$ that is not a CNP then $C\in\textbf{N}_u(B)\cap\textbf{N}(l) = \varnothing$ and hence we can not find any pattern for the pair $(B,l)$ which means that the future existence of the edge $(B,l)$ is unlikely. This is key for the running time being O(m) since we only have to compute a predictive index for the pair of vertices that are CNP.
+On the other hand, for a pair of vertices $(B,l)$ that is not a $C\in\textbf{N}_u(B)\cap\textbf{N}(l) = \varnothing$ and hence we can not find a similar pattern for pair $(B,l)$ which means that the future existence of the edge $(B,l)$ is unlikely. This is key for the running time being O(m) since we only have to compute a predictive index for the pair of vertices that are CNP.
 
 \paragraph{The Connectivity of a CNP}
-By the definition of Patterns Covered by a CNP the number of patterns covered by a CNP (B,l) is $|\textbf{N}_u(B)\cap\textbf{N}(l)|$, with $|\cdot|$ being the set size. As shown by the example above, this is a good measurement for the likelihood of the link $(B,l)$ being in existence in the future, we therefore take it as the value of connectivity of the CNP $(B,l)$.
+By the definition of Patterns Covered by a CNP the number of patterns covered by a CNP (B,l) is $|\textbf{N}_u(B)\cap\textbf{N}(l)|$, with $|\cdot|$ being the set size. As shown by the example above, this is a good measurement for the likelihood of the link $(B,l)$ being in existence in the future.
 
 \begin{figure}[!ht]
 \centering
@@ -57,4 +57,4 @@ $$
 $$
 The connectivity is the summation of weights of corresponding patterns covered by (B,l). We know that the more patterns with large weights a CNP covers the greater likelihood of a future edge (B,l) and therefore the connectivity is used as the index for link prediction.
 
-The description of the algorithm can be found in \ref{ap:plp} and the complexity analysis done by the authors in \cite{plp}.
+The description of the algorithm can be found in \ref{ap:plp} and the complexity analysis done by the original authors in \cite{plp}.

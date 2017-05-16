@@ -1,14 +1,17 @@
-The results of predicting future cyber attacks using PLP on the data set described in \secref{cyberattacks} is shown in \figref{fig:plp_results} for different length of the period used for prediction and for different lengths of the period used for testing.
-\begin{table}[!ht]
-    \centering
-    \begin{tabular}{|c|c|c|c|} \hline
-    Predict Months    &   Test Months    &   AUC    &   Prediction Rate \\ \hline
-    6   &   1   &   0.905(0.0000)   &   0.231(0.0000) \\ \hline
+The AUC and prediction rate of predicting future cyber attacks using PLP on the data set described in \secref{cyberattacks} is shown in \figref{fig:plp_auc} for different lengths of the set used for testing.
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=0.9]{images/auc_plp_result.pdf}
+\caption{\label{fig:plp_auc} AUC and Prediction rate for the PLP algorithm used on the cyber attack bipartite graph. The different shades of grays represent differents length of time period used for testing (in months). AUC was calculated according to the description in section \ref{plp:auc} and prediction rate according to \ref{plp:predict_rate}.}
+\end{figure}
 
-    \end{tabular}
-    \caption{\label{fig:plp_results} Results for the PLP algorithm used on the cyber attack bipartite graph. AUC and prediction rate for different lengths (in months) of the time period used for prediction as well as the length used for the time period for testing. AUC was calculated according to the description in section \ref{plp:auc} and prediction rate according to \ref{plp:predict_rate}.}
-\end{table}
+How great the natural limitations of the algorithm are can be seen in \figref{fig:plp_max} where the maximum possible prediction rate, the ratio of cyber attacks with same actors as was previously seen in the prediction set and the ratio of cyber attacks that involved at least one new actor is presented.
 
-We find that the highest prediction rate is given when the prediction time period and test period is the longest but is almost as good for prediction lengths of 6 months and test periods of 1 months. The AUC is consistent but deviates more when the length of the test period is reduced.
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{images/max_plp_result.pdf}
+\caption{\label{fig:plp_max} 
+Maximum prediction rate possbile for PLP for comarison with the prediction rate in \figref{fig:plp_auc}. Also showing the ratio of attacks with set of actors already in prediction set as well as the ratio of attacks involving at least one new actor.}
+\end{figure}
 
-The maximum possible prediction rate varied between 60\%-70\%.
+We find that the auc increases around 10 percent units from 1 month of prediction data to 24 months of prediction data. However, the prediction rate does not vary that much for length of prediction data of at least 6 months.
