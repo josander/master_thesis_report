@@ -1,6 +1,7 @@
 % vim:sw=4:ts=4:autoindent:tw=72
 
 \noindent
+\begin{comment}
 \thesistitle\\
 \thesissubtitle\\
 \whatthisis\\
@@ -13,16 +14,20 @@
 \large{%
 	\whereandwhen
 }
+\vfill
+\end{comment}
 
-\vspace*{\fill}
 \begin{center}
     \section*{Abstract}
 \end{center}
-By representing high dimensional data in graphs, new information and hidden relationships can be extracted. In this master's thesis, a discussion about the transformation from a document database to a graph is discussed. [to be filled in] 
+By representing high dimensional data in graphs, new information and hidden relationships can be extracted. In this master's thesis, a discussion about the transformation from a document database to a graph is given. [to be filled in] 
 
 Furthermore, three case studies were performed on graphs in the cyber threat intelligence domain. The first case treats the classification of Ghost RAT controllers in a graph where IP addresses are represented as nodes. Three different types similarity measures were implemented for classification: local indices, a quasi-local index and a global index. We found that the local indices performed the best, with a high accuracy and a robustness, due to the fact that it is not too sensitive towards the choice of threshold. 
 
-The second case involves the classification of malicious IP addresses. Using a one-agains-one SVM, the 
-\newline
+The second case involves the classification of malicious IP addresses divided into 5 classes. Using a one-agains-one SVM based on 6 features, the classifications of Recorded Future's rule based classifier was reproduced with an accuracy of 75 \%. This is not enough to function as a standalone classifier however, there is potential in the method to reach higher accuracies by for instance introducing more features. This method could work as a way of getting insights about the current data, understanding what more rules they should implement in their current classifier or it could work as a complement to their current classifier.
+
+Also, link prediction was applied to a graph consisting of attackers and targets. 
+
+
 \noindent
 \textbf{Key words:} graph, relations, graph analytics, link prediction, node similarity.
