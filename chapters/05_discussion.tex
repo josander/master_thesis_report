@@ -26,6 +26,8 @@ All of the three SVM models perform far better classification than a random clas
 
 The SVM classifier seems to have a bias towards the lower risk classes, for all of the three SVMs. This may very well have to do with the dataset being extremely skewed. We see that all of the three SVMs perform far less higher classifications than the random classifier and more lower classifications than the random classifier.
 
+% Skewed dataset (Theory: Imbalanced datasets http://www.sciencedirect.com/science/article/pii/S0020025514003272)
+
 % A lot of noise in the dataset
 One reason for the low result may very well have to do with the noise in the dataset. In this context, noise is referred to as IP addresses that by Recorded Future's rule based system would have been classified with a high risk class however, have an exception. One such example is Google's DNS server, which have been set to a risk class of 1 since it is not regarded to be a malicious source. 
 
