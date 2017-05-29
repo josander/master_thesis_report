@@ -1,8 +1,8 @@
 \chapter{Method}
-Given the aim of this project, we now present the methodology. We then present three selected cases that are of attention in this project.
+Given the aim of this project, we now present the methodology. We then present three selected cases that are the focus of this project.
 
 \section{Research Methodology}
-The aim of this project was to develop a method of analysis that identifies hidden relations in a document database. To perform this, an inductive research design was used. We started off by studying a few specific cases, the expectation was to find some pattern leading to a broader generalization. From there, tentative hypothesis was formulated which was later tested and conveyed into a final conclusion.
+The aim of this project was to develop a method of analysis that identifies hidden relations in a database. To perform this, an inductive research design was used. We started off by studying a few specific cases, the expectation was to find some pattern leading to a broader generalization. From there, tentative hypothesis was formulated which was later tested and conveyed into a final conclusion.
 
 \section{Research Design}
 % To identify relevant cases, interviews will be held
@@ -16,9 +16,9 @@ The data of Recorded Future is comprised of entities, e.g. a country, a person o
 
 The data is fetched by queries using Recorded Future's API. The output is a file in JSON format. As previously mentioned, the database contains a lot of information. Thus, it is essential that only a subset of the data is fetched. This leads to the issue of querying the right information and only the right information. To be able to answer a question, we want to have all the necessary information at hand without dealing with too much information. This is based on two reasons; querying information takes time and the more data the more complexity arises.
 
-One difficulty with the data is that some parts are implicit. Since Recorded Future are dealing with natural language processing there are cases when all the information about an event is not available. For instance, if someone on the Internet is writing about a cyber attack they might mention an attacker and malware without specifying the target, hence creating implicit data.
+One difficulty with the data is that some parts are implicit. Since Recorded Future are dealing with natural language processing there are cases when all the information about an event is not available. For instance, if someone on the internet is writing about a cyber attack they might mention an attacker and malware without specifying the target, hence creating implicit data.
 
-Another important aspect is that the data does not reflect the real world but what users on Internet find interesting to report. Hence, on one hand there might be some information missing, while there on the other hand may be much data on one single event due to various reasons. An example of the latter case is if Donald Trump's personal computer would be hacked by a hacker representing Anonymous. Due to the popularity of both Trump and Anonymous, it is likely that many people writes about this all over the Internet resulting in many references about this specific happening. Thus, the question arises whether there have been multiple attacks or only one. Studying the time of the reports may reveal a lot of information enabling to answer the previous question however there might be cases where there is periodic interest to report about a certain happening. The latter is far more ambiguous.
+Another important aspect is that the data does not reflect the real world but what users on internet find interesting to report. Hence, on one hand there might be some information missing, while there on the other hand may be much data on one single event due to various reasons. An example of the latter case is if Donald Trump's personal computer would be hacked by a hacker representing Anonymous. Due to the popularity of both Trump and Anonymous, it is likely that many people writes about this all over the internet resulting in many references about this specific happening. Thus, the question arises whether there have been multiple attacks or only one. Studying the time of the reports may reveal a lot of information enabling to answer the previous question however there might be cases where there is periodic interest to report about a certain happening. The latter is far more ambiguous.
 
 \section{Graph Representation}
 Data modeling with graphs are highly domain dependent and highly dependent on what type of question one is trying to answer. Thus, according to \citet{robinson2013}, the following approach should be taken:
@@ -30,9 +30,9 @@ Data modeling with graphs are highly domain dependent and highly dependent on wh
     \item Express the questions we want to ask of our domain as graph patterns using path expressions similar to the ones we used to model the domain. 
 \end{itemize}
 
-\section{Extracting Relations From a Document Database}
+\section{Extracting Relations From a Database}
 % Motivate the need to use a graph database
-In a relational database or a document database the extraction of relations are very joint-intensive and hence the performance deteriorates fast when the data set gets larger\cite{robinson2013}. In order to perform analysis using the structure of a graph we needed to find a solution where the limits of querying deep relations in a document database would not render the analysis through graphs unusable due to an excessive running time.
+In a relational database, the extraction of relations are very joint-intensive and hence the performance deteriorates fast when the data set gets larger\cite{robinson2013}. In order to perform analysis using the structure of a graph we needed to find a solution where the limits of querying deep relations in a database would not render the analysis through graphs unusable due to an excessive running time.
 
 
 \section{Revealing Hidden Relations}
@@ -44,12 +44,12 @@ Algorithms for analysis has been chosen to be as simple as possible yet give a s
 
 
 \section{Introduction to the cases}
-Below we present the three cases which has been studied. They were chosen to give a representative view of the questions one might want to address using a graph representation. Also, the cases have been chosen to show the width of use cases that a graph representation could cover.
+Below, the three cases which have been studied are presented. They were chosen to give a representative view of the questions one might want to address using a graph representation. Also, the cases have been chosen to show the breadth of use cases that a graph representation could cover.
 
-\subsection{Gh0st RAT Controllers}
-Gh0st RAT (Remote Access Terminal) is a Trojan horse used to hack and take control of computers in real-time. The malware has been used to hack some of the most sensitive computers in the world.
+\subsection{Detection of Gh0st RAT Controllers}
+Gh0st RAT (Remote Administration Tool) is a Trojan horse used to hack and take control of computers in real-time. The malware has been used to hack some of the most sensitive computers in the world.
 
-Our data consists of NetFlow data related to a number of IP addresses that have been identified as Ghost RAT controllers. The data is annotated such that known RAT controllers have been annotated with the label \textit{Ghost}. There is also information of the IP traffic such that it is known which IP address that has communicated with whom. Thus, in this case our graph model consists of IP addresses as nodes with the relations ``COMMUNICATED'' between them if they have communicated. The graph is modelled as an undirected graph, since the RAT controller-slave communication could have been initiated in any direction.
+Our data consists of NetFlow data related to a number of IP addresses that have been identified as Gh0st RAT controllers. The data is annotated such that known RAT controllers have been annotated with the label \textit{Gh0st}. There is also information of the IP traffic such that it is known which IP address that has communicated with whom. Thus, in this case our graph model consists of IP addresses as nodes with the relations ``COMMUNICATED'' between them if they have communicated. The graph is modelled as an undirected graph, since the RAT controller-slave communication could have been initiated in any direction.
 
 We have two similar data sets. The first set is based on 21831 NetFlow records collected during the first months of 2017. In total, the data consist of 3566 IP addresses where 204 of them have been identified as RAT controllers using packet inspection of responses from RAT controllers. A topographic view of the network can be seen in figure \ref{ip1}.
 
@@ -60,15 +60,15 @@ We have two similar data sets. The first set is based on 21831 NetFlow records c
     \label{ip1}
 \end{figure}
 
-The second data set consists of 103202 NetFlow records collected during December 2016 to Mars 2017. This data set includes 10091 IP addresses but is far more sparse with \textit{Ghost}s, containing only 32 identified RAT controllers. 
+The second data set consists of 103202 NetFlow records collected during December 2016 to Mars 2017. This data set includes 10091 IP addresses but is far more sparse with \textit{Gh0st}s, containing only 32 identified RAT controllers. 
 
 In this case, we have aimed at classifying the IP addresses, given the notion of only a few RAT controllers. As a consequence, we also aimed at identifying IP addresses that are falsely annotated as \textit{Non-ghost}s. Moreover, this study involves a comparison between the seven different measures of structural equivalence. 
 
 The classification has been performed by applying different similarity measures to the network. The applied similarity measures are the Dice coefficient, the Jaccard index, the cosine coefficient, the hub-promoting index and the hub-depressing index. Thess are all measures of structural equivalence and reflect the similarity based on the local structure, i.e. only the overlap of nearest neighbors.
 
-Furthermore, the Local Path index and the Katz index were studied. Instead of simply studying the information of the nearest neighbors, they also account for more information about the topology. However, the two involves the parameter $\alpha$ that should be properly chosen. To chose it, a fraction of the dataset (20 \%) was used to chose the best value of the parameter. 
+Furthermore, the Local Path index and the Katz index were studied. Instead of simply studying the information of the nearest neighbors, they also account for more information about the topology. However, the two involves the parameter $\alpha$ that should be properly chosen. To chose it, a fraction of the dataset (20\%) was used to chose the best value of the parameter. 
 
-The similarity was calculated for all nodes, given a small portion (1-5) of known Gh0st RAT controllers, henceforth referred to as reference nodes. Thus, the similarities for one node, in relation to the others, were simply taken as the sum. To classify the node, a threshold was then applied. If the similarity value exceeded the threshold, the node was classified as a RAT controller, i.e. a \textit{Ghost}.
+The similarity was calculated for all nodes, given a small portion (1-5) of known Gh0st RAT controllers, henceforth referred to as reference nodes. Thus, the similarities for one node, in relation to the others, were simply taken as the sum. To classify the node, a threshold was then applied. If the similarity value exceeded the threshold, the node was classified as a RAT controller, i.e. a \textit{Gh0st}.
 
 Once the classification was performed, the classifier using different similarity measures was evaluated. The evaluation was based on the AUC of the precision recall curve and the F$_1$ score. AUC can be interpreted as a value of robustness of the similarity measure while F$_1$ represents the accuracy.
 
@@ -84,7 +84,7 @@ Recorded Future classifies the IP addresses based on roughly 40 rules. There are
     \item Very Malicious
 \end{enumerate}
 
-The histogram of the classifications of the dataset is shown in \figref{hist}. We find the data to have an exponential distribution function, being extremely skewed to the left. Class 1 includes 60 \% of the data, class 2 33 \%, class 3 4 \%, class 4 2.5 \% and class 5 0.5 \%. 
+The histogram of the classifications of the dataset is shown in \figref{hist}. We find the data to have an exponential distribution function, being extremely skewed to the left. Class 1 includes 60\% of the data, class 2 33\%, class 3 4\%, class 4 2.5\% and class 5 0.5\%. 
 
 \begin{figure}[h!]
     \centering
@@ -115,7 +115,7 @@ Five different classifiers were briefly evaluated by studying the accuracy of pr
 
 The SVM takes a matrix of features as input. As mentioned in \secref{scale}, it is preferable to rescale the feature vectors to avoid that some features are dominated by others. The rescaling was performed for each and every feature, in the range $[0,1]$, keeping the interrelation between elements in the feature vector. This is in accordance with the recommendation of \citet{Hsu10apractical}.
 
-After choosing the SVM classifier with radial basis function, the parameters $C$ and $\gamma$ had to properly be chosen. In order to do so, a grid search was performed. Various pairs of $C$ and $\gamma$ was tried and evaluated based on cross-validational accuracy of 10 \% of the data. This was to avoid the pitfall of overfitting to the only dataset available. Once again in accordance with the recommendation of \citet{Hsu10apractical}, an exponentially growing sequence of parameters were studied where $C\in\{10^{-2},10^{-1},10^{0},...,10^{3}\}$ and $\gamma\in\{10^{-3},10^{-2},...,10^{2}\}$. The evaluation of the classifier was based on the accuracy, referring the the fraction of correct predictions. The set of parameters were chosen by maximizing the accuracy while making sure the predictions included all five classes. Since three different sub-cases were studies, each including a different set of features, the grid search was performed for each individual case. 
+After choosing the SVM classifier with radial basis function, the parameters $C$ and $\gamma$ had to properly be chosen. In order to do so, a grid search was performed. Various pairs of $C$ and $\gamma$ was tried and evaluated based on cross-validational accuracy of 10\% of the data. This was to avoid the pitfall of overfitting to the only dataset available. Once again in accordance with the recommendation of \citet{Hsu10apractical}, an exponentially growing sequence of parameters were studied where $C\in\{10^{-2},10^{-1},10^{0},...,10^{3}\}$ and $\gamma\in\{10^{-3},10^{-2},...,10^{2}\}$. The evaluation of the classifier was based on the accuracy, referring the the fraction of correct predictions. The set of parameters were chosen by maximizing the accuracy while making sure the predictions included all five classes. Since three different sub-cases were studies, each including a different set of features, the grid search was performed for each individual case. 
 
 % Cross-validation including split into training and test set
 After implementing the classifier, it needed to be validated. A 10-fold cross-validation was applied with 20 repetitions, in order to get a good statistical foundation.

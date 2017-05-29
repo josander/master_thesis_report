@@ -8,27 +8,27 @@ Mining data in a network is not a new subject. In fact, many different approache
 \input{chapters/bipartite_link_prediction}
 
 \section{Similarities Between Nodes \label{sim}}
-Quantifying the similarities between vertexes in a network can be of great interest. In many situations it is useful to be able to determine what other nodes that are similar to a specific node. However, two nodes can be similar in many different ways. For instance, they may have the same amount of degrees, the same neighbour or both be a part of the same community. Thus, there are a numerous approaches to take when defining a similarity measures. Below we present a number of them. 
+Quantifying the similarities between vertexes in a network can be of great interest. In many situations it is useful to be able to determine what other nodes are similar to a specific node. However, two nodes can be similar in many different ways. For instance, they may have the same degree, the same neighbour, or be a part of the same community. Thus, there are numerous approaches to take when defining similarity measures.
 
-\subsection{Structural equivalence}
-% How is structural equivalent defined?
-Two vertexes are said to be structurally equivalent if they share many neighbors \cite{leicht2006}. Taken into a social network perspective, it seems reasonable to think that two persons have something in common of they have many common friends. 
+Two vertexes are said to be structurally equivalent if they share many neighbors \cite{leicht2006}. Taken in a social network perspective, it seems reasonable to think that two persons have something in common of they have many common friends. Below we present some similarity measures based on structural equivalence.
 
-Local similarity measures exploit the local structures of an undirected graph $G$ \cite{fouss2016algorithms}. Let $\Gamma_i$ be the neighborhood of node $i$ in a network. The common friends of node $i$ and $j$ is thus given by
+\subsection{Local similarity}
+Local similarity measures exploit the local structures of an undirected graph $G$ \cite{fouss2016algorithms}. Let $\Gamma_i$ be the neighborhood of node $i$ in a network. The common friends of node $i$ and $j$ are thus given by
 \begin{equation}
 \label{common}
 \sigma_{common} = |\Gamma_i \cap \Gamma_j| = \sum_{k=1}^n a_{ik}a_{kj}
 \end{equation}
-where $|x|$ refers to the cardinality of the set $x$ such that $|\Gamma_x |$ gives the degree of node $x$. The expression above is the basics of the following similarity measures that will be presented. The expressions will be presented both from the notation of neighbours $\Gamma$ and also the adjacency matrix $\textbf{A}$.
+%where $|x|$ refers to the cardinality of the set $x$ such that $|\Gamma_x |$ gives the degree of node $x$. 
+The expression above is the basis of the following similarity measures that will be presented. The expressions will be presented both from the notation of neighbours $\Gamma$ and also the adjacency matrix $\textbf{A}$.
 
-\textbf{Cosine coefficient.} In an undirected graph, the cosine coefficient is simply the normalization of the score of same neighbors between node $i$ and $j$ \cite{fouss2016algorithms}
+\textbf{Cosine coefficient.} In an undirected graph, the cosine coefficient is simply the normalization of the score of common neighbors of node $i$ and $j$ \cite{fouss2016algorithms}
 \begin{equation}
     \label{cosine}
     \sigma_{cosine} = \frac{|\Gamma_i \cap \Gamma_j|}{\sqrt{|\Gamma_i||\Gamma_j|}} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\sqrt{a_{i \circ }a_{\circ j}}}
 \end{equation}
 $a_{i \circ }$ denotes the summation of row $i$ in the adjacency matrix while $a_{\circ j}$ denoted the column $j$ of the adjacency matrix.
 
-Generally speaking, the cosine coefficient between two node vectors $\textbf{v}_i$ and $\textbf{v}_j$ defined by $\textbf{v}_i^T\textbf{v}_i/(\|\textbf{v}_i\|\|\textbf{v}_j\|)$ is a measure of the linear relationship between the two node vectors. Thus, the the nodes are considered more similar the smaller angle between the node vectors in the node space.
+Generally speaking, the cosine coefficient between two node vectors $\textbf{v}_i$ and $\textbf{v}_j$ defined by $\textbf{v}_i^T\textbf{v}_i/(\|\textbf{v}_i\|\|\textbf{v}_j\|)$ is a measure of the linear relationship between the two node vectors. Thus, the nodes are considered more similar the smaller the angle between the node vectors in the node space is.
 
 \textbf{Jaccard index.} The Jaccard index is computed as follows
 \begin{equation}
@@ -66,17 +66,19 @@ In contrast to the denominator in the hub-promoted index, this denominator takes
 \end{equation}
 \end{comment}
 
+\subsection{Global similarity}
 A global similarity measure takes the topology of the whole graph into account. Comparing with the local indices, the global ones can give more accurate predictions \citep{lu2011}.
 
 \textbf{Katz Index.} One global index is the Katz index, defined below \citep{fouss2016algorithms}.
 \begin{equation}
     \textbf{K}_{Katz}=\sum_{t=1}^{\infty} \alpha^t \textbf{A}^t = (\textbf{I}-\alpha \textbf{A})^{-1}-\textbf{I}
 \end{equation}
-The parameter $\alpha \in [0,1]$ defines an attenuate factor to discount the importance of common neighbors far away. 
+The parameter $\alpha \in [0,1]$ defines an attenuation factor to discount the importance of common neighbors far away. In other words, $\alpha$ determines how much the similarity should be dependent om common neighbours far away.
 
-The accuracy of a global index is given on the expense of scalability. Since the global indices takes the topology of the whole network into account, the measures can be very time-consuming and thus inappropriate for large-scale networks. 
+The accuracy of a global index is given at the expense of complexity. Since the global indices take the topology of the whole network into account, the measures can be very time-consuming to compute and thus inappropriate for large-scale networks. 
 
-There is a tradeoff called quasi-local indices. As the name indicated, it is based on more information than the local indices but eliminates nodes too far away in the network. According to \citet{lu2011}, the result is less time consuming algorithms with higher accuracy than the local indices, since superfluous information, contributing with little improvement in accuracy, is ignored.
+\subsection{Quasi-local similarity}
+There is a tradeoff called quasi-local indices. As the name indicates, they are based on more information than the local indices but eliminate nodes too far away in the network. According to \citet{lu2011}, the result is less time consuming algorithms with higher accuracy than the local indices, since superfluous information, contributing with little improvement in accuracy, is ignored.
 
 \textbf{Local Path Index} The Local Path (LP) Index is a quasi-local similarity index which provides a good tradeoff between the accuracy and computational complexity \citep{lu2011}. It is defined as 
 \begin{equation}
@@ -85,12 +87,12 @@ There is a tradeoff called quasi-local indices. As the name indicated, it is bas
 \end{equation}
 where $\textbf{A}$ denotes the adjacency matrix of the graph. Taking the square of the adjacency matrix gives the number of paths there is between node $i$ and node $j$ with length 2. Moreover, $\textbf{A}^3$ given the number of paths between two nodes with length 3. 
 
-$\alpha$ is a discounting factor which relates to the importance of having the same neighbour two steps away. Thus, a high value of 1 indicates high importance, making a common neighbor two steps away as important as having a common nearest neighbor. Setting $\alpha$ to 0 degenerates the expression to only account for the nearest neighbors, thus making the Local Path Index equal $\sigma_{common}$, see equation \eqref{common}.
+$\alpha$ is a discounting factor which relates to the importance of having the same neighbour two steps away. Thus, a high value of 1 indicates high importance, making a common neighbor two steps away as important as having a common nearest neighbor. Setting $\alpha$ to 0 degenerates the expression to only account for the nearest neighbors, thus making the Local Path Index equal to $\sigma_{common}$, see equation \eqref{common}.
 
 \section{Centrality}
 By exploiting the structure of a graph or a subgraph, the \textit{centrality} of a node can be determined. 
 
-Centrality is a measure that is calculated on undirected graphs. Dealing with directed graphs, this similar measures are instead called \textit{prestige} or \textit{importance} measures. \cite{fouss2016algorithms}
+Centrality is a measure that is calculated on undirected graphs. Dealing with directed graphs, these similarity measures are instead called \textit{prestige} or \textit{importance} measures. \cite{fouss2016algorithms}
 
 
 \subsection{Closeness Centrality}
@@ -103,19 +105,19 @@ According to \citet{fouss2016algorithms}, the most popular choice for quantifyin
 where $\Delta_{ij}$ denotes the shortest-path distance between the nodes $i$ and $j$, and $n$ is the number of nodes in the graph. The most central node is the one closest to all the rest of the nodes. For the case with an unweighted, undirected graph, the highest closeness centrality is found for a node adjacent to all the rest. The closeness centrality is then given by $\frac{1}{n-1}$.
 
 \subsection{Betweenness Centrality}
-Betweenness centrality can be used to quantify to what extent a node is an important intermediary \citep{fouss2016algorithms}. Nodes with high betweenness are very important since many of the other nodes communicates through them \citep{Kajdanowicz2013}. 
+Betweenness centrality can be used to quantify to what extent a node is an important intermediary \citep{fouss2016algorithms}. Nodes with high betweenness are very important since many of the other nodes communicate through them \citep{Kajdanowicz2013}. 
 
-The best-known walkbased centrality measure is the Freeman's betweenness centrality \citep{fouss2016algorithms}. It is also known as the shortest-path betweenness centrality and is computed by taking the shortest paths $p_{ik}^*$ going through an intermediate node $j$, where $i\neq j \neq k\neq i$ for all the node pairs $i$ and $k$. The shortest path between node $i$ and $k$ as $p_{ik}^*$ is then a subset of all the shortest paths denoted as $P_{ik}^*$ connecting node $i$ and $k$. Thus, the number of shortest paths between the two nodes are given by $|P_{ik}^*|$. Moreover, we denote the total number of shortest paths between node $i$ and $k$ going through node $j$ as $\eta(j \in P_{ik}^*)$. In accordance with the notation used in \citep{fouss2016algorithms} we can now formulate the shortest-path betweenness centrality as follows
+The best-known walk based centrality measure is Freeman's betweenness centrality \citep{fouss2016algorithms}. It is also known as the shortest-path betweenness centrality and is computed by taking the shortest paths $p_{ik}^*$ going through an intermediate node $j$, where $i\neq j \neq k\neq i$ for all the node pairs $i$ and $k$. The shortest path between node $i$ and $k$ as $p_{ik}^*$ is then a subset of all the shortest paths denoted as $P_{ik}^*$ connecting node $i$ and $k$. Thus, the number of shortest paths between the two nodes are given by $|P_{ik}^*|$. Moreover, we denote the total number of shortest paths between node $i$ and $k$ going through node $j$ as $\eta(j \in P_{ik}^*)$. In accordance with the notation used in \citep{fouss2016algorithms} we can now formulate the shortest-path betweenness centrality as follows
 \begin{equation}
     \text{bet}_j=\sum_{i=1, i\neq j}^{n} \sum_{k=1, k \neq i,j}^{n} \frac{\eta(j \in P_{ik}^*)}{|P_{ik}^*|}
 \end{equation}
-A more intuitively way of putting it is that the betweenness centrality measures how many times node $j$ is on the shortest path between two nodes in the graph. Hence, it gives an indication of important the node is for the communication of a network. 
+A more intuitive way of putting it is that the betweenness centrality measures how many times node $j$ is on the shortest path between two nodes in the graph. Hence, it gives an indication of important the node is for the communication of a network. 
 
 \section{Prestige}
 Prestige or importance measures are very similar to the concept of centrality but differs in the sense that it is applied on directed graphs instead of undirected graphs. 
 
 \subsection{PageRank}
-The PageRank algorithm was developed in 1998 in order to rank web pages and is one of the algorithms Google currently uses in the Google search engine \cite{langville2004deeperinside,langville2012}. The PageRank score is based on the the number of times a node is cited by other nodes, taking the node's importance into account. The PageRank algorithm assigns a prestige score to every node in the network. According to \citet{fouss2016algorithms}, the prestige score can in its most basic form be calulcated as 
+The PageRank algorithm was developed in 1998 in order to rank web pages and is one of the algorithms Google currently uses in the Google search engine \cite{langville2004deeperinside,langville2012}. The PageRank score is based on the number of times a node is cited by other nodes, taking the node's importance into account. The PageRank algorithm assigns a prestige score to every node in the network. According to \citet{fouss2016algorithms}, the prestige score can in its most basic form be calulcated as 
 \begin{equation}
     x_j=\sum_{i=1}^{n} \frac{a_{ij}x_i}{a_{i\circ}}
 \end{equation}
@@ -128,7 +130,7 @@ As a result, a node $j$ receives a high PageRank score if it is related to many 
 \section{Support Vector Machine}
 Support Vector Machines (SVM) is a set of supervised learning methods originally developed for binary classification \citep{Hsu2002}. SVMs work well in practice and have been applied to various fields, such as face identification, text categorization and bioinformatics \citep{campbell2011}. In this section, we will only briefly describe the theory behind SVM. For a more rigorous description, we refer to \citep{Kecman2005,Cortes1995,campbell2011}.
 
-Let us consider some training data, composed by the input vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$ and and $n$ denotes the number of classified samples. Every input vector is related to a target $y_i \in \{-1,1\}$. The training data can be viewed as labelled data in an input space. The learning task is then about finding a directed hyperplane that maximizes the distance from the two classes of labeled datapoints. A graphical representation of a hyperplane can be found in figure \ref{svm}. 
+Let us consider some training data, composed by the input vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$ and and $n$ denotes the number of classified samples. Every input vector is related to a target $y_i \in \{-1,1\}$. The training data can be viewed as labelled data in an input space. The learning task is finding a directed hyperplane that maximizes the distance from the two classes of labeled datapoints. A graphical representation of a hyperplane can be found in figure \ref{svm}. 
 
 \begin{figure}[h!]
     \centering
@@ -141,37 +143,37 @@ The optimal hyperplane is given by \citep{campbell2011}
 \begin{equation}
     \bm{w}\cdot\bm{x}+b=0
 \end{equation}
-where $\bm{w}$ is are the weights, perpendicular to the hyperplane, and $b$ denotes the bias or offset which displaces the hyperplane from the origin. This is found by maximizing the margins between the closest samples and the hyperplane, which according to \citet{campbell2011} can be defined as to minimizing $$\frac{1}{2}||\bm{w}||_2^2=\frac{1}{2}\bm{w}\cdot\bm{w}$$
+where $\bm{w}$ is are the weights, perpendicular to the hyperplane, and $b$ denotes the bias or offset which displaces the hyperplane from the origin. This is found by maximizing the margins between the closest samples and the hyperplane, which according to \citet{campbell2011} can be defined as minimizing $$\frac{1}{2}||\bm{w}||_2^2=\frac{1}{2}\bm{w}\cdot\bm{w}$$
 
-In the example given in figure \ref{svm}, we presented a simple task where the two classes are linearly separable. In reality, it may be much more complicated and clusters could be highly intermeshed \citep{campbell2011}. Thus we now introduce the function $\phi(\cdot)$, which defines the mapping from input space to feature space with higher dimensionality. Moreover, many real life datasets contains noise and outliers, leading to poor generalisation. A way of handling this is to introduce a slack variable $\xi_i$, which imposes a relaxation of the hard boundaries. The boundary then becomes a soft margin where in addition to maximizing the margin, we want to minimize the sum of errors $\sum \xi_i$. Applying the method of Lagrange multipliers, \citet{campbell2011} concludes SVM to the following problem
+In the example given in figure \ref{svm}, we presented a simple task where the two classes are linearly separable. In reality, it may be much more complicated and clusters could be highly intermeshed \citep{campbell2011}. Thus we now introduce the function $\phi(\cdot)$, which defines the mapping from input space to feature space with higher dimensionality. Moreover, many real life datasets contain noise and outliers, leading to poor generalisation. A way of handling this is to introduce a slack variable $\xi_i$, which imposes a relaxation of the hard boundaries. The boundary then becomes a soft margin where in addition to maximizing the margin, we want to minimize the sum of errors $\sum \xi_i$. Applying the method of Lagrange multipliers, \citet{campbell2011} formalize SVM to the following problem
 \begin{align}
     \nonumber
     \min_{\bm{w},b,\bm{\xi}}\text{~~}&\frac{1}{2}\bm{w} \cdot \bm{w}+C\sum_{i=1}^{n} \xi_i \\ 
     \text{subject to~~}&y_i(\bm{w}\cdot \phi(\bm{x}_i)+b)\geq 1-\xi_i\\ 
     &\xi_i\geq 0 \nonumber
 \end{align}
-where $C>0$ is the penalty parameter for the error term. Solving this problem will find you a hyperplane to set the decision boundary in the high dimensional space $\phi$.
+where $C>0$ is the penalty parameter for the error term. Solving this problem will find a hyperplane to set the decision boundary in the high dimensional space $\phi$.
 
-A central concept in SVM is the kernel. The kernel function relates to the mapping function $\phi$ and is given by $K(x_i,x_j)=\phi(x_i)\cdot \phi(x_j)$. Three common kernels are the linear kernel, the polynomial kernel and the Radial Basis Function (RBF) kernel presented in the same order below
+A central concept in SVM is the kernel. The kernel function relates to the mapping function $\phi$ and is given by $K(x_i,x_j)=\phi(x_i)\cdot \phi(x_j)$. Three common kernels are the linear kernel, the polynomial kernel, and the Radial Basis Function (RBF) kernel presented in the same order below
 \begin{align}
 K(\bm{x}_i,\bm{x}_j)&=\bm{x}_i \cdot \bm{x}_j & \nonumber \\ 
 K(\bm{x}_i,\bm{x}_j)&=(\gamma \bm{x}_i \cdot \bm{x}_j + r)^d \text{~~~~~}&\gamma>0\\
 K(\bm{x}_i,\bm{x}_j)&=exp(-\gamma ||\bm{x}_i-\bm{x}_j||^2) \text{~~~~~}&\gamma>0 \nonumber
 \end{align}
-The kernel and its parameters ($\gamma$, $r$ and $d$) are highly dependent on the task itself and has to be properly chosen. Although it may be very costly, one way of choosing parameters is to perform grid search in combination with cross-validation \citep{Hsu10apractical}.
+The kernel and its parameters ($\gamma$, $r$ and $d$) are highly dependent on the task itself and have to be properly chosen. Although it may be very costly, one way of choosing parameters is to perform grid search in combination with cross-validation \citep{Hsu10apractical}.
 
-To conclude, the SVM maps the input vectors to a high dimensional feature space, where a decision surface is constructed. One property of the SVM is that it minimized the empirical classification error as well as maximizes the geometrical space between the samples and the constructed hyperplane \citep{Cortes1995}.
+To conclude, the SVM maps the input vectors to a high dimensional feature space, where a decision surface is constructed. One property of the SVM classifier is that it minimizes the empirical classification error as well as maximizes the geometrical space between the samples and the constructed hyperplane \citep{Cortes1995}.
 
 \subsection{One-against-one}
-Much research have been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-agains-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} concludes that one of the more suitable methods for practical use is the one-agains-one. One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs, each trained on data from only two classes.
+Much research has been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-against-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} conclude that one of the more suitable methods for practical use is the one-agains-one. One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs, each trained on data from only two classes.
 
 \subsection{Scaling \label{scale}}
-\citet{Hsu10apractical} addresses the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominates other attributes, all features should be scaled. As a result, another advantage arises since scaling the values can avoid numerical difficulties. \citet{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].
+\citet{Hsu10apractical} address the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominate other attributes, all features should be scaled. As a result, another advantage arises since scaling the values can avoid numerical difficulties. \citet{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].
 
-\section{Prediction and Recall}
+\section{Precision and Recall}
 To evaluate the performance of a binary classifier, the concepts of precision and recall are useful. Precision measures the retrieved instances that are relevant while recall measures how many of the relevant instances that are retrieved. Another way of putting it is to say that precision is a measure of confidence while recall gives the sensitivity \citep{powers2011}.
 
-The measurements are given calculated from the number of True Positives (TP), False Positives (FP) and False Negative (FN). Prediction and recall are calculated by \citep{powers2011}
+The measurements are calculated from the number of True Positives (TP), False Positives (FP) and False Negative (FN). Precision and recall are calculated by \citep{powers2011}
 \begin{align}
 \text{Precision}&=\frac{TP}{TP+FP}\\
 \text{Recall}&=\frac{TP}{TP+FN}
@@ -190,9 +192,7 @@ Cross-validation (CV) is a validation technique to assess how a statistical meth
 
 CV is based on two data sets, one training set and one test set for the final evaluation of the predicative model. Thus, CV is useful in the case of limited data. 
 
-One of the basic approaches is called the k-fold CV. The data set is divided randomly into $k$ equally sized bins. The model is trained using the $k-1$ fold of data while the last one is used for testing. This procedure is then repeated many times over and the final performance is given as the average. \citet{Krstajic2014} have evaluated the k-fold CV (in their article referring to it as the V-fold CV) with 10 folds and 50 repetitions. 
-
-
+One of the basic approaches is called the k-fold CV. The data set is divided randomly into $k$ equally sized bins. The model is trained using the $k-1$ fold of data while the last one is used for testing. This procedure is then repeated many times over and the final performance is given as the average.
 
 
 %%%%% OLD STUFF %%%%
