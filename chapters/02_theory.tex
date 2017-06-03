@@ -127,7 +127,7 @@ As a result, a node $j$ receives a high PageRank score if it is related to many 
 
 % Difference between PageRank and HITS. Refer to langville2004; HITS is more costly
 
-\section{Support Vector Machine}
+\section{Support Vector Machine \label{svm}}
 Support Vector Machines (SVM) is a set of supervised learning methods originally developed for binary classification \citep{Hsu2002}. SVMs work well in practice and have been applied to various fields, such as face identification, text categorization and bioinformatics \citep{campbell2011}. In this section, we will only briefly describe the theory behind SVM. For a more rigorous description, we refer to \citep{Kecman2005,Cortes1995,campbell2011}.
 
 Let us consider some training data, composed by the input vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$ and and $n$ denotes the number of classified samples. Every input vector is related to a target $y_i \in \{-1,1\}$. The training data can be viewed as labelled data in an input space. The learning task is finding a directed hyperplane that maximizes the distance from the two classes of labeled datapoints. A graphical representation of a hyperplane can be found in figure \ref{svm}. 
@@ -166,6 +166,9 @@ To conclude, the SVM maps the input vectors to a high dimensional feature space,
 
 \subsection{One-against-one}
 Much research has been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-against-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} conclude that one of the more suitable methods for practical use is the one-agains-one. One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs, each trained on data from only two classes.
+
+\subsection{Imbalanced datasets}
+Since the SVM divides classes by finding the hyperplane that maximizes the margin, it imposes a problem if there are more datapoints in one of the classes. That will shift the hyperplane towards the marginal class implying more 
 
 \subsection{Scaling \label{scale}}
 \citet{Hsu10apractical} address the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominate other attributes, all features should be scaled. As a result, another advantage arises since scaling the values can avoid numerical difficulties. \citet{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].

@@ -1,5 +1,5 @@
 \chapter{Results}
-In this chapter our results are presented. Starting of with how we solved the challenge of extracting relations from a databse, we move on to the three different validation cases.
+In this chapter our results are presented. Starting off with how we solved the challenge of extracting relations from a databse, we move on to the three different validation cases.
 
 \section{Extracting data from docuement database}
 We decided to extract data once from the Recorded Future database and store it in a graph database where relations are accessed in constant look up time. Due to the above reasoning we opted to use Neo4j Graph Database, which supports some basic analysis through their query language Cypher.
@@ -9,9 +9,9 @@ In order to get the data from Recorded Future's databse and store it in Neo4j we
 \section{Gh0st RAT Controllers}
 In this section, we present the AUC values and the maximal measured F$_1$ score for the different indices and different numbers of reference nodes that the similarity is based on. We first present the results for the first dataset and then move on the the second dataset. Since cross validation is performed, 20 trials has been carried out. However, we first motivate out choice of parameters for the Local Path index and Katz index.
 
-\textbf{Choice of parameters.} For the Local Path index and Katz index,  the parameter $\alpha$ had to be chosen. To do so, different values of alpha  tried and evaluated based on the resulting AUC and F$_1$ values. For the Local Path index, found that the performance was lowered with an increasing value of $\alpha$. Thus, to make the most fair comparison as possible, a low value of alpha was chosen, namely 0.01. For the global index, the Katz index, a maximization of performance was found for $\alpha=0.5$. These values of the discounting factor $\alpha$ was used throughout the simulations. 
+\textbf{Choice of parameters.} For the Local Path index and Katz index,  the parameter $\alpha$ had to be chosen. To do so, different values of alpha were tried and evaluated based on the resulting AUC and F$_1$ values. For the Local Path index, the performance was lowered with an increasing value of $\alpha$. Thus, to make the most fair comparison, a low value of alpha was chosen, namely 0.01. For the global index, the Katz index, a maximization of performance was found for $\alpha=0.5$. These values of the discounting factor $\alpha$ were used throughout the simulations. 
 
-\textbf{The first dataset.} The result for the first dataset in the RAT controller case is given in table \ref{aucIndex}. We find small variance in the results for the local indices. The quasi-local Local Path index and the global Katz index perform worse than the local ones. The best overall performance if found when using 4-5 reference nodes. The best F$_1$ value is then given by 98\% and an AUC of approximately 96\%. 
+\textbf{The first dataset.} The result for the first dataset in the RAT controller case is given in table \ref{aucIndex}. We find small variance in the results for the local indices. The quasi-local Local Path index and the global Katz index perform worse than the local ones. The best overall performance is found when using 4-5 reference nodes. The best F$_1$ value is then 98\% and an AUC of approximately 96\%. 
 
 \begin{table}[h!]
     \centering
@@ -36,9 +36,9 @@ In this section, we present the AUC values and the maximal measured F$_1$ score 
     \label{aucIndex}
 \end{table}
 
-Futhermore, there were three IP addresses that were constantly classified as RAT controllers, while they in fact were annotated as \textit{Non-ghost}s. Performing 100 trials for each case of using 1-5 reference nodes, the IP addresses were classified as RAT controllers in the majority or all of the times. Using only one reference node, the three different IP addresses were classified as RAT controller in 76\%, 97\% and 95\% of the times, respectively. Using two reference nodes, they were classified as RAT controller in 95\%, 99\% and 99\% of the times. Using 3-5 reference nodes, all three IP addresses were classified as RAT controllers in every one of the 100 trials. Because of this, there exists reason to believe they are falsly annotated. 
+Furthermore, there were three IP addresses that were constantly classified as RAT controllers, while they in fact were annotated as \textit{Non-gh0st}s. Performing 100 trials for each case of using 1-5 reference nodes, the IP addresses were classified as RAT controllers in the majority or all of the times. Using only one reference node, the three different IP addresses were classified as RAT controller in 76\%, 97\% and 95\% of the times, respectively. Using two reference nodes, they were classified as RAT controller in 95\%, 99\% and 99\% of the times. Using 3-5 reference nodes, all three IP addresses were classified as RAT controllers in every one of the 100 trials. Because of this, there exists reason to believe they are incorrectly annotated. 
 
-\textbf{The second dataset.} The second data set was much more sparse of RAT controllers. Of 10091 nodes, only 32 were identified as RAT controllers. Performing the exact same analysis on this data set as the previous one gave us the result shown in table \ref{aucIndex2}.
+\textbf{The second dataset.} The second data set was much more sparse i terms of RAT controllers. Of 10091 nodes, only 32 were identified as RAT controllers. Performing the exact same analysis on this data set as the previous one gave us the result shown in table \ref{aucIndex2}.
 
 \begin{table}[h!]
     \centering
@@ -63,14 +63,14 @@ Futhermore, there were three IP addresses that were constantly classified as RAT
     \label{aucIndex2}
 \end{table}
 
-In the second dataset, no falsely annotated IP addresses were found. 
+In the second dataset, no incorrectly annotated IP addresses were found. 
 
 \nopagebreak
 \FloatBarrier
 \section{Classification of malicious IP addresses}
-Below, the results of the feature classifier is presented. 
+Below, the results of the IP feature classifier is presented. 
 
-\textbf{All six features.} Including all the six features in the model, the best accuracy was found for the parameters $C=10$ and $\gamma=50$. The results for the SVM, using six features, are presented in table \ref{IpRes}. The table presents results, based on 20 repetitions, with a confidential level of 95\%. The SVM classifier, based on all 6 input features, performed prediction with an accuracy of about 75.1\%. Futhermore, 7.4\% of the predicted classes were higher than Recorded Future's while 17.5\% were lower. 
+\textbf{All six features.} Including all the six features in the model, the best accuracy was found for the parameters $C=10$ and $\gamma=50$. The results for the SVM, using six features, are presented in table \ref{IpRes}. The table presents results, based on 50 repetitions, with a confidence level of 95\%. The SVM classifier, based on all 6 input features, performed prediction with an accuracy of about 75.1\%. Futhermore, 7.4\% of the predicted classes were higher than Recorded Future's while 17.5\% were lower. 
 
 \begin{table}[h!]
     \centering
@@ -87,7 +87,7 @@ Below, the results of the feature classifier is presented.
 
 
 
-\textbf{Two features.} Using only two features in the model, the best accuracy was found for $C=10$ and $\gamma=10$. However, it should be pointed out that the distribution of predicted classes only included 4 of the 5 classes. The results from including only the two topological features are presented in table \ref{IpRes2Feat}. The features were PageRank and degree of the node. The table presents results, based on 20 repetitions, with a confidential level of 95\%. The SVM classifier, based on 2 input features, performed prediction with an accuracy of about 60.7\%. Futhermore, 0.3\% of the predicted classes were higher than Recorded Future's while 38.9\% were lower. 
+\textbf{Two features.} Using only the two features PageRank and degree, the best accuracy was found for $C=10$ and $\gamma=10$. However, it should be pointed out that the distribution of predicted classes only included 4 of the 5 classes. The results from including only the two topological features are presented in table \ref{IpRes2Feat}. The table presents results, based on 50 repetitions, with a confidence level of 95\%. The SVM classifier, based on 2 input features, performed prediction with an accuracy of about 60.7\%. Futhermore, 0.3\% of the predicted classes were higher than Recorded Future's while 38.9\% were lower. 
 
 \begin{table}[h!]
     \centering
@@ -102,7 +102,7 @@ Below, the results of the feature classifier is presented.
     \label{IpRes2Feat}
 \end{table}
 
-\textbf{Four features.} Using four features in the model, the best accuracy was found for $C=100$ and $\gamma=100$. All classes of maliciousness were represented in the predictions. The results from including only four features are presented in table \ref{IpRes4Feat}. The features included information about the number of hits and the neighbours co-occurrence with malwares, cyber vulnerabilities and attack vectors. The table presents results, based on 20 repetitions, with a confidential level of 95\%. The SVM classifier, based on 4 input features, performed prediction with an accuracy of about 74.0\%. Futhermore, 8.3\% of the predicted classes were higher than Recorded Future's while 17.7\% were lower. 
+\textbf{Four features.} Using four features in the model, the best accuracy was found for $C=100$ and $\gamma=100$. All classes of maliciousness were represented in the predictions. The results from including only four features are presented in table \ref{IpRes4Feat}. The features included information about the number of hits and the neighbours co-occurrence with malwares, cyber vulnerabilities and attack vectors. The table presents results, based on 50 repetitions, with a confidence level of 95\%. The SVM classifier, based on 4 input features, performed prediction with an accuracy of about 74.0\%. Futhermore, 8.3\% of the predicted classes were higher than Recorded Future's while 17.7\% were lower. 
 
 \begin{table}[h!]
     \centering
@@ -117,7 +117,7 @@ Below, the results of the feature classifier is presented.
     \label{IpRes4Feat}
 \end{table}
 
-\textbf{Random classifier.} For a pseudorandom classifier, the results can be found in table \ref{randClass}. We have found an accuracy of 20\%, which was to be expected. However, 70\% of the predictions gave a higher risk classification and 10\% gave a lower risk classification.
+\textbf{Random classifier.} For a pseudorandom classifier, the results can be found in table \ref{randClass}. An accuracy of 20\% was found, which according to theory was to be expected since there are 5 difference classes. However, 70\% of the predictions gave a higher risk classification and 10\% gave a lower risk classification.
 
 \begin{table}[h!]
     \centering

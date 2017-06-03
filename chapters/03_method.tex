@@ -1,5 +1,5 @@
 \chapter{Method}
-Given the aim of this project, we now present the methodology. We then present three selected cases that are the focus of this project.
+Given the aim of this project, the methodology is now presented. We then introduce three selected cases that are the focus of this project.
 
 \section{Research Methodology}
 The aim of this project was to develop a method of analysis that identifies hidden relations in a database. To perform this, an inductive research design was used. We started off by studying a few specific cases, the expectation was to find some pattern leading to a broader generalization. From there, tentative hypothesis was formulated which was later tested and conveyed into a final conclusion.
@@ -47,35 +47,42 @@ Algorithms for analysis has been chosen to be as simple as possible yet give a s
 Below, the three cases which have been studied are presented. They were chosen to give a representative view of the questions one might want to address using a graph representation. Also, the cases have been chosen to show the breadth of use cases that a graph representation could cover.
 
 \subsection{Detection of Gh0st RAT Controllers}
-Gh0st RAT (Remote Administration Tool) is a Trojan horse used to hack and take control of computers in real-time. The malware has been used to hack some of the most sensitive computers in the world.
+Gh0st RAT (Remote Administration Tool) is a Trojan horse used to hack and take control of computers in real-time. The malware has been used to hack some of the most sensitive computers in the world \citep{cyberspies}.
 
-Our data consists of NetFlow data related to a number of IP addresses that have been identified as Gh0st RAT controllers. The data is annotated such that known RAT controllers have been annotated with the label \textit{Gh0st}. There is also information of the IP traffic such that it is known which IP address that has communicated with whom. Thus, in this case our graph model consists of IP addresses as nodes with the relations ``COMMUNICATED'' between them if they have communicated. The graph is modelled as an undirected graph, since the RAT controller-slave communication could have been initiated in any direction.
+Our data consists of NetFlow\footnote{NetFlow is a reporting software that provides the ability to collect IP network traffic as it crosses an interface. NetFlow data therefore consist of an undirectional sequence of packets that all share values such as Source IP address, Target IP address and IP protocol. \citep{netflow}} data related to a number of IP addresses that have been identified as Gh0st RAT controllers. The data is annotated such that known RAT controllers have been annotated with the label \textit{Gh0st}. There is also information of the IP traffic such that it is known which IP address has communicated with whom. Thus, in this case our graph model consists of IP addresses as nodes with the relations ``COMMUNICATED'' between them if they have communicated, see \figref{gh0stGraph}. The graph is modelled as an undirected graph, since the RAT controller-slave communication could have been initiated in any direction.
 
-We have two similar data sets. The first set is based on 21831 NetFlow records collected during the first months of 2017. In total, the data consist of 3566 IP addresses where 204 of them have been identified as RAT controllers using packet inspection of responses from RAT controllers. A topographic view of the network can be seen in figure \ref{ip1}.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\textwidth]{gh0stRATgraph.png}
+    \caption{Graph of IP addresses, visualized in Neo4j.}
+    \label{gh0stGraph}
+\end{figure}
+
+There are two similar data sets. The first set is based on 21,831 NetFlow records collected during the first months of 2017. In total, the data consist of 3,566 IP addresses where 204 of them have been identified as RAT controllers using packet inspection of responses from these controllers. A topographic view of the network can be seen in figure \ref{ip1}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\textwidth]{GhostRATs.png}
-    \caption{Graph of IP addresses, consisting of 3566 nodes with 204 known RAT controllers. The graph is visualized using Gephi.}
+    \caption{Graph of IP addresses, consisting of 3,566 nodes with 204 known RAT controllers. The graph is visualized using Gephi.}
     \label{ip1}
 \end{figure}
 
-The second data set consists of 103202 NetFlow records collected during December 2016 to Mars 2017. This data set includes 10091 IP addresses but is far more sparse with \textit{Gh0st}s, containing only 32 identified RAT controllers. 
+The second data set consists of 103,202 NetFlow records collected during December 2016 to Mars 2017. This data set includes 10,091 IP addresses but is far more sparse with \textit{Gh0st}s, containing only 32 identified RAT controllers. 
 
-In this case, we have aimed at classifying the IP addresses, given the notion of only a few RAT controllers. As a consequence, we also aimed at identifying IP addresses that are falsely annotated as \textit{Non-ghost}s. Moreover, this study involves a comparison between the seven different measures of structural equivalence. 
+In this case, the aim was to classify IP addresses, given the knowledge of only a few RAT controllers. As a consequence, we also aimed at identifying IP addresses that are incorrectly annotated as \textit{Non-gh0st}s. Moreover, this study involves a comparison between the seven different measures of structural equivalence. 
 
-The classification has been performed by applying different similarity measures to the network. The applied similarity measures are the Dice coefficient, the Jaccard index, the cosine coefficient, the hub-promoting index and the hub-depressing index. Thess are all measures of structural equivalence and reflect the similarity based on the local structure, i.e. only the overlap of nearest neighbors.
+The classification has been performed by applying different similarity measures to the network. The applied similarity measures are the Dice coefficient, the Jaccard index, the cosine coefficient, the hub-promoting index and the hub-depressing index. These are all measures of structural equivalence and reflect the similarity based on the local structure, i.e. only the overlap of nearest neighbors.
 
-Furthermore, the Local Path index and the Katz index were studied. Instead of simply studying the information of the nearest neighbors, they also account for more information about the topology. However, the two involves the parameter $\alpha$ that should be properly chosen. To chose it, a fraction of the dataset (20\%) was used to chose the best value of the parameter. 
+Furthermore, the Local Path index and the Katz index were studied. Instead of simply studying the information of the nearest neighbors, they also account for more information about the topology. However, the two involve the parameter $\alpha$ that should be properly chosen. To chose it, a fraction of the dataset (20\%) was used to choose the best value of the parameter. 
 
 The similarity was calculated for all nodes, given a small portion (1-5) of known Gh0st RAT controllers, henceforth referred to as reference nodes. Thus, the similarities for one node, in relation to the others, were simply taken as the sum. To classify the node, a threshold was then applied. If the similarity value exceeded the threshold, the node was classified as a RAT controller, i.e. a \textit{Gh0st}.
 
 Once the classification was performed, the classifier using different similarity measures was evaluated. The evaluation was based on the AUC of the precision recall curve and the F$_1$ score. AUC can be interpreted as a value of robustness of the similarity measure while F$_1$ represents the accuracy.
 
 \subsection{Classification of malicious IP addresses}
-In this case, we have 102540 IP addresses from the Recorded Future database. In the graph, the IP addresses are represented as nodes with relations referred to as ``RELATED TO'' in between. The reason the relations have that specific label is because of the nature in which we do not know any more specific details about their co-occurrence. Furthermore, in the graph there are nodes related to malware, attack vectors and cyber vulnerabilities. These has served as additional information which has been used as information about the neighboring IP addresses.
+In this case, we have 102,540 IP addresses from the Recorded Future database. In the graph, the IP addresses are represented as nodes with relations referred to as ``RELATED TO''. The reason the relations have that specific label is because of the nature in which we do not know any more specific details about their co-occurrence. Furthermore, in the graph there are nodes related to malware, attack vectors and cyber vulnerabilities. These has served as additional information which has been used as information about the neighboring IP addresses.
 
-Recorded Future classifies the IP addresses based on roughly 40 rules. There are 5 different classes
+Recorded Future classifies the IP addresses by giving them a risk score, based on roughly 40 rules. There are 5 different risk classes
 \begin{enumerate}
     \item None
     \item Unusual
@@ -89,11 +96,11 @@ The histogram of the classifications of the dataset is shown in \figref{hist}. W
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\textwidth]{dataHist.eps}
-    \caption{Histogram of the data classifications.}
+    \caption{Histogram of the IP classifications.}
     \label{hist}
 \end{figure}
 
-This case treats the study whether a graph approach with far less information might be enough to reconstruct Recorded Future's rule based classification. Removing any of their enriched data, we have simply used data found in the original reference. Thus, as a consequence, the following bold question is asked \textit{Is there a way of reconstructing Recorded Future's rule based classifier using a graph representation?} 
+This case studies whether a graph approach with far less information might be enough to reconstruct Recorded Future's rule based classification. Removing any of their enriched data, we have simply used data found in the original reference. Thus, as a consequence, the following bold question is asked \textit{Is there a way of reconstructing Recorded Future's rule based classifier using a graph representation?} 
 
 To classify the nodes, we have implemented a feature based node classifier. Using features based on topological information, predictions about their criticality was performed.
 
@@ -108,17 +115,19 @@ The term feature extraction refers to methods used for constructing node variabl
     \item Number of unique attack vectors related to the nearest neighbors.
 \end{itemize}
 
-The features can be divided into two categories. The first includes the PageRank and degree, only including the topology of the graph including only the IP addresses. The second category includes more information from Recorded Future's database, such as the number of hits, co-occurrences with malwares and so on. To study the impact of the different categories of features, classifications were performed including all of the features, only the topology features and finally the features including information regarding the number of hits, malwares, cyber vulnerabilities and attack vectors.
+The features can be divided into two categories. The first includes the PageRank and degree, only using the topology of the graph including only the IP addresses. The second category includes more information from Recorded Future's database, such as the number of hits, co-occurrences with malwares and so on. To study the impact of the different categories of features, classifications were performed including all of the features, only the topology features and finally the features including information regarding the number of hits, malwares, cyber vulnerabilities and attack vectors.
 
 % Choice of classifier
-Five different classifiers were briefly evaluated by studying the accuracy of prediction for only two variables at a time. Only two variables were chosen in order to be able to view the results in a 2D chart. The different classifiers were Random Forest, Quadratic Discriminant Analysis, Logistic Regression, Nearest Neighbors and SVM using a radial basis kernel. Predicting almost equally good, the SVM was slightly better than Nearest Neighbors. Hence the SVM was chosen. The fact that it was easily extended to a multi-class classifier was also an advantage. In addition, many researchers have used SVM for feature classification and found good results \citep{campbell2011}.
+In this case, a SVM classifier has been studied. Many researchers have used SVM for feature classification and found good results \citep{campbell2011}. For instance, \citet{liu2012} showed promising results predicting links in a social network based on a SVM feature classifier. The fact that it was easily extended to a multi-class classifier was also an advantage. Moreover, it is easy to implement and it happens to deal with noise and outliers is a satisfactory fashion using the slack variable, introduced in \secref{svm}.
 
-The SVM takes a matrix of features as input. As mentioned in \secref{scale}, it is preferable to rescale the feature vectors to avoid that some features are dominated by others. The rescaling was performed for each and every feature, in the range $[0,1]$, keeping the interrelation between elements in the feature vector. This is in accordance with the recommendation of \citet{Hsu10apractical}.
+After choosing the SVM classifier, a kernel had to be chosen. Due to the intermeshed nature of our data, the linear kernel was ruled out and the radial basis function kernel was chosen, since there is an advantage of fewer parameters in relation to a polynomial kernel.
 
-After choosing the SVM classifier with radial basis function, the parameters $C$ and $\gamma$ had to properly be chosen. In order to do so, a grid search was performed. Various pairs of $C$ and $\gamma$ was tried and evaluated based on cross-validational accuracy of 10\% of the data. This was to avoid the pitfall of overfitting to the only dataset available. Once again in accordance with the recommendation of \citet{Hsu10apractical}, an exponentially growing sequence of parameters were studied where $C\in\{10^{-2},10^{-1},10^{0},...,10^{3}\}$ and $\gamma\in\{10^{-3},10^{-2},...,10^{2}\}$. The evaluation of the classifier was based on the accuracy, referring the the fraction of correct predictions. The set of parameters were chosen by maximizing the accuracy while making sure the predictions included all five classes. Since three different sub-cases were studies, each including a different set of features, the grid search was performed for each individual case. 
+After choosing the SVM classifier with radial basis function, the parameters $C$ and $\gamma$ had to properly be chosen. In order to do so, a grid search was performed. Various pairs of $C$ and $\gamma$ was tried and evaluated based on cross-validational accuracy of 10\% of the data. This was to avoid the pitfall of overfitting to the only dataset available. Once again in accordance with the recommendation of \citet{Hsu10apractical}, an exponentially growing sequence of parameters were studied where $C\in\{10^{-2},10^{-1},10^{0},...,10^{3}\}$ and $\gamma\in\{10^{-3},10^{-2},...,10^{2}\}$. The evaluation of the classifier was based on the accuracy, referring the the fraction of correct predictions. The set of parameters were chosen by maximizing the accuracy while making sure the predictions included all five classes. Since three different sub-cases were studied, each including a different set of features, the grid search was performed for each individual case. 
+
+The SVM takes a matrix of features as input. As mentioned in \secref{scale}, it is preferable to rescale the feature vectors to avoid that some features are dominated by others. The rescaling was performed for each feature, in the range $[0,1]$, keeping the interrelation between elements in the feature vector. This is in accordance with the recommendation of \citet{Hsu10apractical}.
 
 % Cross-validation including split into training and test set
-After implementing the classifier, it needed to be validated. A 10-fold cross-validation was applied with 20 repetitions, in order to get a good statistical foundation.
+After implementing the classifier, it needed to be validated. A 10-fold cross-validation was applied with 50 repetitions, in order to get a good statistical foundation.
 
 Because of the skewness of the dataset, a pseudorandom classifier, based on a uniform distribution, was also implemented.  The results from it was then used in order to evaluate the SVM results. 
 
