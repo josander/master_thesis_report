@@ -1,18 +1,18 @@
 \chapter{Method}
-Given the aim of this project, the methodology is now presented. We then introduce three selected cases that are the focus of this project.
+Given the aim of this project and the theory described in the previous chapter, the methodology is now presented. We begin to describe the methodology of this research, where hidden relations have been extracted from Recorded Future's big database to the graph database Neo4j. To validate the method, and understand to what extent a graph representation can be useful, three case studies were selected. The cases are described in detail in \secref{cases}.
 
 \section{Research Methodology}
-The aim of this project was to develop a method of analysis that identifies hidden relations in a database. To perform this, an inductive research design was used. We started off by studying a few specific cases, the expectation was to find some pattern leading to a broader generalization. From there, tentative hypothesis was formulated which was later tested and conveyed into a final conclusion.
+The aim of this project was to develop a method of analysis that identifies hidden relations in a database. To do this, an inductive research design was used. We started off by studying a few specific cases where the expectation to find patterns leading to a broader generalization. A tentative hypothesis could be formulated which could be tested and later conveyed into a final conclusion.
 
 \section{Research Design}
 % To identify relevant cases, interviews will be held
-Taking the inductive approach, the first thing we did was to identify important and representative cases. Thus, the research started with interviewing analysts at Recorded Future with the result being a list of questions related to their data that are hard to answer based on the existing database structure and software. This gave us information about what kind of relations that was interesting to look at from a security analyst perspective.
+Taking the inductive approach, the first thing we did was to identify important and representative cases. Thus, the research started with interviewing analysts at Recorded Future with the result being a list of questions related to their data that are hard to answer based on the existing database structure and software. The conclusion was that prediction of future events and classification of entities would be beneficial to them. It also helped in understanding of what kind of relations that was interesting to look at from a security analyst perspective.
 
 \section{Validation} 
 The final step of the study concerned validation. The developed methods had to be validated in order to be able to evaluate their performances. The validation was performed on a sample of chosen cases, for which the answer was known.
 
 \section{Introduction to the Data Set \label{dataset}}
-The data of Recorded Future is comprised of entities, e.g. a country, a person or a company. They are in turn often a component in an ontology, such as Stockholm being part of Sweden. Another central concept is references, often connecting two entities. References are a report or text fragment related to a specific event. Furthermore, there is metadata that can be different sorts of data related to entities and events, such as a time interval or type of entity or event.
+The data of Recorded Future is comprised of entities, e.g. a country, a person or a company. They are in turn often a component in an ontology, such as Gothenburg being part of Sweden. Another central concept is references, connecting two or more entities. References are a report or text fragment related to a specific event. Furthermore, there is meta data that can be different sorts of data related to entities and events, such as a time interval or type of entity or event.
 
 The data is fetched by queries using Recorded Future's API. The output is a file in JSON format. As previously mentioned, the database contains a lot of information. Thus, it is essential that only a subset of the data is fetched. This leads to the issue of querying the right information and only the right information. To be able to answer a question, we want to have all the necessary information at hand without dealing with too much information. This is based on two reasons; querying information takes time and the more data the more complexity arises.
 
@@ -43,10 +43,10 @@ The usefulness of the algorithms and measures highly depends on the task \cite{f
 Algorithms for analysis has been chosen to be as simple as possible yet give a satisfactory result. 
 
 
-\section{Introduction to the cases}
+\section{Introduction to the cases \label{cases}}
 Below, the three cases which have been studied are presented. They were chosen to give a representative view of the questions one might want to address using a graph representation. Also, the cases have been chosen to show the breadth of use cases that a graph representation could cover.
 
-\subsection{Detection of Gh0st RAT Controllers}
+\subsection{Detection of Gh0st RAT Controllers \label{methodGhost}}
 Gh0st RAT (Remote Administration Tool) is a Trojan horse used to hack and take control of computers in real-time. The malware has been used to hack some of the most sensitive computers in the world \citep{cyberspies}.
 
 Our data consists of NetFlow\footnote{NetFlow is a reporting software that provides the ability to collect IP network traffic as it crosses an interface. NetFlow data therefore consist of an undirectional sequence of packets that all share values such as Source IP address, Target IP address and IP protocol. \citep{netflow}} data related to a number of IP addresses that have been identified as Gh0st RAT controllers. The data is annotated such that known RAT controllers have been annotated with the label \textit{Gh0st}. There is also information of the IP traffic such that it is known which IP address has communicated with whom. Thus, in this case our graph model consists of IP addresses as nodes with the relations ``COMMUNICATED'' between them if they have communicated, see \figref{gh0stGraph}. The graph is modelled as an undirected graph, since the RAT controller-slave communication could have been initiated in any direction.
@@ -79,8 +79,8 @@ The similarity was calculated for all nodes, given a small portion (1-5) of know
 
 Once the classification was performed, the classifier using different similarity measures was evaluated. The evaluation was based on the AUC of the precision recall curve and the F$_1$ score. AUC can be interpreted as a value of robustness of the similarity measure while F$_1$ represents the accuracy.
 
-\subsection{Classification of malicious IP addresses}
-In this case, we have 102,540 IP addresses from the Recorded Future database. In the graph, the IP addresses are represented as nodes with relations referred to as ``RELATED TO''. The reason the relations have that specific label is because of the nature in which we do not know any more specific details about their co-occurrence. Furthermore, in the graph there are nodes related to malware, attack vectors and cyber vulnerabilities. These has served as additional information which has been used as information about the neighboring IP addresses.
+\subsection{Classification of malicious IP addresses \label{methodSVM}}
+In this case, we have 102,540 IP addresses from the Recorded Future database. In the graph, the IP addresses are represented as nodes with relations referred to as ``RELATED TO''. The reason the relations have that specific label is because of the nature in which we do not know any more specific details about their co-occurrence. Furthermore, in the graph there are nodes related to malware, attack vectors\footnote{The path or means by which an attack is executed.} and cyber vulnerabilities. These have served as additional information which has been used as information about the neighboring IP addresses.
 
 Recorded Future classifies the IP addresses by giving them a risk score, based on roughly 40 rules. There are 5 different risk classes
 \begin{enumerate}
@@ -91,7 +91,7 @@ Recorded Future classifies the IP addresses by giving them a risk score, based o
     \item Very Malicious
 \end{enumerate}
 
-The histogram of the classifications of the dataset is shown in \figref{hist}. We find the data to have an exponential distribution function, being extremely skewed to the left. Class 1 includes 60\% of the data, class 2 33\%, class 3 4\%, class 4 2.5\% and class 5 0.5\%. 
+The histogram of the classifications of the dataset is shown in \figref{hist}. We find the data to have an exponential distribution function, being extremely skewed to the left. Class 1 includes 60\% of the data, class 2 33\%, class 3 4\%, class 4 2.5\% and class 5 0.5\%. This introduces the problem of unbalanced data, discussed in \secref{unbalanced}. To deal with this issue, class weights were introduced such that an error from data in the minority class 5 was penalized higher than the error from data in the majority class 1. The weights were chosen to be inversely proportional to the number of samples in each class in the training set.
 
 \begin{figure}[h!]
     \centering
@@ -101,7 +101,6 @@ The histogram of the classifications of the dataset is shown in \figref{hist}. W
 \end{figure}
 
 This case studies whether a graph approach with far less information might be enough to reconstruct Recorded Future's rule based classification. Removing any of their enriched data, we have simply used data found in the original reference. Thus, as a consequence, the following bold question is asked \textit{Is there a way of reconstructing Recorded Future's rule based classifier using a graph representation?} 
-
 To classify the nodes, we have implemented a feature based node classifier. Using features based on topological information, predictions about their criticality was performed.
 
 % Feature extraction
@@ -118,11 +117,11 @@ The term feature extraction refers to methods used for constructing node variabl
 The features can be divided into two categories. The first includes the PageRank and degree, only using the topology of the graph including only the IP addresses. The second category includes more information from Recorded Future's database, such as the number of hits, co-occurrences with malwares and so on. To study the impact of the different categories of features, classifications were performed including all of the features, only the topology features and finally the features including information regarding the number of hits, malwares, cyber vulnerabilities and attack vectors.
 
 % Choice of classifier
-In this case, a SVM classifier has been studied. Many researchers have used SVM for feature classification and found good results \citep{campbell2011}. For instance, \citet{liu2012} showed promising results predicting links in a social network based on a SVM feature classifier. The fact that it was easily extended to a multi-class classifier was also an advantage. Moreover, it is easy to implement and it happens to deal with noise and outliers is a satisfactory fashion using the slack variable, introduced in \secref{svm}.
+In this case, a SVM classifier has been studied. Many researchers have used SVM for feature classification and found good results \citep{campbell2011}. For instance, \citet{liu2012} showed promising results predicting links in a social network based on a SVM feature classifier. The fact that it was easily extended to a multi-class classifier was also an advantage. Moreover, it is easy to implement and it happens to deal with noise and outliers is a satisfactory fashion using the slack variable, introduced in \secref{svmTheory}.
 
 After choosing the SVM classifier, a kernel had to be chosen. Due to the intermeshed nature of our data, the linear kernel was ruled out and the radial basis function kernel was chosen, since there is an advantage of fewer parameters in relation to a polynomial kernel.
 
-After choosing the SVM classifier with radial basis function, the parameters $C$ and $\gamma$ had to properly be chosen. In order to do so, a grid search was performed. Various pairs of $C$ and $\gamma$ was tried and evaluated based on cross-validational accuracy of 10\% of the data. This was to avoid the pitfall of overfitting to the only dataset available. Once again in accordance with the recommendation of \citet{Hsu10apractical}, an exponentially growing sequence of parameters were studied where $C\in\{10^{-2},10^{-1},10^{0},...,10^{3}\}$ and $\gamma\in\{10^{-3},10^{-2},...,10^{2}\}$. The evaluation of the classifier was based on the accuracy, referring the the fraction of correct predictions. The set of parameters were chosen by maximizing the accuracy while making sure the predictions included all five classes. Since three different sub-cases were studied, each including a different set of features, the grid search was performed for each individual case. 
+After choosing the SVM classifier with radial basis function, the parameters $C$ and $\gamma$ had to properly be chosen. In order to do so, a grid search was performed. Various pairs of $C$ and $\gamma$ was tried and evaluated based on cross-validational accuracy of 10\% of the data. This was to avoid the pitfall of overfitting to the only dataset available. Once again in accordance with the recommendation of \citet{Hsu10apractical}, an exponentially growing sequence of parameters were studied where $C\in\{10^{-2},5\cdot10^{-2},10^{-1},5\cdot10^{-1},10^{0},...,10^{3}\}$ and $\gamma\in\{10^{-3},5\cdot10^{-3},10^{-2},5\cdot10^{-2},...,10^{2}\}$. The evaluation of the classifier was based on the accuracy, referring the the fraction of correct predictions. The set of parameters were chosen by maximizing the accuracy while making sure the predictions included all five classes. Since three different sub-cases were studied, each including a different set of features, the grid search was performed for each individual case. 
 
 The SVM takes a matrix of features as input. As mentioned in \secref{scale}, it is preferable to rescale the feature vectors to avoid that some features are dominated by others. The rescaling was performed for each feature, in the range $[0,1]$, keeping the interrelation between elements in the feature vector. This is in accordance with the recommendation of \citet{Hsu10apractical}.
 

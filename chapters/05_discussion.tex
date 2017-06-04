@@ -1,13 +1,13 @@
 \chapter{Discussion}
-In this chapter, a discussion is held about the graph representation as well as the three studied cases. The chapter is concluded with a brief discussion about future work.
+In this chapter, a discussion is held about the graph representation as well as the three studied cases. The chapter is concluded with suggestions of future cases and analyses that could be of interest to Recorded Future.
 
-\section{Extracting data from docuement database}
+\section{Extracting data from database}
 % Power of graph databases
 We are dealing with connected data, where choosing a graph database have two advantages according to \citet{robinson2013}: performance and flexibility. In a relational database, the join-intensive query performance deteriorates as the dataset gets larger while, with a graph database the performance remains relatively constant. This is due to the fact that a query is only localized to a fraction of the graph making the run time proportional to the size of the sub-graph related to the query rather than the overall graph containing all available data.
 
 Furthermore, there is the aspect of flexibility. Graphs are naturally additive \cite{robinson2013} such that new sub-graphs can be added containing more nodes and edges and new relations can be introduced as the understanding of the dataset grows. This have a positive implication for the analysts that does not have to model the domain in exhaustive detail from the start but can add information as time progress.
 
-\section{Gh0st RAT Controllers}
+\section{Detection of Gh0st RAT Controllers}
 % In discussion - what similarity measure was the most appropriate to use in our case?
 Based on the results, the simple local indices perform very well on both of the two data sets. The F$_1$ score seems to increase with the number of reference nodes which is reasonable since the change of a high recall is correlated with having reference nodes well distributed in the network. The chance of getting a good distribution gets higher the more reference nodes we have. 
 
@@ -34,16 +34,16 @@ One reason for the low result may very well have to do with the noise in the dat
 
 It is hard to quantify the amount of noise present in the data, however it is only reasonable to believe it has an impact on the results. We can thus attribute some of the poor classifications to noise. However, as a future study, it would be interesting to compare any bad classifications with a list of IP address exceptions, such as the Google DNS server. 
 
-Although an accuracy of 75\% can be argued to be rather good, it is not by far good enough to serve as an independent classification system of Recorded Future and we can recognize the fact that we were not able to reconstruct Recorded Future's current classification system. However, with some modifications, where more features are included, we believe the performance can be increased. Even though it may be hard to reach an accuracy sufficiently high to accept it as a valid classification system at Recorded Future, this kind of methods could serve as an learning tool, leading to many important insights for Recorded Future. Not only could it tell a lot about the classification system today, but also drive insights towards what kind of features or information that are the most important when classifying IP addresses. In that way, new rules could be added of perhaps old ones made less significant. 
+Although an accuracy of 56\% can be argued to be rather good, it is not by far good enough to serve as an independent classification system of Recorded Future and we can recognize the fact that we were not able to reconstruct Recorded Future's current classification system. However, with some modifications, where more features are included, we believe the performance can be increased. Even though it may be hard to reach an accuracy sufficiently high to accept it as a valid classification system at Recorded Future, this kind of methods could serve as an learning tool, leading to many important insights for Recorded Future. Not only could it tell a lot about the classification system today, but also drive insights towards what kind of features or information that are the most important when classifying IP addresses. In that way, new rules could be added of perhaps old ones made less significant. 
 
 % How can the classifier be improved?
-It should be mentioned that the aim was to include two more features, namely the betweenness centrality and the closeness centrality. The calculations of the centrality measures were started in Cypher in Neo4j, however, the large amount of data resulted in a very long runtime (> one week using the Cypher-shell), and thus the conclusion that the network was too big for these measures was drawn. The betweenness and closeness centrality might have contributed to better predictions but were excluded from our model.
+It should be mentioned that the aim was to include two more features, namely the betweenness centrality and the closeness centrality. The calculations of the centrality measures were started in Cypher in Neo4j, however, the large amount of data resulted in a very long runtime (> two weeks using the Cypher-shell), and thus the conclusion that the network was too big for these measures was drawn. The betweenness and closeness centrality might have contributed to better predictions but were excluded from our model.
 
 
 \section{Prediction of Future Cyber Attacks}
 \input{chapters/cyberattacks_discussion.tex}
 
-\section{Future Work}
+\section{Suggestion of Future Cases}
 This report has only covered a small part of interesting methods based on graph theory that might be of interest to apply to the cyber threat intelligence domain. Thus, we now present some interesting ideas that we considered without having the resources to try them. 
 
 In the Gh0st RAT controller case, structural equivalence was used for classification of nodes. However, there is another similarity called regular equivalence that takes the position of the node into consideration. Thus, two nodes are regularly equivalent if they are equally related to equivalent others. Although structural equivalence measure might have been enough for the RAT controller case, there are many different areas where regular similarity would work better. However, the disadvantage of regular equivalence it that it implies an iterative or recursive nature since the similarity between the neighborhoods of the nodes has to be known before the similarity of the nodes themselves can be computed \cite{leicht2006}. Thus, the regular equivalence involves a higher complexity than many of the structural equivalence measures, however it could lead to new insights. 

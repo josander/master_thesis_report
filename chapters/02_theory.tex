@@ -1,5 +1,5 @@
 \chapter{Theoretical Framework}
-Mining data in a network is not a new subject. In fact, many different approaches have been suggested. It this section, we present some of them as the foundation for our project.
+Mining data in a network is not a new subject. In fact, many different approaches have been suggested. It this section, we present some of them as the foundation for our project. We begin by describing basic graph theory, later moving on to link prediction in bipartite graphs. Moreover, measurements of nodes are discussed, including similarity, centrality and prestige. An introduction to Support Vector Machines from the perspective of classifying different nodes in a graph is given and lastly the concept of precision and recall along with cross-validation is presented.
 
 \section{Graphs Representation}
 \input{chapters/graphs}
@@ -13,18 +13,18 @@ Quantifying the similarities between vertexes in a network can be of great inter
 Two vertexes are said to be structurally equivalent if they share many neighbors \cite{leicht2006}. Taken in a social network perspective, it seems reasonable to think that two persons have something in common of they have many common friends. Below we present some similarity measures based on structural equivalence.
 
 \subsection{Local similarity}
-Local similarity measures exploit the local structures of an undirected graph $G$ \cite{fouss2016algorithms}. Let $\Gamma_i$ be the neighborhood of node $i$ in a network. The common friends of node $i$ and $j$ are thus given by
+Local similarity measures exploit the local structures of an undirected graph $G$ \cite{fouss2016algorithms}. Let $\bm{\Gamma}_i$ be the neighborhood of node $i$ in a network. The common friends of node $i$ and $j$ are thus given by
 \begin{equation}
 \label{common}
-\sigma_{common} = |\Gamma_i \cap \Gamma_j| = \sum_{k=1}^n a_{ik}a_{kj}
+\sigma_{common} = |\bm{\Gamma}_i \cap \bm{\Gamma}_j| = \sum_{k=1}^n a_{ik}a_{kj}
 \end{equation}
-%where $|x|$ refers to the cardinality of the set $x$ such that $|\Gamma_x |$ gives the degree of node $x$. 
-The expression above is the basis of the following similarity measures that will be presented. The expressions will be presented both from the notation of neighbours $\Gamma$ and also the adjacency matrix $\textbf{A}$.
+%where $|x|$ refers to the cardinality of the set $x$ such that $|\bm{\Gamma}_x |$ gives the degree of node $x$. 
+The expression above is the basis of the following similarity measures that will be presented. The expressions will be presented both from the notation of neighbours $\bm{\Gamma}$ and also the adjacency matrix $\textbf{A}$.
 
 \textbf{Cosine coefficient.} In an undirected graph, the cosine coefficient is simply the normalization of the score of common neighbors of node $i$ and $j$ \cite{fouss2016algorithms}
 \begin{equation}
     \label{cosine}
-    \sigma_{cosine} = \frac{|\Gamma_i \cap \Gamma_j|}{\sqrt{|\Gamma_i||\Gamma_j|}} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\sqrt{a_{i \circ }a_{\circ j}}}
+    \sigma_{cosine} = \frac{|\bm{\Gamma}_i \cap \bm{\Gamma}_j|}{\sqrt{|\bm{\Gamma}_i||\bm{\Gamma}_j|}} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\sqrt{a_{i \circ }a_{\circ j}}}
 \end{equation}
 $a_{i \circ }$ denotes the summation of row $i$ in the adjacency matrix while $a_{\circ j}$ denoted the column $j$ of the adjacency matrix.
 
@@ -33,28 +33,28 @@ Generally speaking, the cosine coefficient between two node vectors $\textbf{v}_
 \textbf{Jaccard index.} The Jaccard index is computed as follows
 \begin{equation}
     \label{jaccard}
-    \sigma_{Jaccard} = \frac{|\Gamma_i \cap \Gamma_j|}{|\Gamma_i \cup \Gamma_j|} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }+a_{\circ j}-\sum_{k=1}^n a_{ik}a_{kj}}
+    \sigma_{Jaccard} = \frac{|\bm{\Gamma}_i \cap \bm{\Gamma}_j|}{|\bm{\Gamma}_i \cup \bm{\Gamma}_j|} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }+a_{\circ j}-\sum_{k=1}^n a_{ik}a_{kj}}
 \end{equation}
 The denominator represents the number of neighbors belonging to at least one of the two nodes $i$ or $j$. Thus, the Jaccard index is the fraction of common neighbors in relation to the cardinality of the union of neighbors. 
 
 \textbf{Dice coefficient.} The Dice coefficient is defined accordingly
 \begin{equation}
     \label{dice}
-    \sigma_{Dice} = \frac{2 |\Gamma_i \cap \Gamma_j|}{|\Gamma_i|+|\Gamma_j|}= \frac{2\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }+a_{\circ j}}
+    \sigma_{Dice} = \frac{2 |\bm{\Gamma}_i \cap \bm{\Gamma}_j|}{|\bm{\Gamma}_i|+|\bm{\Gamma}_j|}= \frac{2\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }+a_{\circ j}}
 \end{equation}
 Defined in words, the Dice coefficient is calculated as twice the number of common neighbors divided by the sum of the cardinalities of the two neighborhoods. 
 
 \textbf{Hub-promoted index.} The index promotes hubs in the network and is given by
 \begin{equation}
     \label{prohub}
-    \sigma_{prohub} = \frac{|\Gamma_i \cap \Gamma_j|}{\min(|\Gamma_i|,|\Gamma_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\min(a_{i \circ },a_{\circ j})}
+    \sigma_{prohub} = \frac{|\bm{\Gamma}_i \cap \bm{\Gamma}_j|}{\min(|\bm{\Gamma}_i|,|\bm{\Gamma}_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\min(a_{i \circ },a_{\circ j})}
 \end{equation}
 Since the denominator is based on the lower degree only, the links adjacent to hubs are likely to be assigned high scores \citep{lu2011}. The measure is also called overlap similarity \citep{fouss2016algorithms} since a perfect score of 1 implies that the neighborhood of one of the nodes is a subset of the neighborhood of the other node.
 
 \textbf{Hub-depressed index.} The hub-depressed index depresses hubs in the network \citep{fouss2016algorithms}
 \begin{equation}
     \label{dehub}
-    \sigma_{dehub} = \frac{|\Gamma_i \cap \Gamma_j|}{\max(|\Gamma_i|,|\Gamma_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\max(a_{i \circ },a_{\circ j})}
+    \sigma_{dehub} = \frac{|\bm{\Gamma}_i \cap \bm{\Gamma}_j|}{\max(|\bm{\Gamma}_i|,|\bm{\Gamma}_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\max(a_{i \circ },a_{\circ j})}
 \end{equation}
 In contrast to the denominator in the hub-promoted index, this denominator takes the higher degree into consideration. Thus, links adjacent to hubs are likely to be assigned low scores. 
 
@@ -62,7 +62,7 @@ In contrast to the denominator in the hub-promoted index, this denominator takes
 \textbf{Adamic index.} 
 \begin{equation}
     \label{adamic}
-    \sigma_{Adamic} = \frac{|\Gamma_i \cap \Gamma_j|}{\log(|\Gamma_i|,|\Gamma_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\max(a_{i \circ },a_{\circ j})}
+    \sigma_{Adamic} = \frac{|\bm{\Gamma}_i \cap \bm{\Gamma}_j|}{\log(|\bm{\Gamma}_i|,|\bm{\Gamma}_j|)} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\max(a_{i \circ },a_{\circ j})}
 \end{equation}
 \end{comment}
 
@@ -127,7 +127,7 @@ As a result, a node $j$ receives a high PageRank score if it is related to many 
 
 % Difference between PageRank and HITS. Refer to langville2004; HITS is more costly
 
-\section{Support Vector Machine \label{svm}}
+\section{Support Vector Machine \label{svmTheory}}
 Support Vector Machines (SVM) is a set of supervised learning methods originally developed for binary classification \citep{Hsu2002}. SVMs work well in practice and have been applied to various fields, such as face identification, text categorization and bioinformatics \citep{campbell2011}. In this section, we will only briefly describe the theory behind SVM. For a more rigorous description, we refer to \citep{Kecman2005,Cortes1995,campbell2011}.
 
 Let us consider some training data, composed by the input vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$ and and $n$ denotes the number of classified samples. Every input vector is related to a target $y_i \in \{-1,1\}$. The training data can be viewed as labelled data in an input space. The learning task is finding a directed hyperplane that maximizes the distance from the two classes of labeled datapoints. A graphical representation of a hyperplane can be found in figure \ref{svm}. 
@@ -149,7 +149,7 @@ In the example given in figure \ref{svm}, we presented a simple task where the t
 \begin{align}
     \nonumber
     \min_{\bm{w},b,\bm{\xi}}\text{~~}&\frac{1}{2}\bm{w} \cdot \bm{w}+C\sum_{i=1}^{n} \xi_i \\ 
-    \text{subject to~~}&y_i(\bm{w}\cdot \phi(\bm{x}_i)+b)\geq 1-\xi_i\\ 
+    \text{subject to~~}&y_i(\bm{w}\cdot \phi(\bm{x}_i)+b)\geq 1-\xi_i \label{svmeq}\\ 
     &\xi_i\geq 0 \nonumber
 \end{align}
 where $C>0$ is the penalty parameter for the error term. Solving this problem will find a hyperplane to set the decision boundary in the high dimensional space $\phi$.
@@ -167,8 +167,25 @@ To conclude, the SVM maps the input vectors to a high dimensional feature space,
 \subsection{One-against-one}
 Much research has been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-against-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} conclude that one of the more suitable methods for practical use is the one-agains-one. One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs, each trained on data from only two classes.
 
-\subsection{Imbalanced datasets}
-Since the SVM divides classes by finding the hyperplane that maximizes the margin, it imposes a problem if there are more datapoints in one of the classes. That will shift the hyperplane towards the marginal class implying more 
+\subsection{Unbalanced data \label{unbalanced}}
+Since the SVM divides classes by finding the hyperplane that maximizes the margin, it imposes a problem with unbalanced data. A problem with unbalanced data arises when there is a notable difference between the number of samples in different classes \cite{delRio2014}. The class containing the fewest number of samples is referred to as the minority class while the class with the highest number of samples is referred to as the majority class. The imbalance of datapoints will shift the hyperplane towards the marginal class, resulting in a bias towards the majority class and a low performance towards the minority class. See figure \ref{unbalancedSVM} for an illustration of the issue of unbalanced datasets, where the learned hyperplane does not coincide with the ideal one. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\textwidth]{svmImbalanced.png}
+    \caption{Illustration of the problem with unbalanced data. The learned hyperplane does not coincide with the ideal one implicating bad classifications. The filled circled belong to the training set. The empty circles represent datapoints in the population that is not included in the training set.}
+    \label{unbalancedSVM}
+\end{figure}
+
+In some cases unbalanced data becomes a big problem. \citet{delRio2014} mention the presence of this problem in real-world applications such as finance, software defect detection and medical diagnosis. One example where this issue arises is the identification of cancer patients among people. The majority of the people are not sick with cancer, however, it is more crucial to classify the cancer patients correctly than it is to classify the healthy people correctly. 
+
+To deal with unbalanced data, different approached can be taken. It is possible to address the issue by constructing a dataset with a uniform distribution, either by performing undersampling or oversampling \citep{delRio2014}. Undersampling methods simply undersamples the majority class, i.e. the class with many data. However, this could lead to the issue of ending up with a small dataset and might not be the best choice for SVM \citep{Akbani2004}. 
+
+Oversampling methods oversamples the minority class, such that new instances of data belonging to the minority class is created \citep{delRio2014,Akbani2004}. The number of datapoints in each class will then equal the number of datapoints in the majority class present in the unbalanced dataset.
+
+However, there is another way of dealing with unbalanced datasets in SVM, namely to weight the classes. The weight is then a factor to the penalty term, given in equation \eqref{svmeq}. The weight could be chosen to be inversely proportional to the number of datapoints in every class which will result in a better choice of hyperplane. 
+
+The above example with cancer patients also serves as a good illustration of the issue of receiving good accuracy in an unbalanced dataset. Imagine only 2\% of the people have cancer, if the classifier classifies all people as non-cancer patients, an accuracy of 98\% will be reached. This seems to be a good accuracy however, none of the cancer patients will be identified. Thus, the seemingly good classifier will therefore be useless for its purpose. Hence, when dealing with unbalanced datasets, it is preferable to segment the accuracy of each class \citep{delRio2014}. 
 
 \subsection{Scaling \label{scale}}
 \citet{Hsu10apractical} address the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominate other attributes, all features should be scaled. As a result, another advantage arises since scaling the values can avoid numerical difficulties. \citet{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].

@@ -20,14 +20,17 @@
 \begin{center}
     \section*{Abstract}
 \end{center}
-By representing high dimensional data in graphs, new information and hidden relationships can be extracted. In this master's thesis, a discussion about the transformation from a database to a graph is given. [to be filled in] 
 
-Furthermore, three case studies were performed on graphs in the cyber threat intelligence domain. The first case treats the classification of Gh0st RAT controllers in a graph where IP addresses are represented as nodes. Three different types similarity measures were implemented for classification: local indices, a quasi-local index and a global index. We found that the local indices performed the best, with a high accuracy and a robustness, due to the fact that it is not too sensitive towards the choice of threshold. 
+By representing high dimensional data in graphs, new information and hidden relationships can be extracted. In this master's thesis, graph theory has been applied to Recorded Future's data related to cyber security. An approach to extract hidden relations in the data stored in a huge database has been developed. Appropriate data was extracted into a graph database called Neo4j. The advantage of using Neo4j is a reduced reading time complexity since deep join calls to a database were avoided. In order to evaluate the method, three important and representative cases with the possibility of validation were identified. 
 
-The second case involves the classification of malicious IP addresses divided into 5 classes. Using a one-agains-one SVM based on 6 features, the classifications of Recorded Future's rule based classifier was reproduced with an accuracy of 75\%. This is not enough to function as a standalone classifier however, there is potential in the method to reach higher accuracies by for instance introducing more features. This method could work as a way of getting insights about the current data, understanding what more rules they should implement in their current classifier or it could work as a complement to their current classifier.
+The cases include classification of malicious IP addresses and prediction of future cyber attacks. The first case treats the classification of Gh0st RAT controllers in a graph where IP addresses are represented as nodes. Three different types of similarity measures were implemented for classification: local indices, a quasi-local index and a global index. The local indices were found to perform the best, with high accuracy and robustness towards the choice of threshold.
 
-Also, link prediction was applied to a graph consisting of attackers and targets. 
+The second case involves the classification of malicious IP addresses divided into 5 risk classes. Using a one-agains-one SVM classifier, the classifications of Recorded Future's rule based classifier was reproduced with an accuracy of 56\%. This is not enough to function as a standalone classifier, however, there is potential reaching a higher accuracy by for instance introducing more information to the graph and more features. This tool could serve as a way of driving insights about the current data and and Recorded Future's current rule based classifier.
 
+Furthermore, prediction about future cyber attacks were performed using an algorithm called Projection-based link prediction in a bipartite network. The algorithm scaled linearly to the number of attackers and we were able to predict 25\% of the new attacks in the database one month ahead, with the AUC value being 0.96\%.
 
+The work shows examples of what can be gained when revealing hidden relations in big data using a graph theoretical approach, as a compliment to a more traditional flat analysis. This project only shows a small fraction of the potential of a graph representation however it is shown that relational analyses can aid threat intelligence analysts in their daily work by creating structure, identifying suspicious entities in large amount of data and predicting future cyber attacks.
+
+\vfill
 \noindent
-\textbf{Key words:} graph, relations, graph analytics, link prediction, node similarity.
+\textbf{Key words:} graph, relational data, graph analytics, link prediction, node similarity, node classification.
