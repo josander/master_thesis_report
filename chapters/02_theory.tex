@@ -1,5 +1,5 @@
 \chapter{Theoretical Framework}
-Mining data in a network is not a new subject. In fact, many different approaches have been suggested. It this section, we present some of them as the foundation for our project. We begin by describing basic graph theory, later moving on to link prediction in bipartite graphs. Moreover, measurements of nodes are discussed, including similarity, centrality and prestige. An introduction to Support Vector Machines from the perspective of classifying different nodes in a graph is given and lastly the concept of precision and recall along with cross-validation is presented.
+Mining data in a network is not a new subject. In fact, many different approaches have been suggested. In this chapter, we present some of them as the foundation for our project. We begin by describing basic graph theory, later moving on to link prediction in bipartite graphs. Moreover, measurements of nodes are discussed, including similarity, centrality and prestige. An introduction to Support Vector Machines from the perspective of classifying different nodes in a graph is given and lastly the concepts of precision and recall, along with cross-validation is presented.
 
 \section{Graphs Representation}
 \input{chapters/graphs}
@@ -8,27 +8,27 @@ Mining data in a network is not a new subject. In fact, many different approache
 \input{chapters/bipartite_link_prediction}
 
 \section{Similarities Between Nodes \label{sim}}
-Quantifying the similarities between vertexes in a network can be of great interest. In many situations it is useful to be able to determine what other nodes are similar to a specific node. However, two nodes can be similar in many different ways. For instance, they may have the same degree, the same neighbour, or be a part of the same community. Thus, there are numerous approaches to take when defining similarity measures.
+Quantifying the similarities between vertexes in a network can be of great interest. In many situations it is useful to be able to determine what other nodes are similar to a specific node. However, two nodes can be similar in many different ways. For instance, they may have the same degree, the same neighbor, or be a part of the same community. Thus, there are numerous approaches to take when defining similarity measures.
 
-Two vertexes are said to be structurally equivalent if they share many neighbors \cite{leicht2006}. Taken in a social network perspective, it seems reasonable to think that two persons have something in common of they have many common friends. Below we present some similarity measures based on structural equivalence.
+Two vertexes are said to be structurally equivalent if they share many neighbors \cite{leicht2006}. Taken in a social network perspective, it seems reasonable to think that two persons have something in common if they have many common friends. Below we present some similarity measures based on structural equivalence.
 
-\subsection{Local similarity}
+\subsection{Local Similarity}
 Local similarity measures exploit the local structures of an undirected graph $G$ \cite{fouss2016algorithms}. Let $\bm{\Gamma}_i$ be the neighborhood of node $i$ in a network. The common friends of node $i$ and $j$ are thus given by
 \begin{equation}
 \label{common}
 \sigma_{common} = |\bm{\Gamma}_i \cap \bm{\Gamma}_j| = \sum_{k=1}^n a_{ik}a_{kj}
 \end{equation}
 %where $|x|$ refers to the cardinality of the set $x$ such that $|\bm{\Gamma}_x |$ gives the degree of node $x$. 
-The expression above is the basis of the following similarity measures that will be presented. The expressions will be presented both from the notation of neighbours $\bm{\Gamma}$ and also the adjacency matrix $\textbf{A}$.
+The expression above is the basis of the following similarity measures that will be presented. The expressions will be presented both from the notation of neighbors $\bm{\Gamma}$ and also the adjacency matrix $\textbf{A}$.
 
 \textbf{Cosine coefficient.} In an undirected graph, the cosine coefficient is simply the normalization of the score of common neighbors of node $i$ and $j$ \cite{fouss2016algorithms}
 \begin{equation}
     \label{cosine}
     \sigma_{cosine} = \frac{|\bm{\Gamma}_i \cap \bm{\Gamma}_j|}{\sqrt{|\bm{\Gamma}_i||\bm{\Gamma}_j|}} = \frac{\sum_{k=1}^n a_{ik}a_{kj}}{\sqrt{a_{i \circ }a_{\circ j}}}
 \end{equation}
-$a_{i \circ }$ denotes the summation of row $i$ in the adjacency matrix while $a_{\circ j}$ denoted the column $j$ of the adjacency matrix.
+$a_{i \circ }$ denotes the summation of row $i$ in the adjacency matrix while $a_{\circ j}$ denotes the summation of column $j$ of the adjacency matrix.
 
-Generally speaking, the cosine coefficient between two node vectors $\textbf{v}_i$ and $\textbf{v}_j$ defined by $\textbf{v}_i^T\textbf{v}_i/(\|\textbf{v}_i\|\|\textbf{v}_j\|)$ is a measure of the linear relationship between the two node vectors. Thus, the nodes are considered more similar the smaller the angle between the node vectors in the node space is.
+Generally speaking, the cosine coefficient between two node vectors $\textbf{v}_i$ and $\textbf{v}_j$, defined by $\textbf{v}_i^T\textbf{v}_i/(\|\textbf{v}_i\|\|\textbf{v}_j\|)$, is a measure of the linear relationship between the two node vectors. Thus, the nodes are considered more similar the smaller the angle between the node vectors in the node space.
 
 \textbf{Jaccard index.} The Jaccard index is computed as follows
 \begin{equation}
@@ -42,7 +42,7 @@ The denominator represents the number of neighbors belonging to at least one of 
     \label{dice}
     \sigma_{Dice} = \frac{2 |\bm{\Gamma}_i \cap \bm{\Gamma}_j|}{|\bm{\Gamma}_i|+|\bm{\Gamma}_j|}= \frac{2\sum_{k=1}^n a_{ik}a_{kj}}{a_{i \circ }+a_{\circ j}}
 \end{equation}
-Defined in words, the Dice coefficient is calculated as twice the number of common neighbors divided by the sum of the cardinalities of the two neighborhoods. 
+Defined in words, the Dice coefficient is calculated as twice the number of common neighbors divided by the sum of the cardinality of the two neighborhoods. 
 
 \textbf{Hub-promoted index.} The index promotes hubs in the network and is given by
 \begin{equation}
@@ -66,18 +66,18 @@ In contrast to the denominator in the hub-promoted index, this denominator takes
 \end{equation}
 \end{comment}
 
-\subsection{Global similarity}
-A global similarity measure takes the topology of the whole graph into account. Comparing with the local indices, the global ones can give more accurate predictions \citep{lu2011}.
+\subsection{Global Similarity}
+A global similarity measure takes the topology of the whole graph into account. Compared with the local indices, the global ones can give more accurate classifications as it takes more information into account \citep{lu2011}.
 
 \textbf{Katz Index.} One global index is the Katz index, defined below \citep{fouss2016algorithms}.
 \begin{equation}
     \textbf{K}_{Katz}=\sum_{t=1}^{\infty} \alpha^t \textbf{A}^t = (\textbf{I}-\alpha \textbf{A})^{-1}-\textbf{I}
 \end{equation}
-The parameter $\alpha \in [0,1]$ defines an attenuation factor to discount the importance of common neighbors far away. In other words, $\alpha$ determines how much the similarity should be dependent om common neighbours far away.
+The parameter $\alpha \in [0,1]$ defines an attenuation factor to discount the importance of common neighbors far away. In other words, $\alpha$ determines how much the similarity should be dependent om common neighbors far away in the network.
 
 The accuracy of a global index is given at the expense of complexity. Since the global indices take the topology of the whole network into account, the measures can be very time-consuming to compute and thus inappropriate for large-scale networks. 
 
-\subsection{Quasi-local similarity}
+\subsection{Quasi-local Similarity}
 There is a tradeoff called quasi-local indices. As the name indicates, they are based on more information than the local indices but eliminate nodes too far away in the network. According to \citet{lu2011}, the result is less time consuming algorithms with higher accuracy than the local indices, since superfluous information, contributing with little improvement in accuracy, is ignored.
 
 \textbf{Local Path Index} The Local Path (LP) Index is a quasi-local similarity index which provides a good tradeoff between the accuracy and computational complexity \citep{lu2011}. It is defined as 
@@ -85,36 +85,33 @@ There is a tradeoff called quasi-local indices. As the name indicates, they are 
     \label{lp}
     \sigma_{LP} = \textbf{A}^2+\alpha \textbf{A}^3
 \end{equation}
-where $\textbf{A}$ denotes the adjacency matrix of the graph. Taking the square of the adjacency matrix gives the number of paths there is between node $i$ and node $j$ with length 2. Moreover, $\textbf{A}^3$ given the number of paths between two nodes with length 3. 
+where $\textbf{A}$ denotes the adjacency matrix of the graph. The square of the adjacency matrix gives the number of paths between node $i$ and node $j$ with length 2. Moreover, $\textbf{A}^3$ gives the number of paths between two nodes with length 3. 
 
-$\alpha$ is a discounting factor which relates to the importance of having the same neighbour two steps away. Thus, a high value of 1 indicates high importance, making a common neighbor two steps away as important as having a common nearest neighbor. Setting $\alpha$ to 0 degenerates the expression to only account for the nearest neighbors, thus making the Local Path Index equal to $\sigma_{common}$, see equation \eqref{common}.
+Again, $\alpha$ is a discounting factor which relates to the importance of having the same neighbor two steps away. Thus, a high value of 1 indicates high importance, making a common neighbor two steps away as important as having a common nearest neighbor. Setting $\alpha$ to 0 degenerates the expression to only account for the nearest neighbors, thus making the Local Path Index equal to $\sigma_{common}$, see equation \eqref{common}.
 
 \section{Centrality}
-By exploiting the structure of a graph or a subgraph, the \textit{centrality} of a node can be determined. 
-
-Centrality is a measure that is calculated on undirected graphs. Dealing with directed graphs, these similarity measures are instead called \textit{prestige} or \textit{importance} measures. \cite{fouss2016algorithms}
-
+By exploiting the structure of a graph or a subgraph, the \textit{centrality} of a node can be determined. Centrality is a measure that is calculated on undirected graphs. Dealing with directed graphs, these similarity measures are instead called \textit{prestige} or \textit{importance} measures. \cite{fouss2016algorithms}
 
 \subsection{Closeness Centrality}
-The closeness centrality measure indicates the proximity of a node $i$ to a node $j$ in an undirected graph $G$. The measure implies to what extent node $i$ is central to $G$, hence, how representative it is to the network \citep{fouss2016algorithms}. The node with the highest centrality score is the most central node.
+The closeness centrality measure indicates the proximity of node $i$ to node $j$ in an undirected graph $G$. The measure implies to what extent node $i$ is central to $G$, hence, how representative it is to the network \citep{fouss2016algorithms}. The node with the highest centrality score is the most central node.
 
 According to \citet{fouss2016algorithms}, the most popular choice for quantifying the closeness centrality is
 \begin{equation}
     cc_i=\frac{1}{\sum_{j=1}^{n} \Delta_{ij}}
 \end{equation}
-where $\Delta_{ij}$ denotes the shortest-path distance between the nodes $i$ and $j$, and $n$ is the number of nodes in the graph. The most central node is the one closest to all the rest of the nodes. For the case with an unweighted, undirected graph, the highest closeness centrality is found for a node adjacent to all the rest. The closeness centrality is then given by $\frac{1}{n-1}$.
+where $\Delta_{ij}$ denotes the shortest-path distance between the nodes $i$ and $j$, and $n$ is the number of nodes in the graph. The most central node is the one closest to all the rest of the nodes. In the case of an unweighted, undirected graph, the highest closeness centrality is found for a node adjacent to all the rest. The closeness centrality is then given by $\frac{1}{n-1}$.
 
 \subsection{Betweenness Centrality}
 Betweenness centrality can be used to quantify to what extent a node is an important intermediary \citep{fouss2016algorithms}. Nodes with high betweenness are very important since many of the other nodes communicate through them \citep{Kajdanowicz2013}. 
 
-The best-known walk based centrality measure is Freeman's betweenness centrality \citep{fouss2016algorithms}. It is also known as the shortest-path betweenness centrality and is computed by taking the shortest paths $p_{ik}^*$ going through an intermediate node $j$, where $i\neq j \neq k\neq i$ for all the node pairs $i$ and $k$. The shortest path between node $i$ and $k$ as $p_{ik}^*$ is then a subset of all the shortest paths denoted as $P_{ik}^*$ connecting node $i$ and $k$. Thus, the number of shortest paths between the two nodes are given by $|P_{ik}^*|$. Moreover, we denote the total number of shortest paths between node $i$ and $k$ going through node $j$ as $\eta(j \in P_{ik}^*)$. In accordance with the notation used in \citep{fouss2016algorithms} we can now formulate the shortest-path betweenness centrality as follows
+The best-known walk based centrality measure is Freeman's betweenness centrality \citep{fouss2016algorithms}. It is also known as the shortest-path betweenness centrality and is computed by taking the shortest paths $p_{ik}^*$ going through an intermediate node $j$, where $i\neq j \neq k\neq i$ for all the node pairs $i$ and $k$. The shortest path between node $i$ and $k$ is then a subset of all the shortest paths denoted as $\bm{P}_{ik}^*$ connecting node $i$ and $k$. Thus, the number of shortest paths between the two nodes are given by $|\bm{P}_{ik}^*|$. Moreover, we denote the total number of shortest paths between node $i$ and $k$ going through node $j$ as $\eta(j \in \bm{P}_{ik}^*)$. In accordance with the notation used in \citep{fouss2016algorithms} we can now formulate the shortest-path betweenness centrality as follows
 \begin{equation}
-    \text{bet}_j=\sum_{i=1, i\neq j}^{n} \sum_{k=1, k \neq i,j}^{n} \frac{\eta(j \in P_{ik}^*)}{|P_{ik}^*|}
+    \text{bet}_j=\sum_{i=1, i\neq j}^{n} \sum_{k=1, k \neq i,j}^{n} \frac{\eta(j \in \bm{P}_{ik}^*)}{|\bm{P}_{ik}^*|}
 \end{equation}
-A more intuitive way of putting it is that the betweenness centrality measures how many times node $j$ is on the shortest path between two nodes in the graph. Hence, it gives an indication of important the node is for the communication of a network. 
+A more intuitive way of putting it is that the betweenness centrality measures how many times node $j$ is on the shortest path between two nodes in the graph. Hence, it gives an indication of how important the node is for the communication of a network. 
 
 \section{Prestige}
-Prestige or importance measures are very similar to the concept of centrality but differs in the sense that it is applied on directed graphs instead of undirected graphs. 
+Prestige or importance measures are very similar to the concept of centrality but differs in the sense that it is applied to directed graphs instead of undirected graphs. 
 
 \subsection{PageRank}
 The PageRank algorithm was developed in 1998 in order to rank web pages and is one of the algorithms Google currently uses in the Google search engine \cite{langville2004deeperinside,langville2012}. The PageRank score is based on the number of times a node is cited by other nodes, taking the node's importance into account. The PageRank algorithm assigns a prestige score to every node in the network. According to \citet{fouss2016algorithms}, the prestige score can in its most basic form be calulcated as 
@@ -130,12 +127,12 @@ As a result, a node $j$ receives a high PageRank score if it is related to many 
 \section{Support Vector Machine \label{svmTheory}}
 Support Vector Machines (SVM) is a set of supervised learning methods originally developed for binary classification \citep{Hsu2002}. SVMs work well in practice and have been applied to various fields, such as face identification, text categorization and bioinformatics \citep{campbell2011}. In this section, we will only briefly describe the theory behind SVM. For a more rigorous description, we refer to \citep{Kecman2005,Cortes1995,campbell2011}.
 
-Let us consider some training data, composed by the input vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$ and and $n$ denotes the number of classified samples. Every input vector is related to a target $y_i \in \{-1,1\}$. The training data can be viewed as labelled data in an input space. The learning task is finding a directed hyperplane that maximizes the distance from the two classes of labeled datapoints. A graphical representation of a hyperplane can be found in figure \ref{svm}. 
+Let us consider some training data, composed by the input vectors $\bm{x}_i\in \mathds{R}^p$ where $i=1,...,n$ and and $n$ denotes the number of classified samples. Every input vector is related to a target $y_i \in \{-1,1\}$. The training data can be viewed as labelled data in an input space. The learning task is finding a directed hyperplane that maximizes the distance from the two classes of labeled data. A visual representation of a hyperplane can be found in figure \ref{svm}. 
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.75\textwidth]{svm.png}
-    \caption{The feature space of a binary data set. The black line illustrates the optimal hyperplane, dividing the two classes. Two \textit{hard} boundaries are represented as the blue and red lines. The optimal hyperplane is found when the distance between the three lines are maximized.}
+    \caption{The feature space of a binary dataset. The black line illustrates the optimal hyperplane, dividing the two classes. Two \textit{hard} boundaries are represented as the blue and red lines. The optimal hyperplane is found when the distance between the three lines are maximized.}
     \label{svm}
 \end{figure}
 
@@ -143,7 +140,7 @@ The optimal hyperplane is given by \citep{campbell2011}
 \begin{equation}
     \bm{w}\cdot\bm{x}+b=0
 \end{equation}
-where $\bm{w}$ is are the weights, perpendicular to the hyperplane, and $b$ denotes the bias or offset which displaces the hyperplane from the origin. This is found by maximizing the margins between the closest samples and the hyperplane, which according to \citet{campbell2011} can be defined as minimizing $$\frac{1}{2}||\bm{w}||_2^2=\frac{1}{2}\bm{w}\cdot\bm{w}$$
+where $\bm{w}$ are the weights, perpendicular to the hyperplane, and $b$ denotes the bias or offset which displaces the hyperplane from the origin. This is found by maximizing the margins between the closest samples and the hyperplane, which according to \citet{campbell2011} can be defined as minimizing $$\frac{1}{2}||\bm{w}||_2^2=\frac{1}{2}\bm{w}\cdot\bm{w}$$
 
 In the example given in figure \ref{svm}, we presented a simple task where the two classes are linearly separable. In reality, it may be much more complicated and clusters could be highly intermeshed \citep{campbell2011}. Thus we now introduce the function $\phi(\cdot)$, which defines the mapping from input space to feature space with higher dimensionality. Moreover, many real life datasets contain noise and outliers, leading to poor generalisation. A way of handling this is to introduce a slack variable $\xi_i$, which imposes a relaxation of the hard boundaries. The boundary then becomes a soft margin where in addition to maximizing the margin, we want to minimize the sum of errors $\sum \xi_i$. Applying the method of Lagrange multipliers, \citet{campbell2011} formalize SVM to the following problem
 \begin{align}
@@ -152,7 +149,7 @@ In the example given in figure \ref{svm}, we presented a simple task where the t
     \text{subject to~~}&y_i(\bm{w}\cdot \phi(\bm{x}_i)+b)\geq 1-\xi_i \label{svmeq}\\ 
     &\xi_i\geq 0 \nonumber
 \end{align}
-where $C>0$ is the penalty parameter for the error term. Solving this problem will find a hyperplane to set the decision boundary in the high dimensional space $\phi$.
+where $C>0$ is the penalty parameter for the error term. Solving this problem will result in a hyperplane to set the decision boundary in the high dimensional space $\phi$.
 
 A central concept in SVM is the kernel. The kernel function relates to the mapping function $\phi$ and is given by $K(x_i,x_j)=\phi(x_i)\cdot \phi(x_j)$. Three common kernels are the linear kernel, the polynomial kernel, and the Radial Basis Function (RBF) kernel presented in the same order below
 \begin{align}
@@ -165,25 +162,25 @@ The kernel and its parameters ($\gamma$, $r$ and $d$) are highly dependent on th
 To conclude, the SVM maps the input vectors to a high dimensional feature space, where a decision surface is constructed. One property of the SVM classifier is that it minimizes the empirical classification error as well as maximizes the geometrical space between the samples and the constructed hyperplane \citep{Cortes1995}.
 
 \subsection{One-against-one}
-Much research has been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-against-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} conclude that one of the more suitable methods for practical use is the one-agains-one. One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs, each trained on data from only two classes.
+Much research has been devoted towards multi-class SVM. \citet{Hsu2002} have made a comparison of the one-against-all, one-against-one and Directed Acyclic Graph Support Vector Machines (DAGSVM) methods. In their paper, \citet{Hsu2002} conclude that one of the more suitable methods for practical use is the one-against-one. One-against-one constructs one SVM for each pair of classes. Hence, a problem with $c$ classes would impose $c(c-1)/2$ binary SVMs, each trained on data from only two classes.
 
-\subsection{Unbalanced data \label{unbalanced}}
-Since the SVM divides classes by finding the hyperplane that maximizes the margin, it imposes a problem with unbalanced data. A problem with unbalanced data arises when there is a notable difference between the number of samples in different classes \cite{delRio2014}. The class containing the fewest number of samples is referred to as the minority class while the class with the highest number of samples is referred to as the majority class. The imbalance of datapoints will shift the hyperplane towards the marginal class, resulting in a bias towards the majority class and a low performance towards the minority class. See figure \ref{unbalancedSVM} for an illustration of the issue of unbalanced datasets, where the learned hyperplane does not coincide with the ideal one. 
+\subsection{Unbalanced Data \label{unbalanced}}
+Since the SVM divides classes by finding the hyperplane that maximizes the margin, it imposes a problem with unbalanced data. A problem with unbalanced data arises when there is a notable difference between the number of samples in different classes \cite{delRio2014}. The class containing the fewest number of samples is referred to as the minority class while the class with the highest number of samples is referred to as the majority class. The imbalance of data will shift the hyperplane towards the marginal class, resulting in a bias towards the majority class and a low performance towards the minority class \citep{delRio2014,Akbani2004}. See figure \ref{unbalancedSVM} for an illustration of the issue of unbalanced data, where the learned hyperplane does not coincide with the ideal one. 
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.75\textwidth]{svmImbalanced.png}
-    \caption{Illustration of the problem with unbalanced data. The learned hyperplane does not coincide with the ideal one implicating bad classifications. The filled circled belong to the training set. The empty circles represent datapoints in the population that is not included in the training set.}
+    \caption{Illustration of the problem with unbalanced data. The learned hyperplane does not coincide with the ideal one implicating bad classifications for the minority class. The filled circles belong to the training set. The empty circles represent datapoints in the population that is not included in the training set.}
     \label{unbalancedSVM}
 \end{figure}
 
-In some cases unbalanced data becomes a big problem. \citet{delRio2014} mention the presence of this problem in real-world applications such as finance, software defect detection and medical diagnosis. One example where this issue arises is the identification of cancer patients among people. The majority of the people are not sick with cancer, however, it is more crucial to classify the cancer patients correctly than it is to classify the healthy people correctly. 
+In some cases unbalanced data becomes a big problem. \citet{delRio2014} mention the presence of this problem in real-world applications such as finance, software defect detection and medical diagnosis. One example where this issue arises is the identification of cancer patients among a group of people. The majority of the people are not sick with cancer, however, it is more crucial to classify the cancer patients correctly than it is to classify the healthy people correctly. 
 
 To deal with unbalanced data, different approached can be taken. It is possible to address the issue by constructing a dataset with a uniform distribution, either by performing undersampling or oversampling \citep{delRio2014}. Undersampling methods simply undersamples the majority class, i.e. the class with many data. However, this could lead to the issue of ending up with a small dataset and might not be the best choice for SVM \citep{Akbani2004}. 
 
-Oversampling methods oversamples the minority class, such that new instances of data belonging to the minority class is created \citep{delRio2014,Akbani2004}. The number of datapoints in each class will then equal the number of datapoints in the majority class present in the unbalanced dataset. There are many different algorithms, with varying performance, for performing oversampling. The methods can be complex and the performance is dependent on the task. However, there is another way of dealing with unbalanced datasets in SVM, namely to weight the classes. Class weights are easily implemented and has been shown to offset the effect of unbalanced data \citep{Akbani2004}. The weight is then a factor to the penalty term, given in equation \eqref{svmeq}.
+Oversampling methods oversamples the minority class, such that new instances of data belonging to the minority class is created \citep{delRio2014,Akbani2004}. The number of datapoints in each class will then equal the number of datapoints in the majority class present in the unbalanced dataset. There are many different algorithms, with varying performance, for performing oversampling. The methods are often computationally complex and the performance is highly dependent on the task. However, there is another way of dealing with unbalanced datasets in SVM, namely to weight the classes. Class weights are easily implemented and have been shown to offset the effect of unbalanced data \citep{Akbani2004}. The weight is then a factor to the penalty term, given in equation \eqref{svmeq}.
 
-The above example with cancer patients also serves as a good illustration of the issue of receiving good accuracy in an unbalanced dataset. Imagine only 2\% of the people have cancer, if the classifier classifies all people as non-cancer patients, an accuracy of 98\% will be reached. This seems to be a good accuracy however, none of the cancer patients will be identified. Thus, the seemingly good classifier will therefore be useless for its purpose. Hence, when dealing with unbalanced datasets, it is preferable to segment the accuracy of each class \citep{delRio2014}. 
+The above example with cancer patients also serves as a good illustration of the issue of receiving good accuracy in an unbalanced dataset. Imagine only 2\% of the people have cancer, if the classifier classifies all people as non-cancer patients, an accuracy of 98\% will be reached. At a first glance, this seems to be a good accuracy however, none of the cancer patients will be identified. Thus, the seemingly good classifier will therefore be useless for its purpose. Hence, when dealing with unbalanced datasets, it is preferable to segment the accuracy of each class \citep{delRio2014}. 
 
 \subsection{Scaling \label{scale}}
 \citet{Hsu10apractical} address the issue of varying magnitudes of the attributes in $\bm{x}_i$. To avoid that attributes of higher order of magnitude dominate other attributes, all features should be scaled. As a result, another advantage arises since scaling the values can avoid numerical difficulties. \citet{Hsu10apractical} recommend to normalize the values to the range [-1,1] or [0,1].
@@ -196,9 +193,7 @@ The measurements are calculated from the number of True Positives (TP), False Po
 \text{Precision}&=\frac{TP}{TP+FP}\\
 \text{Recall}&=\frac{TP}{TP+FN}
 \end{align}
-To be exhaustive in the notation, there is also the case of True Negative (TN) although it is never used in the computation.
-
-To evaluate binary classifiers, the Area Under Curve (AUC) can be calculated. AUC$\in[0,1]$ where a high value reflects a good classifier. The AUC is simply calculated as the integral of the prediction-recall curve.
+To evaluate binary classifiers, the Area Under Curve (AUC) can be calculated. AUC$\in[0,1]$ where a high value reflects a good classifier. The AUC is simply calculated as the integral of the precision-recall curve.
 
 Furthermore, there is the F$_1$ score reflecting the classifiers accuracy. The F$_1$ score is calculated as the harmonic mean of precision and recall \citep{powers2011}
 \begin{equation}
@@ -206,41 +201,10 @@ Furthermore, there is the F$_1$ score reflecting the classifiers accuracy. The F
 \end{equation}
 
 \section{Cross-validation}
-Cross-validation (CV) is a validation technique to assess how a statistical method would perform on an independent data set. Thus, CV evaluates the generalization of the model without the need for the three data sets; training, validation and test.
+Cross-validation (CV) is a validation technique to assess how a statistical method would perform on an independent data set. Thus, CV evaluates the generalization of the model without the need for the three data sets; training, validation and test \citep{Krstajic2014}.
 
-CV is based on two data sets, one training set and one test set for the final evaluation of the predicative model. Thus, CV is useful in the case of limited data. 
+CV is based on two data sets, one training set and one test set for the final evaluation of the predicative model. Thus, CV is useful in the case of limited data \citep{Krstajic2014}. 
 
 One of the basic approaches is called the k-fold CV. The data set is divided randomly into $k$ equally sized bins. The model is trained using the $k-1$ fold of data while the last one is used for testing. This procedure is then repeated many times over and the final performance is given as the average.
 
 
-%%%%% OLD STUFF %%%%
-\begin{comment}
-\section{Attack Graphs}
-Attack Graphs are graphs where vulnerabilities and exploits are represented, thus making it a tool to assess the security of enterprise networks \cite{barik2016}. The concept of attack graphs was introduced in 1998 
-
-\subsection{Regular equivalence}
-In some cases it is of interest to understand the similarity in position that nodes represent in a network.  It is then useful to study the regular equivalence between nodes. In the context of a social network of a company, two nodes representing managers over two different departments should according to regular equivalence give a high value of similarity. 
-
-In other words, two nodes are regularly equivalent if they are equally related to equivalent others. This implies an iterative or recursive nature since the similarity between the neighborhoods of the nodes has to be known before the similarity of the nodes themselves can be computed \cite{leicht2006}. 
-
-One way of retrieving an exact solution of the regular equivalence is the 
-One algorithm to determine the regular equivalence is REGE. 
-
-While REGE is applicable to quantitative data, CATREGE is used for categorical data. 
-
-\section{Kernels on a Graph}
-
-Kernels can be used on graphs to capture the similarity between two nodes or between two disjoint subgraphs. The kernel takes all paths into consideration; both indirect and direct paths. They have the property of increasing the element when the number of paths connecting two nodes are many and the length of the paths decreases. 
-
-A kernel is a function that maps two objects to a real number to represent the similarity between the two objects. More precisely, it is a function $k(i,j):\Omega \times \Omega \rightarrow \mathbb{R}$, where the two objects $i,j\in \Omega$ are defined in some input space $\Omega$, that return a similarity measure \cite{fouss2016algorithms}. 
-
-A simple, classical similarity measure is obtained by taking the inner product of the node vectors $x_i$ ans $x_j$. A kernel function is symmetric and positive semidefinite. 
-
-\cite{gartner2008kernels}
-
-\citet{kondor2002diffusionkernels} has defined the exponential diffusion kernel as
-\begin{equation}
-    \textbf{K} \triangleq \sum_{t=0}^{\infty} \frac{\alpha^t \textbf{A}^t}{t!} = e^{\alpha \textbf{A}}
-\end{equation}
-where $t$ is the number of transitions away from a specific node, $\textbf{A}$ is the adjacency matrix and the elements $a_{ij}$ represent the direct paths between nodes $i$ and $j$. $\alpha \in (0,1)$ is a discounting factor, where a small value represents small importance of nodes far away, e.g. a high number of transitions away. Thus, the kernel favors shorter paths by giving them a heavier weight.
-\end{comment}

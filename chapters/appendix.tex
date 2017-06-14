@@ -53,4 +53,40 @@ The PLP algorithm such as it was implemnted in this work and developed by \citet
 \newpage
 
 \chapter{Extraction to Graph Database}\label{ap:query}
+Below in Listing \ref{lst:query} an example query that builds a database with the nodes
+\begin{itemize}
+    \item IpAddress
+    \item Malware
+    \item MalwareCategory
+    \item CyberVulnerability
+    \item Hash
+    \item EmailAddress
+    \item InternetDomainName
+    \item AttackVector
+    \item Product
+\end{itemize}
+and the relations connecting the nodes
+\begin{itemize}
+    \item $IpAddress->[RELATED\_TO]->IpAddress$
+    \item $IpAddress->[RELATED\_TO]->Malware$
+    \item $IpAddress->[RELATED\_TO]->MalwareCategory$
+    \item $IpAddress->[RELATED\_TO]->CyberVulnerability$
+    \item $IpAddress->[RELATED\_TO]->Hash$
+    \item $IpAddress->[RELATED\_TO]->EmailAddress$
+    \item $IpAddress->[RELATED\_TO]->InternetDomainName$
+    \item $IpAddress->[RELATED\_TO]->AttackVector$
+    \item $IpAddress->[RELATED\_TO]->Product$
+\end{itemize}
+
+This query was later combined with queries where the IpAddress was replaced with Cybervulnerability and the other node types. In this additive way the data set used for classification of malicious ip address was built.
+
+A sample of the resulting graph is shown in \figref{fig:qdb}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{images/neo_ex_q.png}
+    \caption{Caption}
+    \label{fig:qdb}
+\end{figure}
+
 \lstinputlisting[caption=Example query for extracting nodes and relations from Recorded Future API,label=lst:query]{query_example.txt}

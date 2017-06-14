@@ -1,3 +1,9 @@
 \chapter{Conclusions}
 
-% 
+In this study, it is shown that insights that can be given in cyber intelligence analysis by extracting information hidden in relations in a database. Both link prediction and node classification can be used and could be applied in more applications. 
+
+Extraction of relations by join queries from a traditional database is costly. When the datasets are large it is therefore recommended to extract the data to a graph database where relation look-ups are fast. The extraction to the graph database is still costly but offers the advantage that datasets can be built by an additive method, combining multiple queries from database and used multiple times so that the costly querying from the original database is only done once. If the dataset is smaller and only will be used once, the advantages is reduced and it might be better to perform the analysis without first extracting the data to a graph database.
+
+When predictions and classifications are made, it is important to validate the methods to understand at what rate they are expected to perform. We found that validation was challenging in cases where we wanted to improve classification by graph analysis since the data we needed to validate against was annotated by the methods we were trying to outperform. Statistical validation should therefore be used together with a hands on analysis by experts with domain knowledge that can interpret the results and validate the methods.
+
+The methods we developed and evaluated can be used by analysts as an entrance point or as an early warning about where they can start their investigations.

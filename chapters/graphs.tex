@@ -11,15 +11,17 @@ One example of a graph is the internet, where each physical end device such as s
 To each edge $e\in\edges$ there can be an assigned weight $w$. The weight can represent the strength of a relationship or a distance between vertices. Then the graph representation becomes $\graph=(\vertices,\edges,\weights)$
 
 \subsection{The Adjacency Matrix}
-Graphs can be represented in more than one way mathematically. One convenient way that allows for simple analysis is to represent a graph by its adjacency matrix $\adjmat$. Every Vertices $v\in\vertices$ is given an index $i \in [0,..,V]$ where $V = |\vertices|$. The element $a_{i,j}$ in $\adjmat$ is 1 if the graph $\graph$ contains an edge from vertex $i$ to vertex $j$. If the graph is undirected $a_{i,j}=a_{j,i}\, \forall i,j$\cite{adj_matrix}. If the graph is weighted then $a_{i,j} = w(i,j)$. Furthermore, if the graph is a multigraph, the adjacency matrix becomes 3 dimensional, where each layer in the third dimension represents a different kind of relation between vertices.
+Graphs can be represented in more than one way mathematically. One convenient way that allows for simple analysis is to represent a graph by its adjacency matrix $\adjmat$. Every Vertices $v\in\vertices$ is given an index $i \in [0,..,V]$ where $V = |\vertices|$ and $|\cdot|$ denotes the cardinality. The element $a_{ij}$ in $\adjmat$ is 1 if the graph $\graph$ contains an edge from vertex $i$ to vertex $j$. If the graph is undirected $a_{ij}=a_{ji}\, \forall i,j$ \cite{adj_matrix}. If the graph is weighted then $a_{ij} = w(i,j)$. Furthermore, if the graph is a multigraph, the adjacency matrix becomes 3 dimensional, where each layer in the third dimension represents a different kind of relation between vertices.
 
-\subsection{Graph metrics}
+\subsection{Basic Graph Metrics}
 In this section we will introduce some common attribute definitions of graphs, global (attributes on the graph itself) and local (attributes of nodes or edges).
 
-The order of the graph is defined as the number of vertices $V=|\vertices|$, and the size is defined as the number of edges $E=|\edges|$. The distance $d(u,v)$ between two vertices $u\in\vertices$ and $v\in\vertices$ is the smallest number of edges needed to connect $u$ and $v$. The eccentricity $\epsilon(v)$ of a vertex is the greatest distance to any other vertex in the graph. The diameter of the graph $\graph$ is the greatest distance between any pair of nodesss\cite{graph_theory}, 
-$$d(\textbf{G}) = \max_{v \in V}\epsilon(v)$$
+The order of the graph is defined as the number of vertices $V=|\vertices|$, and the size is defined as the number of edges $E=|\edges|$. The distance $d(u,v)$ between two vertices $u\in\vertices$ and $v\in\vertices$ is the smallest number of edges needed to connect $u$ and $v$. 
 
-A global measurement for how well the vertices in the graph are connected and how sparse the adjacency matrix is, can be measured by the density of the graph. For undirected graphs it is defined as\cite{density}
+%The eccentricity $\epsilon(v)$ of a vertex is the greatest distance to any other vertex in the graph. The diameter of the graph $\graph$ is the greatest distance between any pair of nodes\cite{graph_theory}, 
+%$$d(\textbf{G}) = \max_{v \in V}\epsilon(v)$$
+
+A global measurement for how well the vertices in the graph are connected and how sparse the adjacency matrix is, can be measured by the density of the graph. For undirected graphs it is defined as \cite{density}
 $$D =  \frac{2|E|}{|V|\,(|V|-1)}.$$
 For directed graphs it is
 $$D = \frac{|E|}{|V|\,(|V|-1)}.$$
@@ -29,8 +31,8 @@ A special kind of graph is the bipartite graph where the vertices can be divided
 $$
 \textbf{A} = \left[
 \begin{matrix}
-  \textbf{O}_x & \textbf{W} \\
-  \textbf{W}^T & \textbf{O}_y
+  &\textbf{O}_x & \textbf{W} \\
+  &\textbf{W}^T & \textbf{O}_y
 \end{matrix}
 \right]
 $$
@@ -39,10 +41,10 @@ Where $\textbf{0}_x$ and $\textbf{0}_y$ only contain zeros due to the definition
 Note that since the size of the two adjacent sets are not generally the same, $\textbf{W}$ is not square in the general case and not symmetric like $\adjmat$ in the general case of undirected graphs.
 
 By using $\textbf{W}$ we can define the density D for the bipartite graph simply as 
-$$\text{D} = \frac{\sum_{i,j}e_{i,j}}{|\textbf{W}|}
+$$\text{D} = \frac{\sum_{ij}e_{ij}}{|\textbf{W}|}
 $$
 where $i,j$ run over all rows and columns in $\textbf{W}$ and
-$$e_{i,j} =
+$$e_{ij} =
     \left\{
         \begin{matrix}
             1\quad \text{if $w(i,j)\, >\, 0$} \\
@@ -50,4 +52,4 @@ $$e_{i,j} =
         \end{matrix}
     \right. ,
 $$
-in other words, the number of edges in the graph divided by the number of possible so that D = 0 if there are no edges and D = 1 if all possible edges exists in the graph. We will return to the bipartite graph in the next chapter.
+in other words, the number of edges in the graph divided by the number of possible. Then D = 0 if there are no edges and D = 1 if all possible edges exists in the graph.
